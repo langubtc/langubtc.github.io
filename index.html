@@ -271,6 +271,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" itemprop="url">golang 函数学习(一)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-26T14:49:04+08:00">
+                2020-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" class="leancloud_visitors" data-flag-title="golang 函数学习(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###函数声明###<br>golang 的函数声明包含func关键字、函数名、形式参数列表（可省略）、返回值列表及函数体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func FuncName(username string,age int)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最简单的函数定义如果，以func开头及函数名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func Simple()&#123;</span><br><span class="line">&#x2F;&#x2F;表示该函数不需要输入参数，以及没有返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面通过两个实例来介绍下函数的使用</p>
+<p>1.计算两个数相加。定义一下funcAdd 函数，接收两个参数a,b 类型为int  返回值为int。函数调用时，以函数名()的形式进行调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func funcAdd(a int, b int)int&#123;</span><br><span class="line">	return a+b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	fmt.Println(funcAdd(3,5))  &#x2F;&#x2F;输出结果为8</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数返回时还可以直接以变量的形式进行返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func funcAdd(a int, b int) (result int)&#123;</span><br><span class="line">	result&#x3D;a+b</span><br><span class="line">	return                  &#x2F;&#x2F;直接输入return进行返回即可</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	fmt.Println(funcAdd(7,8))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.计算商品价格。定义一个函数名加ShopPrice,接收几个参数，并且返回商品价格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func ShopPrice(s_price,number,sale float64)(price float64)&#123;</span><br><span class="line">	&#x2F;&#x2F;商品原价 * 数量 * 折扣</span><br><span class="line">	&#x2F;&#x2F; 999.88 * 2 * 98&#x2F;100</span><br><span class="line">	price &#x3D; s_price * number * sale &#x2F; 100.00</span><br><span class="line">	return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(ShopPrice(999.25,2,98))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以返回多个数据,传入商品名、价格、数量。最后返回商品及计算结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func ShopDetail(s_price,number,sale float64,name string)(float64, string)&#123;</span><br><span class="line">	&#x2F;&#x2F;商品原价 * 数量 * 折扣</span><br><span class="line">	&#x2F;&#x2F; 999.88 * 2 * 98&#x2F;100</span><br><span class="line">	price :&#x3D; s_price * number * sale &#x2F; 100.00</span><br><span class="line">	return price,name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	price,name :&#x3D; ShopDetail(999.25,2,98,&quot;大衣&quot;)</span><br><span class="line">	fmt.Println(&quot;商品:&quot;,name,&quot;价格:&quot;,price)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>###函数多返回值###</p>
+<p>在go中，一个函数可以接收多个参数列表，同时也可以返回多个值，便于我们进行处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func AbcFunc(a,b,c int)(int,int,int)&#123;   &#x2F;&#x2F;返回值为3个int数值</span><br><span class="line">	return c,b,a   &#x2F;&#x2F;将123 转成321输出</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	c,b,a :&#x3D; AbcFunc(1,2,3)</span><br><span class="line">	fmt.Println(c,b,a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>###空白符号的使用###</p>
+<p>如果在接收参数时，有不想使用的变量数值，可以使用_进行代替,程序不作处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func nullValue(username string,age int,address string)(string,int,string)&#123;</span><br><span class="line"></span><br><span class="line">	return username,age,address</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	&#x2F;&#x2F;_用于接收任何类型的任何值，如果以“_”表示，那将省略，可以理解为垃圾桶</span><br><span class="line">	username,age,_ :&#x3D; nullValue(&quot;roddy&quot;,27,&quot;sichuan&quot;)</span><br><span class="line">	fmt.Println(username,age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>###函数可变参数###<br>向函数传递一个未知数量的参数值时，可以使用…来代替，下面样例就是传递一个数字序列，然后分别打印出来例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func MultipleNumber(args ...int)&#123;</span><br><span class="line">	for i:&#x3D;0;i&lt;len(args);i++&#123;</span><br><span class="line">		fmt.Println(args[i])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	MultipleNumber(1,2,3,5,4,5,6,6,7,8)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>###实例###</p>
+<p>输入一列数据，返回这组数据的最小值与最大值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func MinMax(input ...int)(min,max int)&#123;</span><br><span class="line">	min &#x3D; input[0]</span><br><span class="line">	max &#x3D; input[0]</span><br><span class="line"></span><br><span class="line">	for i :&#x3D;0;i&lt;len(input);i++&#123;</span><br><span class="line">		if input[i] &lt; min&#123;</span><br><span class="line">			min &#x3D; input[i]</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if input[i] &gt;max &#123;</span><br><span class="line">			max &#x3D; input[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	min,max :&#x3D;MinMax(1,2,34,5,6,7)</span><br><span class="line">	fmt.Println(&quot;最小值为:&quot;,min,&quot;最大值为:&quot;,max)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/22/golang-%E6%89%93%E5%8D%B0%E4%B9%98%E6%B3%95%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -468,7 +656,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
