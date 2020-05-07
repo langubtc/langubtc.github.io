@@ -281,6 +281,519 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/" itemprop="url">golang 函数学习(三)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-07T15:20:29+08:00">
+                2020-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/" class="leancloud_visitors" data-flag-title="golang 函数学习(三)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="panic"><a href="#panic" class="headerlink" title="panic"></a>panic</h3><p>panic主要用于作异常处理，是一个内建的停止控制流函数。相当于其它编程语言的抛异常。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func getname() string&#123;</span><br><span class="line"></span><br><span class="line">	return &quot;name&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;starting......!&quot;)</span><br><span class="line"></span><br><span class="line">	a :&#x3D;23</span><br><span class="line">	if a &#x3D;&#x3D; 23 &#123;</span><br><span class="line">		panic(&quot;crash&quot;) &#x2F;&#x2F;手动触发宕机</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(getname())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="recover"><a href="#recover" class="headerlink" title="recover"></a>recover</h3><p>recover是内建函数，可以让进入宕机流程恢复回来，同时recover仅在defer中有效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func getname() string&#123;</span><br><span class="line"></span><br><span class="line">	return &quot;name&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	defer func()&#123;</span><br><span class="line">		err:&#x3D;recover()</span><br><span class="line">		if err !&#x3D;nil&#123;</span><br><span class="line">			fmt.Println(&quot;触发宕机捕获异常:&quot;,err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()  &#x2F;&#x2F;recover只能在defer中</span><br><span class="line"></span><br><span class="line">	fmt.Println(&quot;starting......!&quot;)</span><br><span class="line"></span><br><span class="line">	a :&#x3D;23</span><br><span class="line">	if a &#x3D;&#x3D; 23 &#123;</span><br><span class="line">		panic(&quot;crash&quot;) &#x2F;&#x2F;手动触发宕机,后面的代码不会执行</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(getname())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/07/golang-%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/07/golang-%E6%8C%87%E9%92%88/" itemprop="url">golang 指针</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-07T14:04:30+08:00">
+                2020-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/07/golang-%E6%8C%87%E9%92%88/" class="leancloud_visitors" data-flag-title="golang 指针">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Golang-指针"><a href="#Golang-指针" class="headerlink" title="Golang 指针"></a>Golang 指针</h3><p>指针就是一个变量，用于存储另一个变量的内存地址。这个内存地址往往是在内存中存储的另一个变量的值的起始位置。</p>
+<p><strong>指针特点</strong></p>
+<ul>
+<li>默认值是nil，没有NULL常量</li>
+<li>操作符”&amp;”用于获取变量地址,”*” 通过指针目标对象</li>
+<li>不支持指针运算</li>
+</ul>
+<p><strong>实例</strong><br>声明一个变量x 并且设置值为1, 声明变量p 值为x的地址 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	x :&#x3D; 1</span><br><span class="line">	p :&#x3D; &amp;x  &#x2F;&#x2F;&amp;获取x的地址</span><br><span class="line">	fmt.Println(p) &#x2F;&#x2F;打印地址</span><br><span class="line">	fmt.Println(x,*p) &#x2F;&#x2F;*p获取x所对应的值</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上输出结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>通过指针修改变量的值</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	x :&#x3D; 1</span><br><span class="line">	p :&#x3D; &amp;x  &#x2F;&#x2F;&amp;获取x的地址</span><br><span class="line">	fmt.Println(x,*p) &#x2F;&#x2F;*p获取x所对应的值</span><br><span class="line"></span><br><span class="line">	*p &#x3D; 3 &#x2F;&#x2F;修改变量的值</span><br><span class="line"></span><br><span class="line">	fmt.Println(x,*p)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 3   &#x2F;&#x2F;*p指向x 修改*p等于修改x</span><br></pre></td></tr></table></figure>
+
+<p><strong>指针作用函数参数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func incr(p,b *int)  &#123;</span><br><span class="line">	*p++</span><br><span class="line">	*b&#x3D;*b+30</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	x :&#x3D; 1</span><br><span class="line">	c :&#x3D;2</span><br><span class="line">	p :&#x3D; &amp;x  &#x2F;&#x2F;&amp;获取x的地址</span><br><span class="line">	fmt.Println(x,*p) &#x2F;&#x2F;*p获取x所对应的值</span><br><span class="line"></span><br><span class="line">	*p &#x3D; 3 &#x2F;&#x2F;修改变量的值</span><br><span class="line"></span><br><span class="line">	fmt.Println(x,*p)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;将x地址传递给incr函数，然后返回变量修改</span><br><span class="line">	incr(&amp;x,&amp;c)</span><br><span class="line">	fmt.Println(x,c)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 1</span><br><span class="line">3 3</span><br><span class="line">4 32</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="new和make"><a href="#new和make" class="headerlink" title="new和make"></a>new和make</h3><p>在golang中,make和new都是分配内存的，但是它们之间还是有些区别的，只有理解了它们之间的不同，才能在合适的场合使用。</p>
+<p>简单来说  new只是分配内存，不初始化内存,而make即分配又初始化内存。所谓的初始化就是给类型赋初值，比如字符为空，整型为0, 逻辑值为false等。</p>
+<p>备注</p>
+<ol>
+<li>make 仅用来分配及初始化类型为 slice、map、chan 的数据。new 可分配任意类型的数据.</li>
+<li>new 分配返回的是指针，即类型 *Type。make 返回引用，即 Type.</li>
+<li>new 分配的空间被清零, make 分配空间后，会进行初始化.</li>
+</ol>
+<p>new返回的是一个指针</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name :&#x3D; new(string)</span><br><span class="line">server :&#x3D; new(string)</span><br><span class="line">fmt.Println(name,server) &#x2F;&#x2F;输出0xc0000421f0 0xc000042200</span><br></pre></td></tr></table></figure>
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/07/golang-Interface/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/07/golang-Interface/" itemprop="url">golang Interface</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-07T13:50:08+08:00">
+                2020-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/07/golang-Interface/" class="leancloud_visitors" data-flag-title="golang Interface">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="golang-接口"><a href="#golang-接口" class="headerlink" title="golang 接口"></a>golang 接口</h3><p>接口可以理解为某一个方面的抽象，可以是多对一的(多个类型实现一个接口)，是多态的体现。</p>
+<p>接口是一组包含方法名、参数、返回值的未具体实现的方法的集合。</p>
+<h3 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type interfaceName interface &#123; </span><br><span class="line">	&#x2F;&#x2F; 方法列表 </span><br><span class="line">    GetName() string</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">type interfaceName interface &#123;</span><br><span class="line">	&#x2F;&#x2F; 方法列表</span><br><span class="line">	GetName() string</span><br><span class="line">	GetAge() int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type  Name struct &#123;   &#x2F;&#x2F;定义结构体</span><br><span class="line">	name string</span><br><span class="line">	age int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (s Name) GetName() string  &#123;   &#x2F;&#x2F;实现两个方法</span><br><span class="line">	return s.name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (s Name) GetAge() int  &#123;</span><br><span class="line">	return s.age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	s :&#x3D; Name&#123;&quot;roddy&quot;,28&#125;     &#x2F;&#x2F;声明一个对象</span><br><span class="line">	a :&#x3D; s.GetName()         </span><br><span class="line">	fmt.Println(a,s.GetAge(),s.age)  &#x2F;&#x2F;调用对象中的方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="空接口"><a href="#空接口" class="headerlink" title="空接口"></a>空接口</h3><p>空接口就是不包含任何方法的接口。<strong>所有类型都实现了空接口</strong>，并且空接口可以存任何类型的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var allData interface&#123;&#125;</span><br><span class="line"></span><br><span class="line">allData &#x3D; 234</span><br><span class="line"></span><br><span class="line">fmt.Println(allData,reflect.TypeOf(allData))</span><br></pre></td></tr></table></figure>
+
+
+<p>覆盖变量值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var allData interface&#123;&#125;</span><br><span class="line">var allList interface&#123;&#125;</span><br><span class="line"></span><br><span class="line">allData &#x3D; 234</span><br><span class="line"></span><br><span class="line">fmt.Println(allData,reflect.TypeOf(allData))</span><br><span class="line"></span><br><span class="line">m :&#x3D;123</span><br><span class="line">ms :&#x3D; &quot;check all&quot;</span><br><span class="line"></span><br><span class="line">allList &#x3D; m</span><br><span class="line">allList &#x3D; ms    &#x2F;&#x2F;可覆盖此前的变量值</span><br><span class="line">fmt.Println(allList)   &#x2F;&#x2F;此时的输出就为check all</span><br></pre></td></tr></table></figure>
+
+<h3 id="接口零值"><a href="#接口零值" class="headerlink" title="接口零值"></a>接口零值</h3><p>接口的默认值为nil</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">type DefaultI interface &#123;</span><br><span class="line">	GetName()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	var mk DefaultI</span><br><span class="line">	fmt.Println(mk)  &#x2F;&#x2F;接口的默认值为nil</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/28/ubuntu%E9%85%8D%E7%BD%AEnginx-htpasswd%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1553,7 +2066,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1575,7 +2088,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
