@@ -94,14 +94,14 @@
 
 
 
-<meta name="description" content="Write写入package main import (    “bufio”    “fmt”    “io&#x2F;ioutil”    “os”) func write(){    &#x2F;&#x2F;os.O_TRUNC 会清空原来的文件    &#x2F;&#x2F;os.O_APPEND  在原来文件中追加    fileObj,err:&#x3D;os.OpenFile(“xx.txt”,os.O_CREATE|os.O_WRONLY|">
+<meta name="description" content="Write写入1234567891011121314151617181920func write()&amp;#123;	&#x2F;&#x2F;os.O_TRUNC 会清空原来的文件	&#x2F;&#x2F;os.O_APPEND  在原来文件中追加	fileObj,err:&#x3D;os.OpenFile(&quot;xx.txt&quot;,os.O_CREATE|os.O_WRONLY|os.O">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang 文件写入">
 <meta property="og:url" content="http://www.roddypy.com/2020/05/14/golang-%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/index.html">
 <meta property="og:site_name" content="普拉多VX">
-<meta property="og:description" content="Write写入package main import (    “bufio”    “fmt”    “io&#x2F;ioutil”    “os”) func write(){    &#x2F;&#x2F;os.O_TRUNC 会清空原来的文件    &#x2F;&#x2F;os.O_APPEND  在原来文件中追加    fileObj,err:&#x3D;os.OpenFile(“xx.txt”,os.O_CREATE|os.O_WRONLY|">
+<meta property="og:description" content="Write写入1234567891011121314151617181920func write()&amp;#123;	&#x2F;&#x2F;os.O_TRUNC 会清空原来的文件	&#x2F;&#x2F;os.O_APPEND  在原来文件中追加	fileObj,err:&#x3D;os.OpenFile(&quot;xx.txt&quot;,os.O_CREATE|os.O_WRONLY|os.O">
 <meta property="article:published_time" content="2020-05-14T07:40:43.000Z">
-<meta property="article:modified_time" content="2020-05-14T09:32:43.228Z">
+<meta property="article:modified_time" content="2020-05-14T10:03:28.673Z">
 <meta property="article:author" content="Roddy">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary">
@@ -387,39 +387,12 @@
       
 
       
-        <h3 id="Write写入"><a href="#Write写入" class="headerlink" title="Write写入"></a>Write写入</h3><p>package main</p>
-<p>import (<br>    “bufio”<br>    “fmt”<br>    “io/ioutil”<br>    “os”<br>)</p>
-<p>func write(){<br>    //os.O_TRUNC 会清空原来的文件<br>    //os.O_APPEND  在原来文件中追加<br>    fileObj,err:=os.OpenFile(“xx.txt”,os.O_CREATE|os.O_WRONLY|os.O_APPEND,0644)</p>
-<pre><code>if err !=nil{
-    fmt.Printf(&quot;open file failed, err:%v\n&quot;,err)
-    return
-}
+        <h3 id="Write写入"><a href="#Write写入" class="headerlink" title="Write写入"></a>Write写入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">func write()&#123;</span><br><span class="line">	&#x2F;&#x2F;os.O_TRUNC 会清空原来的文件</span><br><span class="line">	&#x2F;&#x2F;os.O_APPEND  在原来文件中追加</span><br><span class="line">	fileObj,err:&#x3D;os.OpenFile(&quot;xx.txt&quot;,os.O_CREATE|os.O_WRONLY|os.O_APPEND,0644)</span><br><span class="line"></span><br><span class="line">	if err !&#x3D;nil&#123;</span><br><span class="line">		fmt.Printf(&quot;open file failed, err:%v\n&quot;,err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	str :&#x3D; &quot;成都&quot;</span><br><span class="line">	fileObj.Write([]byte(str))</span><br><span class="line">	fileObj.WriteString(&quot;\n&quot;)</span><br><span class="line">	fileObj.WriteString(&quot;哈哈哈&quot;)</span><br><span class="line">	fileObj.WriteString(&quot;\n&quot;)</span><br><span class="line"></span><br><span class="line">	defer fileObj.Close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-str := &quot;成都&quot;
-fileObj.Write([]byte(str))
-fileObj.WriteString(&quot;\n&quot;)
-fileObj.WriteString(&quot;哈哈哈&quot;)
-fileObj.WriteString(&quot;\n&quot;)
+<h3 id="Bufio写入"><a href="#Bufio写入" class="headerlink" title="Bufio写入"></a>Bufio写入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func writeByBufio()&#123;</span><br><span class="line">	fileObj,err:&#x3D;os.OpenFile(&quot;xx.txt&quot;,os.O_CREATE|os.O_WRONLY|os.O_APPEND,0644)</span><br><span class="line"></span><br><span class="line">	if err !&#x3D;nil&#123;</span><br><span class="line">		fmt.Printf(&quot;open file failed, err:%v\n&quot;,err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	defer fileObj.Close()</span><br><span class="line">	writer :&#x3D; bufio.NewWriter(fileObj)</span><br><span class="line">	writer.WriteString(&quot;xxxxxx&quot;)  &#x2F;&#x2F;将内容写入到缓冲区</span><br><span class="line">	writer.Flush()  &#x2F;&#x2F;将缓存区内容写入磁盘</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-defer fileObj.Close()</code></pre><p>}</p>
-<h3 id="Bufio写入"><a href="#Bufio写入" class="headerlink" title="Bufio写入"></a>Bufio写入</h3><p>func writeByBufio(){<br>    fileObj,err:=os.OpenFile(“xx.txt”,os.O_CREATE|os.O_WRONLY|os.O_APPEND,0644)</p>
-<pre><code>if err !=nil{
-    fmt.Printf(&quot;open file failed, err:%v\n&quot;,err)
-    return
-}
+<h3 id="Ioutil写入"><a href="#Ioutil写入" class="headerlink" title="Ioutil写入"></a>Ioutil写入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func writeByIoutil()&#123;</span><br><span class="line">	str :&#x3D; &quot;测试123554434&quot;</span><br><span class="line">	err:&#x3D;ioutil.WriteFile(&quot;.&#x2F;xx.txt&quot;,[]byte(str),0644)</span><br><span class="line">	if err !&#x3D; nil&#123;</span><br><span class="line"></span><br><span class="line">		fmt.Printf(&quot;write file failed,err:%v\n&quot;,err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-defer fileObj.Close()
-writer := bufio.NewWriter(fileObj)
-writer.WriteString(&quot;xxxxxx&quot;)  //将内容写入到缓冲区
-writer.Flush()  //将缓存区内容写入磁盘</code></pre><p>}</p>
-<h3 id="Ioutil写入"><a href="#Ioutil写入" class="headerlink" title="Ioutil写入"></a>Ioutil写入</h3><p>func writeByIoutil(){<br>    str := “测试123554434”<br>    err:=ioutil.WriteFile(“./xx.txt”,[]byte(str),0644)<br>    if err != nil{</p>
-<pre><code>    fmt.Printf(&quot;write file failed,err:%v\n&quot;,err)
-    return
-}</code></pre><p>}</p>
-<p>func main(){</p>
-<pre><code>//write()
-//writeByBufio()
-writeByIoutil()</code></pre><p>}</p>
 
       
     </div>
