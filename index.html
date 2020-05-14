@@ -281,6 +281,368 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/14/golang-%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/14/golang-%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" itemprop="url">golang 文件写入</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-14T15:40:43+08:00">
+                2020-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/14/golang-%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" class="leancloud_visitors" data-flag-title="golang 文件写入">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Write写入"><a href="#Write写入" class="headerlink" title="Write写入"></a>Write写入</h3><p>package main</p>
+<p>import (<br>    “bufio”<br>    “fmt”<br>    “io/ioutil”<br>    “os”<br>)</p>
+<p>func write(){<br>    //os.O_TRUNC 会清空原来的文件<br>    //os.O_APPEND  在原来文件中追加<br>    fileObj,err:=os.OpenFile(“xx.txt”,os.O_CREATE|os.O_WRONLY|os.O_APPEND,0644)</p>
+<pre><code>if err !=nil{
+    fmt.Printf(&quot;open file failed, err:%v\n&quot;,err)
+    return
+}
+
+str := &quot;成都&quot;
+fileObj.Write([]byte(str))
+fileObj.WriteString(&quot;\n&quot;)
+fileObj.WriteString(&quot;哈哈哈&quot;)
+fileObj.WriteString(&quot;\n&quot;)
+
+defer fileObj.Close()</code></pre><p>}</p>
+<h3 id="Bufio写入"><a href="#Bufio写入" class="headerlink" title="Bufio写入"></a>Bufio写入</h3><p>func writeByBufio(){<br>    fileObj,err:=os.OpenFile(“xx.txt”,os.O_CREATE|os.O_WRONLY|os.O_APPEND,0644)</p>
+<pre><code>if err !=nil{
+    fmt.Printf(&quot;open file failed, err:%v\n&quot;,err)
+    return
+}
+
+defer fileObj.Close()
+writer := bufio.NewWriter(fileObj)
+writer.WriteString(&quot;xxxxxx&quot;)  //将内容写入到缓冲区
+writer.Flush()  //将缓存区内容写入磁盘</code></pre><p>}</p>
+<h3 id="Ioutil写入"><a href="#Ioutil写入" class="headerlink" title="Ioutil写入"></a>Ioutil写入</h3><p>func writeByIoutil(){<br>    str := “测试123554434”<br>    err:=ioutil.WriteFile(“./xx.txt”,[]byte(str),0644)<br>    if err != nil{</p>
+<pre><code>    fmt.Printf(&quot;write file failed,err:%v\n&quot;,err)
+    return
+}</code></pre><p>}</p>
+<p>func main(){</p>
+<pre><code>//write()
+//writeByBufio()
+writeByIoutil()</code></pre><p>}</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/14/golang-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/14/golang-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" itemprop="url">golang 文件读取</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-14T15:40:30+08:00">
+                2020-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/14/golang-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/" class="leancloud_visitors" data-flag-title="golang 文件读取">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>golang文件读取3种方式</p>
+<ul>
+<li>1.按行读取</li>
+<li>2.读取整个内容</li>
+<li>3.分段读取</li>
+</ul>
+<h3 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h3><p>打开文件使用os模块,使用os.Open(文件路径)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.Open(&quot;.&#x2F;xx.txt&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>参考实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fileObj,err :&#x3D; os.Open(&quot;.&#x2F;test.txt&quot;) &#x2F;&#x2F;相对目录打开文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="按行读取文件"><a href="#按行读取文件" class="headerlink" title="按行读取文件"></a>按行读取文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bufio&quot;</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;io&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	fileObj,err:&#x3D;os.Open(&quot;.&#x2F;xx.txt&quot;)</span><br><span class="line"></span><br><span class="line">	if err !&#x3D;nil&#123;</span><br><span class="line">		fmt.Printf(&quot;read file failed,err:%v\n&quot;,err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	defer fileObj.Close()  &#x2F;&#x2F;defer关闭文件</span><br><span class="line">	s :&#x3D;bufio.NewReader(fileObj)</span><br><span class="line"></span><br><span class="line">	for &#123;   &#x2F;&#x2F;for循环逐行读取文件</span><br><span class="line">		reader,err :&#x3D; s.ReadString(&#39;\n&#39;)  &#x2F;&#x2F;指定文件每行的换行符号</span><br><span class="line"></span><br><span class="line">		fmt.Print(reader)    &#x2F;&#x2F;打印内容</span><br><span class="line"></span><br><span class="line">		if err &#x3D;&#x3D; io.EOF&#123;           &#x2F;&#x2F;如果是文件结尾会抛EOF错误</span><br><span class="line"></span><br><span class="line">			break</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="读取整个文件"><a href="#读取整个文件" class="headerlink" title="读取整个文件"></a>读取整个文件</h3><p>使用ioutil来读取整个文件内容，如果文件过大则不建议使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;io&#x2F;ioutil&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	content,err:&#x3D;ioutil.ReadFile(&quot;.&#x2F;xx.txt&quot;)</span><br><span class="line">	if err !&#x3D;nil&#123;</span><br><span class="line">		fmt.Printf(&quot;read file failed, err:%v\n&quot;, err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Print(string(content))  &#x2F;&#x2F;将内容转成string输出</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="分块读取文件"><a href="#分块读取文件" class="headerlink" title="分块读取文件"></a>分块读取文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;io&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	fileObj,err :&#x3D; os.Open(&quot;.&#x2F;xx.txt&quot;) &#x2F;&#x2F;相对目录打开文件</span><br><span class="line"></span><br><span class="line">	if err !&#x3D; nil&#123;</span><br><span class="line">		fmt.Printf(&quot;open file failed,err:%v\n&quot;,err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	defer  fileObj.Close()  &#x2F;&#x2F;关闭文件</span><br><span class="line"></span><br><span class="line">	for &#123;</span><br><span class="line"></span><br><span class="line">		var tmp  &#x3D; make([]byte,128)   &#x2F;&#x2F;按字节数读取文件内容</span><br><span class="line">		n,err:&#x3D;fileObj.Read(tmp)</span><br><span class="line"></span><br><span class="line">		if err &#x3D;&#x3D; io.EOF&#123;</span><br><span class="line">			fmt.Print(string(tmp[:n]))</span><br><span class="line">			return</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if err !&#x3D; nil&#123;</span><br><span class="line">			fmt.Printf(&quot;read  from file failed, err:%v\n&quot;,err)</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		fmt.Print(string(tmp))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1671,358 +2033,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" itemprop="url">golang 函数学习(一)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-26T14:49:04+08:00">
-                2020-04-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" class="leancloud_visitors" data-flag-title="golang 函数学习(一)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h3><p>golang 的函数声明包含func关键字、函数名、形式参数列表（可省略）、返回值列表及函数体</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func FuncName(username string,age int)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最简单的函数定义如果，以func开头及函数名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">func Simple()&#123;</span><br><span class="line">&#x2F;&#x2F;表示该函数不需要输入参数，以及没有返回值</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>下面通过两个实例来介绍下函数的使用</p>
-<p>1.计算两个数相加。定义一下funcAdd 函数，接收两个参数a,b 类型为int  返回值为int。函数调用时，以函数名()的形式进行调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func funcAdd(a int, b int)int&#123;</span><br><span class="line">	return a+b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	fmt.Println(funcAdd(3,5))  &#x2F;&#x2F;输出结果为8</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>函数返回时还可以直接以变量的形式进行返回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func funcAdd(a int, b int) (result int)&#123;</span><br><span class="line">	result&#x3D;a+b</span><br><span class="line">	return                  &#x2F;&#x2F;直接输入return进行返回即可</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	fmt.Println(funcAdd(7,8))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>2.计算商品价格。定义一个函数名加ShopPrice,接收几个参数，并且返回商品价格。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func ShopPrice(s_price,number,sale float64)(price float64)&#123;</span><br><span class="line">	&#x2F;&#x2F;商品原价 * 数量 * 折扣</span><br><span class="line">	&#x2F;&#x2F; 999.88 * 2 * 98&#x2F;100</span><br><span class="line">	price &#x3D; s_price * number * sale &#x2F; 100.00</span><br><span class="line">	return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(ShopPrice(999.25,2,98))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以返回多个数据,传入商品名、价格、数量。最后返回商品及计算结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func ShopDetail(s_price,number,sale float64,name string)(float64, string)&#123;</span><br><span class="line">	&#x2F;&#x2F;商品原价 * 数量 * 折扣</span><br><span class="line">	&#x2F;&#x2F; 999.88 * 2 * 98&#x2F;100</span><br><span class="line">	price :&#x3D; s_price * number * sale &#x2F; 100.00</span><br><span class="line">	return price,name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	price,name :&#x3D; ShopDetail(999.25,2,98,&quot;大衣&quot;)</span><br><span class="line">	fmt.Println(&quot;商品:&quot;,name,&quot;价格:&quot;,price)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="函数多返回值"><a href="#函数多返回值" class="headerlink" title="函数多返回值"></a>函数多返回值</h3><p>在go中，一个函数可以接收多个参数列表，同时也可以返回多个值，便于我们进行处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func AbcFunc(a,b,c int)(int,int,int)&#123;   &#x2F;&#x2F;返回值为3个int数值</span><br><span class="line">	return c,b,a   &#x2F;&#x2F;将123 转成321输出</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	c,b,a :&#x3D; AbcFunc(1,2,3)</span><br><span class="line">	fmt.Println(c,b,a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="空白符号的使用"><a href="#空白符号的使用" class="headerlink" title="空白符号的使用"></a>空白符号的使用</h3><p>如果在接收参数时，有不想使用的变量数值，可以使用_进行代替,程序不作处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func nullValue(username string,age int,address string)(string,int,string)&#123;</span><br><span class="line"></span><br><span class="line">	return username,age,address</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	&#x2F;&#x2F;_用于接收任何类型的任何值，如果以“_”表示，那将省略，可以理解为垃圾桶</span><br><span class="line">	username,age,_ :&#x3D; nullValue(&quot;roddy&quot;,27,&quot;sichuan&quot;)</span><br><span class="line">	fmt.Println(username,age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="函数可变参数"><a href="#函数可变参数" class="headerlink" title="函数可变参数"></a>函数可变参数</h3><p>向函数传递一个未知数量的参数值时，可以使用…来代替，下面样例就是传递一个数字序列，然后分别打印出来例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func MultipleNumber(args ...int)&#123;</span><br><span class="line">	for i:&#x3D;0;i&lt;len(args);i++&#123;</span><br><span class="line">		fmt.Println(args[i])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	MultipleNumber(1,2,3,5,4,5,6,6,7,8)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>输入一列数据，返回这组数据的最小值与最大值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func MinMax(input ...int)(min,max int)&#123;</span><br><span class="line">	min &#x3D; input[0]</span><br><span class="line">	max &#x3D; input[0]</span><br><span class="line"></span><br><span class="line">	for i :&#x3D;0;i&lt;len(input);i++&#123;</span><br><span class="line">		if input[i] &lt; min&#123;</span><br><span class="line">			min &#x3D; input[i]</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if input[i] &gt;max &#123;</span><br><span class="line">			max &#x3D; input[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	min,max :&#x3D;MinMax(1,2,34,5,6,7)</span><br><span class="line">	fmt.Println(&quot;最小值为:&quot;,min,&quot;最大值为:&quot;,max)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/22/golang-%E6%89%93%E5%8D%B0%E4%B9%98%E6%B3%95%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/22/golang-%E6%89%93%E5%8D%B0%E4%B9%98%E6%B3%95%E8%A1%A8/" itemprop="url">golang 打印乘法表</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-22T15:09:15+08:00">
-                2020-04-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/04/22/golang-%E6%89%93%E5%8D%B0%E4%B9%98%E6%B3%95%E8%A1%A8/" class="leancloud_visitors" data-flag-title="golang 打印乘法表">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="如何使用golang打印一个乘法表"><a href="#如何使用golang打印一个乘法表" class="headerlink" title="如何使用golang打印一个乘法表"></a>如何使用golang打印一个乘法表</h3><p>使用模块fmt，语法使用for循环嵌套，然后使用fmt.Printf格式化输出结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main()  &#123;</span><br><span class="line">	for i:&#x3D;1;i&lt;&#x3D;9;i++ &#123;</span><br><span class="line">		for c:&#x3D;1;c&lt;&#x3D;i;c++&#123;</span><br><span class="line">			fmt.Printf(&quot;%d * %d &#x3D; %d &quot;,i,c,i*c)</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Println()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时输出结果发现，细微发现数字没有对齐</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 * 1 &#x3D; 1 </span><br><span class="line">2 * 1 &#x3D; 2 2 * 2 &#x3D; 4 </span><br><span class="line">3 * 1 &#x3D; 3 3 * 2 &#x3D; 6 3 * 3 &#x3D; 9 </span><br><span class="line">4 * 1 &#x3D; 4 4 * 2 &#x3D; 8 4 * 3 &#x3D; 12 4 * 4 &#x3D; 16 </span><br><span class="line">5 * 1 &#x3D; 5 5 * 2 &#x3D; 10 5 * 3 &#x3D; 15 5 * 4 &#x3D; 20 5 * 5 &#x3D; 25 </span><br><span class="line">6 * 1 &#x3D; 6 6 * 2 &#x3D; 12 6 * 3 &#x3D; 18 6 * 4 &#x3D; 24 6 * 5 &#x3D; 30 6 * 6 &#x3D; 36 </span><br><span class="line">7 * 1 &#x3D; 7 7 * 2 &#x3D; 14 7 * 3 &#x3D; 21 7 * 4 &#x3D; 28 7 * 5 &#x3D; 35 7 * 6 &#x3D; 42 7 * 7 &#x3D; 49 </span><br><span class="line">8 * 1 &#x3D; 8 8 * 2 &#x3D; 16 8 * 3 &#x3D; 24 8 * 4 &#x3D; 32 8 * 5 &#x3D; 40 8 * 6 &#x3D; 48 8 * 7 &#x3D; 56 8 * 8 &#x3D; 64 </span><br><span class="line">9 * 1 &#x3D; 9 9 * 2 &#x3D; 18 9 * 3 &#x3D; 27 9 * 4 &#x3D; 36 9 * 5 &#x3D; 45 9 * 6 &#x3D; 54 9 * 7 &#x3D; 63 9 * 8 &#x3D; 72 9 * 9 &#x3D; 81</span><br></pre></td></tr></table></figure>
-
-<p>改进代码在=%d改成%-2d  2d表示2位数字。-标识缺省</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(&quot;%d * %d &#x3D; %-2d &quot;,i,c,i*c)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1 * 1 &#x3D; 1  </span><br><span class="line">2 * 1 &#x3D; 2  2 * 2 &#x3D; 4  </span><br><span class="line">3 * 1 &#x3D; 3  3 * 2 &#x3D; 6  3 * 3 &#x3D; 9  </span><br><span class="line">4 * 1 &#x3D; 4  4 * 2 &#x3D; 8  4 * 3 &#x3D; 12 4 * 4 &#x3D; 16 </span><br><span class="line">5 * 1 &#x3D; 5  5 * 2 &#x3D; 10 5 * 3 &#x3D; 15 5 * 4 &#x3D; 20 5 * 5 &#x3D; 25 </span><br><span class="line">6 * 1 &#x3D; 6  6 * 2 &#x3D; 12 6 * 3 &#x3D; 18 6 * 4 &#x3D; 24 6 * 5 &#x3D; 30 6 * 6 &#x3D; 36 </span><br><span class="line">7 * 1 &#x3D; 7  7 * 2 &#x3D; 14 7 * 3 &#x3D; 21 7 * 4 &#x3D; 28 7 * 5 &#x3D; 35 7 * 6 &#x3D; 42 7 * 7 &#x3D; 49 </span><br><span class="line">8 * 1 &#x3D; 8  8 * 2 &#x3D; 16 8 * 3 &#x3D; 24 8 * 4 &#x3D; 32 8 * 5 &#x3D; 40 8 * 6 &#x3D; 48 8 * 7 &#x3D; 56 8 * 8 &#x3D; 64 </span><br><span class="line">9 * 1 &#x3D; 9  9 * 2 &#x3D; 18 9 * 3 &#x3D; 27 9 * 4 &#x3D; 36 9 * 5 &#x3D; 45 9 * 6 &#x3D; 54 9 * 7 &#x3D; 63 9 * 8 &#x3D; 72 9 * 9 &#x3D; 81</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+  </nav>
+
 
 
           </div>
@@ -2066,7 +2083,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
