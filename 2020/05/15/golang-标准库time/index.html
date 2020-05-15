@@ -94,14 +94,14 @@
 
 
 
-<meta name="description" content="Time标准库golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。 标准库用法 1234Now()Unix()Date()UnixNano()   显示当前时间,返回的是Time类型1234567891011121314package mainimport (	&quot;fmt&quot;	&quot;time&quot;)func main()&amp;#123;">
+<meta name="description" content="Time标准库golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。 标准库用法 1234Now()Unix()Date()UnixNano()  1.显示当前时间,返回的是Time类型 1234567891011121314package mainimport (	&quot;fmt&quot;	&quot;time&quot;)func main()&amp;#123">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang 标准库time">
 <meta property="og:url" content="http://www.roddypy.com/2020/05/15/golang-%E6%A0%87%E5%87%86%E5%BA%93time/index.html">
 <meta property="og:site_name" content="普拉多VX">
-<meta property="og:description" content="Time标准库golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。 标准库用法 1234Now()Unix()Date()UnixNano()   显示当前时间,返回的是Time类型1234567891011121314package mainimport (	&quot;fmt&quot;	&quot;time&quot;)func main()&amp;#123;">
+<meta property="og:description" content="Time标准库golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。 标准库用法 1234Now()Unix()Date()UnixNano()  1.显示当前时间,返回的是Time类型 1234567891011121314package mainimport (	&quot;fmt&quot;	&quot;time&quot;)func main()&amp;#123">
 <meta property="article:published_time" content="2020-05-15T06:27:47.000Z">
-<meta property="article:modified_time" content="2020-05-15T07:57:34.367Z">
+<meta property="article:modified_time" content="2020-05-15T07:59:43.114Z">
 <meta property="article:author" content="Roddy">
 <meta property="article:tag" content="Golang">
 <meta name="twitter:card" content="summary">
@@ -391,36 +391,26 @@
 <p>标准库用法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Now()</span><br><span class="line">Unix()</span><br><span class="line">Date()</span><br><span class="line">UnixNano()</span><br></pre></td></tr></table></figure>
 
-<ol>
-<li>显示当前时间,返回的是Time类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	now :&#x3D; time.Now() &#x2F;&#x2F;时间对象</span><br><span class="line">	fmt.Println(now)</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1.显示当前时间,返回的是Time类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	now :&#x3D; time.Now() &#x2F;&#x2F;时间对象</span><br><span class="line">	fmt.Println(now)</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>输出结果为</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-05-15 14:55:29.0136499 +0800 CST m&#x3D;+0.004986301</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>通过Time对象获取当前时间的年、月、日 小时、分钟等</li>
-</ol>
+<p>2.通过Time对象获取当前时间的年、月、日 小时、分钟等</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">now :&#x3D; time.Now() &#x2F;&#x2F;时间对象</span><br><span class="line">year :&#x3D; now.Year()  &#x2F;&#x2F;年</span><br><span class="line">month :&#x3D; now.Month()  &#x2F;&#x2F;月</span><br><span class="line">day :&#x3D; now.Day()     &#x2F;&#x2F;日</span><br><span class="line">hour :&#x3D; now.Hour()   &#x2F;&#x2F;小时</span><br><span class="line">minute :&#x3D; now.Minute() &#x2F;&#x2F;分钟</span><br><span class="line">second :&#x3D; now.Second()  &#x2F;&#x2F;秒</span><br></pre></td></tr></table></figure>
 
-<ol start="3">
-<li>Sleep沉睡</li>
-</ol>
+<p>3.Sleep沉睡</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time.Sleep(time.Second * 1)  &#x2F;&#x2F;沉睡1秒</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><ol>
-<li>获取当前的时间戳，从1970 01 01到现在的时间的秒数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">timeStamp1 :&#x3D; now.Unix()</span><br><span class="line">timeStamp2 :&#x3D; now.UnixNano()</span><br><span class="line">fmt.Println(timeStamp1)  &#x2F;&#x2F;当前世间戳</span><br><span class="line">fmt.Println(timeStamp2)  &#x2F;&#x2F;当前世间戳微秒，纳秒</span><br></pre></td></tr></table></figure>
+<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><p>1.获取当前的时间戳，从1970 01 01到现在的时间的秒数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">timeStamp1 :&#x3D; now.Unix()</span><br><span class="line">timeStamp2 :&#x3D; now.UnixNano()</span><br><span class="line">fmt.Println(timeStamp1)  &#x2F;&#x2F;当前世间戳</span><br><span class="line">fmt.Println(timeStamp2)  &#x2F;&#x2F;当前世间戳微秒，纳秒</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>输出时间戳</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1589526157</span><br><span class="line">1589526157438067900</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>通过时间戳转成Time时间格式</li>
-</ol>
+<p>2.通过时间戳转成Time时间格式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t:&#x3D;time.Unix(1589514825,0) &#x2F;&#x2F;0纳秒</span><br><span class="line">fmt.Println(t)</span><br><span class="line">fmt.Printf(&quot;%v年%v月%v日\n&quot;,t.Year(),t.Month(),t.Day())</span><br></pre></td></tr></table></figure>
 
 <p>输出</p>
@@ -432,29 +422,21 @@
 <p>参考实例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">tmp:&#x3D; time.Tick(time.Second * 3)</span><br><span class="line"></span><br><span class="line">for&#123;</span><br><span class="line"></span><br><span class="line">	select &#123;</span><br><span class="line">	case &lt;-tmp:</span><br><span class="line">		fmt.Println(&quot;执行任务&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="获取之后或者之前的时间"><a href="#获取之后或者之前的时间" class="headerlink" title="获取之后或者之前的时间"></a>获取之后或者之前的时间</h3><ol>
-<li>获取未来5小时的时间</li>
-</ol>
+<h3 id="获取之后或者之前的时间"><a href="#获取之后或者之前的时间" class="headerlink" title="获取之后或者之前的时间"></a>获取之后或者之前的时间</h3><p>1.获取未来5小时的时间</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">newTime :&#x3D; currentTime.Add(time.Hour * 5)</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>获取昨日时间</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">oldTime :&#x3D; currentTime.AddDate(0, 0, -1)  &#x2F;&#x2F;之前就是-1</span><br></pre></td></tr></table></figure>
 
-<ol start="3">
-<li>获取7天前的时间</li>
-</ol>
+<p>3.获取7天前的时间</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">oldTime :&#x3D; currentTime.AddDate(0, 0, -7)</span><br></pre></td></tr></table></figure>
 
 
-<ol start="4">
-<li>获取5天后的时间</li>
-</ol>
+<p>4.获取5天后的时间</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">newTime :&#x3D; currentTime.AddDate(0, 0, 5)   &#x2F;&#x2F;5天后的日期就是正整数</span><br></pre></td></tr></table></figure>
 
-<ol start="5">
-<li>两个时间相减</li>
-</ol>
+<p>5.两个时间相减</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">newTime :&#x3D; currentTime.Add(time.Hour * 5)</span><br><span class="line">t8:&#x3D;newTime.Sub(currentTime)   </span><br><span class="line">fmt.Println(t8)</span><br></pre></td></tr></table></figure>
 
 <h3 id="时间格式化"><a href="#时间格式化" class="headerlink" title="时间格式化"></a>时间格式化</h3><p>golang的时间格式化和其它语言格式化非常不一样，可以说独具一格。其它语言基本上为Y-m-d 或者YYYY-MM-DD这种类似。golang以是”2006 01 02 15 04 05”分别来代表<br>年、月、日、时、分、秒。记录口诀就是2006 1 2 3(下午的3点) 4 5 </p>
@@ -490,20 +472,15 @@
 <td>05</td>
 </tr>
 </tbody></table>
-<p>样例</p>
-<ol>
-<li>将当前时间格式成”2020/02/03 15:21:00”这种类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">currentStr :&#x3D; currentTime.Format(&quot;2006&#x2F;01&#x2F;02 15:04:05&quot;)</span><br><span class="line">fmt.Println(currentStr)</span><br></pre></td></tr></table></figure>
+<p>样例<br>1.将当前时间格式成”2020/02/03 15:21:00”这种类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">currentStr :&#x3D; currentTime.Format(&quot;2006&#x2F;01&#x2F;02 15:04:05&quot;)</span><br><span class="line">fmt.Println(currentStr)</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>输出结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020&#x2F;05&#x2F;15 15:33:13</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>格式化精确到毫秒<br>在秒后面加上.000即可<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">currentStr :&#x3D; currentTime.Format(&quot;2006&#x2F;01&#x2F;02 15:04:05.000&quot;)</span><br><span class="line">fmt.Println(currentStr)</span><br></pre></td></tr></table></figure>
+<p>2.格式化精确到毫秒<br>在秒后面加上.000即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">currentStr :&#x3D; currentTime.Format(&quot;2006&#x2F;01&#x2F;02 15:04:05.000&quot;)</span><br><span class="line">fmt.Println(currentStr)</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
 <p>输出结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020&#x2F;05&#x2F;15 15:34:52.040</span><br></pre></td></tr></table></figure>
 
