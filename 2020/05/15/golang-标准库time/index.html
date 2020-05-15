@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Golang," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Time标准库golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。 标准库用法 1234Now()Unix()Date()UnixNano()   显示当前时间,返回的是Time类型1234567891011121314package mainimport (	&quot;fmt&quot;	&quot;time&quot;)func main()&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 标准库time">
+<meta property="og:url" content="http://www.roddypy.com/2020/05/15/golang-%E6%A0%87%E5%87%86%E5%BA%93time/index.html">
+<meta property="og:site_name" content="普拉多VX">
+<meta property="og:description" content="Time标准库golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。 标准库用法 1234Now()Unix()Date()UnixNano()   显示当前时间,返回的是Time类型1234567891011121314package mainimport (	&quot;fmt&quot;	&quot;time&quot;)func main()&amp;#123;">
+<meta property="article:published_time" content="2020-05-15T06:27:47.000Z">
+<meta property="article:modified_time" content="2020-05-15T07:57:34.367Z">
+<meta property="article:author" content="Roddy">
+<meta property="article:tag" content="Golang">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.roddypy.com/2020/05/15/golang-标准库time/"/>
+
+
+
+
+
+  <title>golang 标准库time | 普拉多VX</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">普拉多VX</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生一路，不知来时，不问归期</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/15/golang-%E6%A0%87%E5%87%86%E5%BA%93time/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">golang 标准库time</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-15T14:27:47+08:00">
+                2020-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/15/golang-%E6%A0%87%E5%87%86%E5%BA%93time/" class="leancloud_visitors" data-flag-title="golang 标准库time">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Time标准库"><a href="#Time标准库" class="headerlink" title="Time标准库"></a>Time标准库</h3><p>golang 时间显示和格式化等等操作主要是使用time包，日历的计算采用的是公历时间。</p>
+<p>标准库用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Now()</span><br><span class="line">Unix()</span><br><span class="line">Date()</span><br><span class="line">UnixNano()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>显示当前时间,返回的是Time类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	now :&#x3D; time.Now() &#x2F;&#x2F;时间对象</span><br><span class="line">	fmt.Println(now)</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>输出结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020-05-15 14:55:29.0136499 +0800 CST m&#x3D;+0.004986301</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>通过Time对象获取当前时间的年、月、日 小时、分钟等</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">now :&#x3D; time.Now() &#x2F;&#x2F;时间对象</span><br><span class="line">year :&#x3D; now.Year()  &#x2F;&#x2F;年</span><br><span class="line">month :&#x3D; now.Month()  &#x2F;&#x2F;月</span><br><span class="line">day :&#x3D; now.Day()     &#x2F;&#x2F;日</span><br><span class="line">hour :&#x3D; now.Hour()   &#x2F;&#x2F;小时</span><br><span class="line">minute :&#x3D; now.Minute() &#x2F;&#x2F;分钟</span><br><span class="line">second :&#x3D; now.Second()  &#x2F;&#x2F;秒</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Sleep沉睡</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time.Sleep(time.Second * 1)  &#x2F;&#x2F;沉睡1秒</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><ol>
+<li>获取当前的时间戳，从1970 01 01到现在的时间的秒数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">timeStamp1 :&#x3D; now.Unix()</span><br><span class="line">timeStamp2 :&#x3D; now.UnixNano()</span><br><span class="line">fmt.Println(timeStamp1)  &#x2F;&#x2F;当前世间戳</span><br><span class="line">fmt.Println(timeStamp2)  &#x2F;&#x2F;当前世间戳微秒，纳秒</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>输出时间戳</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1589526157</span><br><span class="line">1589526157438067900</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>通过时间戳转成Time时间格式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t:&#x3D;time.Unix(1589514825,0) &#x2F;&#x2F;0纳秒</span><br><span class="line">fmt.Println(t)</span><br><span class="line">fmt.Printf(&quot;%v年%v月%v日\n&quot;,t.Year(),t.Month(),t.Day())</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-05-15 11:53:45 +0800 CST</span><br><span class="line">2020年May月15日</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h3><p>定时器使用time.Tick()方法,可以用于写循环执行的定时任务。当使用Tick()时会返回一个channel。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">for tmp  :&#x3D; range  time.Tick(time.Second * 3)&#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;do something</span><br><span class="line">	fmt.Println(tmp)  &#x2F;&#x2F;每隔3秒打印当前时间</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">tmp:&#x3D; time.Tick(time.Second * 3)</span><br><span class="line"></span><br><span class="line">for&#123;</span><br><span class="line"></span><br><span class="line">	select &#123;</span><br><span class="line">	case &lt;-tmp:</span><br><span class="line">		fmt.Println(&quot;执行任务&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取之后或者之前的时间"><a href="#获取之后或者之前的时间" class="headerlink" title="获取之后或者之前的时间"></a>获取之后或者之前的时间</h3><ol>
+<li>获取未来5小时的时间</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">newTime :&#x3D; currentTime.Add(time.Hour * 5)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>获取昨日时间</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">oldTime :&#x3D; currentTime.AddDate(0, 0, -1)  &#x2F;&#x2F;之前就是-1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>获取7天前的时间</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">oldTime :&#x3D; currentTime.AddDate(0, 0, -7)</span><br></pre></td></tr></table></figure>
+
+
+<ol start="4">
+<li>获取5天后的时间</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">newTime :&#x3D; currentTime.AddDate(0, 0, 5)   &#x2F;&#x2F;5天后的日期就是正整数</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>两个时间相减</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">newTime :&#x3D; currentTime.Add(time.Hour * 5)</span><br><span class="line">t8:&#x3D;newTime.Sub(currentTime)   </span><br><span class="line">fmt.Println(t8)</span><br></pre></td></tr></table></figure>
+
+<h3 id="时间格式化"><a href="#时间格式化" class="headerlink" title="时间格式化"></a>时间格式化</h3><p>golang的时间格式化和其它语言格式化非常不一样，可以说独具一格。其它语言基本上为Y-m-d 或者YYYY-MM-DD这种类似。golang以是”2006 01 02 15 04 05”分别来代表<br>年、月、日、时、分、秒。记录口诀就是2006 1 2 3(下午的3点) 4 5 </p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>表示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>年</td>
+<td>2006</td>
+</tr>
+<tr>
+<td>月</td>
+<td>01</td>
+</tr>
+<tr>
+<td>日</td>
+<td>02</td>
+</tr>
+<tr>
+<td>时</td>
+<td>15</td>
+</tr>
+<tr>
+<td>分</td>
+<td>04</td>
+</tr>
+<tr>
+<td>秒</td>
+<td>05</td>
+</tr>
+</tbody></table>
+<p>样例</p>
+<ol>
+<li>将当前时间格式成”2020/02/03 15:21:00”这种类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">currentStr :&#x3D; currentTime.Format(&quot;2006&#x2F;01&#x2F;02 15:04:05&quot;)</span><br><span class="line">fmt.Println(currentStr)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020&#x2F;05&#x2F;15 15:33:13</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>格式化精确到毫秒<br>在秒后面加上.000即可<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">currentTime :&#x3D; time.Now()</span><br><span class="line">currentStr :&#x3D; currentTime.Format(&quot;2006&#x2F;01&#x2F;02 15:04:05.000&quot;)</span><br><span class="line">fmt.Println(currentStr)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2020&#x2F;05&#x2F;15 15:34:52.040</span><br></pre></td></tr></table></figure>
+
+<h3 id="解析字符串时间"><a href="#解析字符串时间" class="headerlink" title="解析字符串时间"></a>解析字符串时间</h3><p>如果解析一个字符串时间呢？比如我们现在要解析字符串”2020-03-25 05:02:00”<br>使用Parse会根据当前时区来解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">timeStr :&#x3D; &quot;2020-03-25 05:02:00&quot;</span><br><span class="line"></span><br><span class="line">strToTime,_ :&#x3D; time.Parse(&quot;2006-01-02 15:04:05&quot;,timeStr)</span><br><span class="line">fmt.Println(strToTime,reflect.TypeOf(strToTime))</span><br></pre></td></tr></table></figure>
+
+<p>将字符串时间解析成指定时区时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">	&#x2F;&#x2F;加载时区</span><br><span class="line">	loc,err :&#x3D; time.LoadLocation(&quot;America&#x2F;New_York&quot;)</span><br><span class="line">	if err !&#x3D; nil&#123;</span><br><span class="line">		fmt.Println(err)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	timeStr :&#x3D; &quot;2020-03-25 05:02:00&quot;</span><br><span class="line"></span><br><span class="line">	strToTime,_ :&#x3D; time.ParseInLocation(&quot;2006-01-02 15:04:05&quot;,timeStr,loc)  &#x2F;&#x2F;指定时区变量</span><br><span class="line">	fmt.Println(strToTime,reflect.TypeOf(strToTime))</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line"></span><br><span class="line">***将UTC时间&quot;2020-05-14 02:08:23&quot;转成当前时间***</span><br></pre></td></tr></table></figure>
+<p>utcTime := “2020-05-14 02:08:23”</p>
+<p>tm,_:=time.Parse(“2006-01-02 15:04:05”,utcTime)  //先格式化成UTC的时间 </p>
+<p>timeStamp3:=tm.Unix()     //获得时间戳<br>tLocal:=time.Unix(timeStamp3,0)  //将时间戳转成Time类型<br>fmt.Println(tLocal)    //输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### 常见用法</span><br></pre></td></tr></table></figure>
+<p>//时间类型比较,是否在Time之后<br>After(u Time) bool </p>
+<p>//时间类型比较,是否在Time之前<br>Before(u Time) bool </p>
+<p>//比较两个时间是否相等<br>Equal(u Time) bool </p>
+<p>//判断时间是否为零值,如果sec和nsec两个属性都是0的话,则该时间类型为0<br>IsZero() bool </p>
+<p>//返回年月日,三个参数<br>Date() (year int, month Month, day int)</p>
+<p>//返回年份<br>Year() int </p>
+<p>//返回月份.是Month类型<br>Month() Month </p>
+<p>//返回多少号<br>Day() int </p>
+<p>//返回星期几,是Weekday类型<br>Weekday() Weekday </p>
+<p>//返回年份,和该填是在这年的第几周.<br>ISOWeek() (year, week int) </p>
+<p>//返回小时,分钟,秒<br>Clock() (hour, min, sec int) </p>
+<p>//返回小时<br>Hour() int </p>
+<p>//返回分钟<br>Minute() int </p>
+<p>//返回秒数<br>Second() int </p>
+<p>//返回纳秒<br>Nanosecond() int<br>```</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Golang/" rel="tag"># Golang</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/14/golang-%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5/" rel="next" title="golang 文件写入">
+                <i class="fa fa-chevron-left"></i> golang 文件写入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/psb.jpg"
+               alt="Roddy" />
+          <p class="site-author-name" itemprop="name">Roddy</p>
+           
+              <p class="site-description motion-element" itemprop="description">认认真真做事，踏踏实实做人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/langubtc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:923401910@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Time标准库"><span class="nav-number">1.</span> <span class="nav-text">Time标准库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间戳"><span class="nav-number">2.</span> <span class="nav-text">时间戳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器"><span class="nav-number">3.</span> <span class="nav-text">定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取之后或者之前的时间"><span class="nav-number">4.</span> <span class="nav-text">获取之后或者之前的时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间格式化"><span class="nav-number">5.</span> <span class="nav-text">时间格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析字符串时间"><span class="nav-number">6.</span> <span class="nav-text">解析字符串时间</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roddy</span>
+</div>
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("7zsWTa6GK79gjEjSJtNLJ1XQ-gzGzoHsz", "K3vcFhCPPhBlHnSAFoRK17n6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
