@@ -293,6 +293,177 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/27/golang-struct-%E7%BB%93%E6%9E%84%E4%BD%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/27/golang-struct-%E7%BB%93%E6%9E%84%E4%BD%93/" itemprop="url">golang struct 结构体</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-27T16:31:37+08:00">
+                2020-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/04/27/golang-struct-%E7%BB%93%E6%9E%84%E4%BD%93/" class="leancloud_visitors" data-flag-title="golang struct 结构体">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="golang-结构体"><a href="#golang-结构体" class="headerlink" title="golang 结构体"></a>golang 结构体</h3><p>什么是结构体？</p>
+<p>结构体可以存不同项定义的数据类型，它是一组数据的集合。我们可以将数据按指定的格式进行保存和读取。</p>
+<p>下面以一台服务器参数作为例子:</p>
+<p>服务器名: ServerName<br>CPU: CPU<br>内存: Mem<br>硬盘: Disk<br>IP地址: IP</p>
+<p>定义一个SERVER的结构体：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> 结构体名 <span class="keyword">struct</span> &#123;</span><br><span class="line">	member <span class="keyword">string</span> <span class="comment">// 成员及成员类型</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> SERVER <span class="keyword">struct</span> &#123;</span><br><span class="line">	ServerName <span class="keyword">string</span></span><br><span class="line">	CPU <span class="keyword">int</span></span><br><span class="line">	MEM <span class="keyword">int</span></span><br><span class="line">	DISK <span class="keyword">int</span></span><br><span class="line">	IP <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建结构体"><a href="#创建结构体" class="headerlink" title="创建结构体"></a>创建结构体</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> SERVER <span class="keyword">struct</span> &#123;</span><br><span class="line">	ServerName <span class="keyword">string</span></span><br><span class="line">	CPU <span class="keyword">int</span></span><br><span class="line">	MEM <span class="keyword">int</span></span><br><span class="line">	DISK <span class="keyword">int</span></span><br><span class="line">	IP <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//&#123;HOSTNAME 4 8 500 200.2.14.2&#125; 创建一个结构体，并赋予值</span></span><br><span class="line">	fmt.Println(SERVER&#123;<span class="string">"DBSERVER"</span>,<span class="number">4</span>,<span class="number">8</span>,<span class="number">500</span>,<span class="string">"200.2.14.2"</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//也可以使用KEY-&gt;VALUE格式定义一个结构体</span></span><br><span class="line">	serverInfo := SERVER&#123;ServerName:<span class="string">"web server"</span>,CPU:<span class="number">4</span>,MEM:<span class="number">8</span>,DISK:<span class="number">200</span>,IP:<span class="string">"47.23.23.1"</span>&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(serverInfo.IP)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//如果没有赋值，将使用缺省默认值</span></span><br><span class="line">	webInfo := SERVER&#123;ServerName:<span class="string">"web 2server"</span>,DISK:<span class="number">200</span>,IP:<span class="string">"47.23.23.2"</span>&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(webInfo)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问成员"><a href="#访问成员" class="headerlink" title="访问成员"></a>访问成员</h3><p>使用方法为struct.xxxx 赋值或者访问</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> SERVER <span class="keyword">struct</span> &#123;</span><br><span class="line">	ServerName <span class="keyword">string</span></span><br><span class="line">	CPU <span class="keyword">int</span></span><br><span class="line">	MEM <span class="keyword">int</span></span><br><span class="line">	DISK <span class="keyword">int</span></span><br><span class="line">	IP <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//赋值</span></span><br><span class="line">	newServer.ServerName = <span class="string">"new server"</span></span><br><span class="line">	newServer.DISK = <span class="number">500</span></span><br><span class="line">	newServer.MEM = <span class="number">4</span></span><br><span class="line">	newServer.CPU = <span class="number">2</span></span><br><span class="line">	newServer.IP = <span class="string">"2.2.3.2"</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//读取</span></span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">"服务器名%s,磁盘:%d,内存:%d,CPU:%d,IP:%s"</span>, newServer.ServerName,</span><br><span class="line">		newServer.DISK, newServer.MEM,</span><br><span class="line">		newServer.CPU, newServer.IP,</span><br><span class="line">	)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="结构体传递"><a href="#结构体传递" class="headerlink" title="结构体传递"></a>结构体传递</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetServerInfo</span><span class="params">(server SERVER)</span></span>&#123;</span><br><span class="line">	fmt.Printf(<span class="string">"server ip:%s\n"</span>,server.IP)  <span class="comment">//访问结构体中的成员信息</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> newServer SERVER</span><br><span class="line"></span><br><span class="line">	<span class="comment">//赋值</span></span><br><span class="line">	newServer.ServerName = <span class="string">"new server"</span></span><br><span class="line">	newServer.DISK = <span class="number">500</span></span><br><span class="line">	newServer.MEM = <span class="number">6</span></span><br><span class="line">	newServer.CPU = <span class="number">2</span></span><br><span class="line">	newServer.IP = <span class="string">"2.2.3.2"</span></span><br><span class="line"></span><br><span class="line">	GetServerInfo(newServer)  <span class="comment">//将结构体传递给GetServerInfo函数</span></span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="结构体指针"><a href="#结构体指针" class="headerlink" title="结构体指针"></a>结构体指针</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//结构体做为参数传递，如果要修改数据，需要用结构体指针方式</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">changeServer</span><span class="params">(server *SERVER)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> server.MEM &gt; <span class="number">4</span>&#123;</span><br><span class="line">		server.MEM = <span class="number">8</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newServer SERVER</span><br><span class="line"></span><br><span class="line"><span class="comment">//赋值</span></span><br><span class="line">newServer.ServerName = <span class="string">"new server"</span></span><br><span class="line">newServer.DISK = <span class="number">500</span></span><br><span class="line">newServer.MEM = <span class="number">6</span></span><br><span class="line">newServer.CPU = <span class="number">2</span></span><br><span class="line">newServer.IP = <span class="string">"2.2.3.2"</span></span><br><span class="line"></span><br><span class="line">changeServer(&amp;newServer) <span class="comment">//结构体指针传递</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//读取</span></span><br><span class="line"></span><br><span class="line">fmt.Printf(<span class="string">"服务器名%s,磁盘:%d,内存:%d,CPU:%d,IP:%s"</span>, newServer.ServerName,</span><br><span class="line">	newServer.DISK, newServer.MEM,</span><br><span class="line">	newServer.CPU, newServer.IP,</span><br><span class="line">)</span><br><span class="line"><span class="comment">//结果server.MEM =8</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/27/django-vue-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1054,7 +1225,7 @@ var _hmt = _hmt || [];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1128,6 +1299,10 @@ var _hmt = _hmt || [];
               
                 <li class="links-of-blogroll-item">
                   <a href="https://www.liwenzhou.com" title="李文周" target="_blank">李文周</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.rainbowei.com" title="孙科伟" target="_blank">孙科伟</a>
                 </li>
               
             </ul>
