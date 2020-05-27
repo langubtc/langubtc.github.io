@@ -293,6 +293,180 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8Ejson/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8Ejson/" itemprop="url">golang 结构体与json</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-18T17:03:26+08:00">
+                2020-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8Ejson/" class="leancloud_visitors" data-flag-title="golang 结构体与json">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="结构体可见性"><a href="#结构体可见性" class="headerlink" title="结构体可见性"></a>结构体可见性</h3><p>如果一个Go语言中定义的标识符是首字母大写的,那么对外可见</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Miners <span class="keyword">struct</span> &#123;</span><br><span class="line">	WorkerName <span class="keyword">string</span>  <span class="comment">//首字母大写</span></span><br><span class="line">	Cgminer  <span class="keyword">string</span></span><br><span class="line">	Pool  <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="结构体与JSON"><a href="#结构体与JSON" class="headerlink" title="结构体与JSON"></a>结构体与JSON</h3><p>JSON一种轻量级的数据交换格式，易于阅读，通过使用前后端分离项目。利用API获取数据并解析，主要用于数据交互。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Book <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="keyword">string</span>     	<span class="comment">//字段名必须是大写否则不可见 定制化展示tag  `json:"student_id"`</span></span><br><span class="line">	Sn <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	t := Book&#123;<span class="string">"百世go"</span>,<span class="string">"SN2323232323232323"</span>&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//json 序列化数据</span></span><br><span class="line"></span><br><span class="line">	data,err:=json.Marshal(t)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"json 格式化错误,err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(data))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>格式输出:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"Name"</span>:<span class="string">"百世go"</span>,<span class="attr">"Sn"</span>:<span class="string">"SN2323232323232323"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Make10条数据并且以array格式输出</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Book <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="keyword">string</span></span><br><span class="line">	Sn <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//book的构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewBook</span><span class="params">(name,sn <span class="keyword">string</span>)</span> <span class="title">Book</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> Book&#123;</span><br><span class="line">		Name:name,</span><br><span class="line">		Sn:sn,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	book_list := <span class="built_in">make</span>([]Book,<span class="number">0</span>,<span class="number">20</span>)  <span class="comment">//make一个slice序列</span></span><br><span class="line">	<span class="keyword">for</span> i:=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++&#123;</span><br><span class="line"></span><br><span class="line">		b1:=NewBook(fmt.Sprintf(<span class="string">"django%v"</span>,i),fmt.Sprintf(<span class="string">"232344422%v"</span>,i))</span><br><span class="line">		book_list = <span class="built_in">append</span>(book_list,b1)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//json 序列化数据</span></span><br><span class="line"></span><br><span class="line">	data,err:=json.Marshal(book_list)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"json 格式化错误,err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(data))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;<span class="attr">"Name"</span>:<span class="string">"django0"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444220"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django1"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444221"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django2"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444222"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django3"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444223"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django4"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444224"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django5"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444225"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django6"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444226"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django7"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444227"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django8"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444228"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django9"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444229"</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="反序列成JSON"><a href="#反序列成JSON" class="headerlink" title="反序列成JSON"></a>反序列成JSON</h3><p>使用json.Unmarshal</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//json反序列化</span></span><br><span class="line"></span><br><span class="line">	Jsostr := <span class="string">`&#123;"Name":"百世go","Sn":"SN2323232323232323"&#125;`</span></span><br><span class="line">	<span class="keyword">var</span> c2 Book</span><br><span class="line">	err =json.Unmarshal([]<span class="keyword">byte</span>(Jsostr),&amp;c2)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"json 解析失败 err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(c2)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E5%B5%8C%E5%A5%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1873,191 +2047,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/28/ubuntu%E9%85%8D%E7%BD%AEnginx-htpasswd%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/28/ubuntu%E9%85%8D%E7%BD%AEnginx-htpasswd%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81/" itemprop="url">ubuntu配置nginx htpasswd访问密码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-28T17:58:10+08:00">
-                2020-04-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/04/28/ubuntu%E9%85%8D%E7%BD%AEnginx-htpasswd%E8%AE%BF%E9%97%AE%E5%AF%86%E7%A0%81/" class="leancloud_visitors" data-flag-title="ubuntu配置nginx htpasswd访问密码">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Ubuntu-16-4-Nginx设置访问密码"><a href="#Ubuntu-16-4-Nginx设置访问密码" class="headerlink" title="Ubuntu 16.4 Nginx设置访问密码"></a>Ubuntu 16.4 Nginx设置访问密码</h3><p>1.安装apache2-utils </p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@rodddy:/# apt-<span class="builtin-name">get</span> install apache2-utils</span><br><span class="line">Reading package lists<span class="built_in">..</span>. Done</span><br><span class="line">Building dependency tree       </span><br><span class="line">Reading state information<span class="built_in">..</span>. Done</span><br><span class="line">The following packages were automatically installed <span class="keyword">and</span> are <span class="literal">no</span> longer required:</span><br><span class="line">  libopts25 python-meld3 python-pkg-resources</span><br><span class="line">Use <span class="string">'apt autoremove'</span> <span class="keyword">to</span> <span class="builtin-name">remove</span> them.</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  libapr1 libaprutil1</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  apache2-utils libapr1 libaprutil1</span><br><span class="line">0 upgraded, 3 newly installed, 0 <span class="keyword">to</span> <span class="builtin-name">remove</span> <span class="keyword">and</span> 199 <span class="keyword">not</span> upgraded.</span><br><span class="line">Need <span class="keyword">to</span> <span class="builtin-name">get</span> 82.1 kB/245 kB of archives.</span><br><span class="line">After this operation, 810 kB of additional disk space will be used.</span><br><span class="line"><span class="keyword">Do</span> you want <span class="keyword">to</span> continue? [Y/n] y</span><br></pre></td></tr></table></figure>
-
-<p>2.创建用户名和密码，并把用户名和密码保存到指定文件中</p>
-<p>创建用户admin  保存的文件位置/usr/local/src/nginx/passwd</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@roddy:~# htpasswd -c /usr/local/src/nginx/passwd admin</span><br><span class="line">New password: </span><br><span class="line">Re-type new password: </span><br><span class="line">Adding password <span class="keyword">for</span><span class="built_in"> user </span>admin</span><br></pre></td></tr></table></figure>
-
-
-<p>3.修改nginx配置文件</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server</span> <span class="string">&#123;</span></span><br><span class="line">   <span class="attr">listen</span> <span class="string">80;</span></span><br><span class="line">   <span class="attr">server_name</span>  <span class="string">localhost;</span></span><br><span class="line">   <span class="attr">.......</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">   #新增两行</span></span><br><span class="line">   <span class="attr">auth_basic</span> <span class="string">"Please input password"; #这里是提示信息 </span></span><br><span class="line">   <span class="attr">auth_basic_user_file</span> <span class="string">/usr/local/src/nginx/passwd;</span></span><br><span class="line"> </span><br><span class="line">   <span class="attr">location</span> <span class="string">/&#123;</span></span><br><span class="line">   <span class="attr">.......</span></span><br><span class="line"><span class="attr">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>4.先检查下配置文件</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@roddy:~# nginx -t</span><br><span class="line">nginx: the configuration <span class="keyword">file</span> /etc/nginx/nginx.<span class="keyword">conf</span> <span class="keyword">syntax</span> <span class="keyword">is</span> ok</span><br><span class="line">nginx: configuration <span class="keyword">file</span> /etc/nginx/nginx.<span class="keyword">conf</span> test <span class="keyword">is</span> successful</span><br><span class="line">root@roddy:~#</span><br></pre></td></tr></table></figure>
-
-<p>5.重新加载配置文件</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:~</span><span class="comment"># systemctl  reload nginx.service</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>备注:</p>
-<p>htpasswd命令选项参数说明</p>
-<p>-c 创建一个加密文件<br>-n 不更新加密文件，只将htpasswd命令加密后的用户名密码显示在屏幕上<br>-m 默认htpassswd命令采用MD5算法对密码进行加密<br>-d htpassswd命令采用CRYPT算法对密码进行加密<br>-p htpassswd命令不对密码进行进行加密，即明文密码<br>-s htpassswd命令采用SHA算法对密码进行加密<br>-b htpassswd命令行中一并输入用户名和密码而不是根据提示输入密码<br>-D 删除指定的用户</p>
-<p>创建用户</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:~</span><span class="comment"># htpasswd -c /usr/local/src/nginx/passwd admin</span></span><br></pre></td></tr></table></figure>
-
-<p>添加用户(在原文件下)</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:~</span><span class="comment"># htpasswd  -b /usr/local/src/nginx/passwd  roddy 123456</span></span><br></pre></td></tr></table></figure>
-
-<p>删除用户</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:~</span><span class="comment"># htpasswd -D /usr/local/src/nginx/passwd admin</span></span><br></pre></td></tr></table></figure>
-
-<p>修改密码</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:~</span><span class="comment"># htpasswd -b /usr/local/src/nginx/passwd admin 12345678</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2108,7 +2097,7 @@ var _hmt = _hmt || [];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

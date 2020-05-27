@@ -293,6 +293,184 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/27/%E8%A7%A3%E5%86%B3-golang-org-x-%E5%8C%85%E5%A4%B1%E8%B4%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/27/%E8%A7%A3%E5%86%B3-golang-org-x-%E5%8C%85%E5%A4%B1%E8%B4%A5/" itemprop="url">解决 golang.org/x 包失败</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-27T14:52:11+08:00">
+                2020-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/27/%E8%A7%A3%E5%86%B3-golang-org-x-%E5%8C%85%E5%A4%B1%E8%B4%A5/" class="leancloud_visitors" data-flag-title="解决 golang.org/x 包失败">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>在使用go get\go install 等命令时会自动去下载相关的依赖包，因我国特殊原因会出现下载失败，通常表现如下。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> golang.org<span class="regexp">/x/</span><span class="string">text:</span> unrecognized <span class="keyword">import</span> path “golang.org<span class="regexp">/x/</span>text” (https <span class="string">fetch:</span> Get <span class="string">https:</span><span class="comment">//golang.org/x/text?go-get=1: dial tcp 216.239.37.1:443: i/o timeout)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="手动下载包到-GOPATH-src路径下"><a href="#手动下载包到-GOPATH-src路径下" class="headerlink" title="手动下载包到$GOPATH/src路径下"></a>手动下载包到$GOPATH/src路径下</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir $GOPATH/src/golang.org/x</span><br><span class="line">cd $GOPATH/src/golang.org/x</span><br><span class="line">git clone git@github.com:golang/text.git</span><br><span class="line">rm -rf text/.git</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h4><p>第二种方式就是设置代理</p>
+<p>使用公共代理服务<a href="https://goproxy.io，我们可参见下面直接使用七牛云的代理，国内用户访问更快。" target="_blank" rel="noopener">https://goproxy.io，我们可参见下面直接使用七牛云的代理，国内用户访问更快。</a></p>
+<h3 id="配置国内七牛代理"><a href="#配置国内七牛代理" class="headerlink" title="配置国内七牛代理"></a>配置国内七牛代理</h3><p>参见文档:</p>
+<ul>
+<li><a href="https://github.com/goproxy/goproxy.cn/blob/master/README.zh-CN.md" target="_blank" rel="noopener">https://github.com/goproxy/goproxy.cn/blob/master/README.zh-CN.md</a></li>
+<li><a href="https://goproxy.cn" target="_blank" rel="noopener">https://goproxy.cn</a></li>
+</ul>
+<h4 id="MacOS或者Linux"><a href="#MacOS或者Linux" class="headerlink" title="MacOS或者Linux"></a>MacOS或者Linux</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="builtin-name">export</span> <span class="attribute">GO111MODULE</span>=on</span><br><span class="line">$ <span class="builtin-name">export</span> <span class="attribute">GOPROXY</span>=https://goproxy.cn</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"export GO111MODULE=on"</span> &gt;&gt; ~/.profile</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"export GOPROXY=https://goproxy.cn"</span> &gt;&gt; ~/.profile</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> ~/.profile</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">C:</span>\&gt; <span class="variable">$env</span><span class="symbol">:GO111MODULE</span> = <span class="string">"on"</span></span><br><span class="line"><span class="symbol">C:</span>\&gt; <span class="variable">$env</span><span class="symbol">:GOPROXY</span> = <span class="string">"https://goproxy.cn"</span></span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 打开“开始”并搜索“env”</span><br><span class="line"><span class="number">2.</span> 选择“编辑系统环境变量”</span><br><span class="line"><span class="number">3.</span> 点击“环境变量…”按钮</span><br><span class="line"><span class="number">4.</span> 在“&lt;你的用户名&gt; 的用户变量”章节下（上半部分）</span><br><span class="line"><span class="number">5.</span> 点击“新建…”按钮</span><br><span class="line"><span class="number">6.</span> 选择“变量名”输入框并输入“GO111MODULE”</span><br><span class="line"><span class="number">7.</span> 选择“变量值”输入框并输入“on”</span><br><span class="line"><span class="number">8.</span> 点击“确定”按钮</span><br><span class="line"><span class="number">9.</span> 点击“新建…”按钮</span><br><span class="line"><span class="number">10.</span> 选择“变量名”输入框并输入“GOPROXY”</span><br><span class="line"><span class="number">11.</span> 选择“变量值”输入框并输入“https:<span class="comment">//goproxy.cn”</span></span><br><span class="line"><span class="number">12.</span> 点击“确定”按钮</span><br></pre></td></tr></table></figure>
+
+<h4 id="重启goland"><a href="#重启goland" class="headerlink" title="重启goland"></a>重启goland</h4><p>切记，切记，切记！</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://shockerli.net/post/go-get-golang-org-x-solution/" target="_blank" rel="noopener">https://shockerli.net/post/go-get-golang-org-x-solution/</a></li>
+<li><a href="https://github.com/goproxy/goproxy.cn" target="_blank" rel="noopener">https://github.com/goproxy/goproxy.cn</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1890,180 +2068,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8Ejson/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8Ejson/" itemprop="url">golang 结构体与json</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-18T17:03:26+08:00">
-                2020-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8Ejson/" class="leancloud_visitors" data-flag-title="golang 结构体与json">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="结构体可见性"><a href="#结构体可见性" class="headerlink" title="结构体可见性"></a>结构体可见性</h3><p>如果一个Go语言中定义的标识符是首字母大写的,那么对外可见</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Miners <span class="keyword">struct</span> &#123;</span><br><span class="line">	WorkerName <span class="keyword">string</span>  <span class="comment">//首字母大写</span></span><br><span class="line">	Cgminer  <span class="keyword">string</span></span><br><span class="line">	Pool  <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="结构体与JSON"><a href="#结构体与JSON" class="headerlink" title="结构体与JSON"></a>结构体与JSON</h3><p>JSON一种轻量级的数据交换格式，易于阅读，通过使用前后端分离项目。利用API获取数据并解析，主要用于数据交互。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Book <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="keyword">string</span>     	<span class="comment">//字段名必须是大写否则不可见 定制化展示tag  `json:"student_id"`</span></span><br><span class="line">	Sn <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	t := Book&#123;<span class="string">"百世go"</span>,<span class="string">"SN2323232323232323"</span>&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//json 序列化数据</span></span><br><span class="line"></span><br><span class="line">	data,err:=json.Marshal(t)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"json 格式化错误,err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(data))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>格式输出:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"Name"</span>:<span class="string">"百世go"</span>,<span class="attr">"Sn"</span>:<span class="string">"SN2323232323232323"</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Make10条数据并且以array格式输出</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Book <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="keyword">string</span></span><br><span class="line">	Sn <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//book的构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewBook</span><span class="params">(name,sn <span class="keyword">string</span>)</span> <span class="title">Book</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> Book&#123;</span><br><span class="line">		Name:name,</span><br><span class="line">		Sn:sn,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	book_list := <span class="built_in">make</span>([]Book,<span class="number">0</span>,<span class="number">20</span>)  <span class="comment">//make一个slice序列</span></span><br><span class="line">	<span class="keyword">for</span> i:=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++&#123;</span><br><span class="line"></span><br><span class="line">		b1:=NewBook(fmt.Sprintf(<span class="string">"django%v"</span>,i),fmt.Sprintf(<span class="string">"232344422%v"</span>,i))</span><br><span class="line">		book_list = <span class="built_in">append</span>(book_list,b1)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//json 序列化数据</span></span><br><span class="line"></span><br><span class="line">	data,err:=json.Marshal(book_list)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"json 格式化错误,err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(data))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&#123;<span class="attr">"Name"</span>:<span class="string">"django0"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444220"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django1"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444221"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django2"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444222"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django3"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444223"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django4"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444224"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django5"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444225"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django6"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444226"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django7"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444227"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django8"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444228"</span>&#125;,&#123;<span class="attr">"Name"</span>:<span class="string">"django9"</span>,<span class="attr">"Sn"</span>:<span class="string">"2323444229"</span>&#125;]</span><br></pre></td></tr></table></figure>
-
-<h3 id="反序列成JSON"><a href="#反序列成JSON" class="headerlink" title="反序列成JSON"></a>反序列成JSON</h3><p>使用json.Unmarshal</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//json反序列化</span></span><br><span class="line"></span><br><span class="line">	Jsostr := <span class="string">`&#123;"Name":"百世go","Sn":"SN2323232323232323"&#125;`</span></span><br><span class="line">	<span class="keyword">var</span> c2 Book</span><br><span class="line">	err =json.Unmarshal([]<span class="keyword">byte</span>(Jsostr),&amp;c2)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"json 解析失败 err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(c2)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2114,7 +2118,7 @@ var _hmt = _hmt || [];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
