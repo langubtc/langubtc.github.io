@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Bitcoin," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="配置ubuntu | 16.04disk   | 500GBnet    | 2Mcpu    | 4mem    | 8G 初始化服务器123sudo apt-get upgradesudo apt-get install lrzsz  git  wget mkdir &#x2F;work   安装环境依赖执行以下命令安装环境依赖包 12345678sudo apt-get install build-e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu下编译安装Bitcoin核心">
+<meta property="og:url" content="http://www.roddypy.com/2020/05/29/ubuntu%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Bitcoin%E6%A0%B8%E5%BF%83/index.html">
+<meta property="og:site_name" content="普拉多VX">
+<meta property="og:description" content="配置ubuntu | 16.04disk   | 500GBnet    | 2Mcpu    | 4mem    | 8G 初始化服务器123sudo apt-get upgradesudo apt-get install lrzsz  git  wget mkdir &#x2F;work   安装环境依赖执行以下命令安装环境依赖包 12345678sudo apt-get install build-e">
+<meta property="article:published_time" content="2020-05-29T06:20:03.000Z">
+<meta property="article:modified_time" content="2020-05-29T07:24:28.344Z">
+<meta property="article:author" content="Roddy">
+<meta property="article:tag" content="Bitcoin">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?547d989a7055abbbc8faf5fc9e5fb90a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.roddypy.com/2020/05/29/ubuntu下编译安装Bitcoin核心/"/>
+
+
+
+
+
+  <title>ubuntu下编译安装Bitcoin核心 | 普拉多VX</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <a href="https://github.com/langubtc" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">普拉多VX</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生一路，不知来时，不问归期</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/29/ubuntu%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Bitcoin%E6%A0%B8%E5%BF%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ubuntu下编译安装Bitcoin核心</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-29T14:20:03+08:00">
+                2020-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bitcoin/" itemprop="url" rel="index">
+                    <span itemprop="name">Bitcoin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/29/ubuntu%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Bitcoin%E6%A0%B8%E5%BF%83/" class="leancloud_visitors" data-flag-title="ubuntu下编译安装Bitcoin核心">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>ubuntu | 16.04<br>disk   | 500GB<br>net    | 2M<br>cpu    | 4<br>mem    | 8G</p>
+<h3 id="初始化服务器"><a href="#初始化服务器" class="headerlink" title="初始化服务器"></a>初始化服务器</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> upgrade</span><br><span class="line">sudo apt-<span class="builtin-name">get</span> install lrzsz  git  wget </span><br><span class="line">mkdir /work</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="安装环境依赖"><a href="#安装环境依赖" class="headerlink" title="安装环境依赖"></a>安装环境依赖</h3><p>执行以下命令安装环境依赖包</p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo apt-<span class="built_in">get</span> install build-essential libtool autotools-<span class="built_in">dev</span> automake pkg-config bsdmainutils python3 libssl-<span class="built_in">dev</span></span><br><span class="line"></span><br><span class="line">sudo apt-<span class="built_in">get</span> install libssl-<span class="built_in">dev</span> libboost-<span class="built_in">all</span>-<span class="built_in">dev</span> libevent-<span class="built_in">dev</span></span><br><span class="line"></span><br><span class="line">sudo apt-<span class="built_in">get</span> install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-<span class="built_in">dev</span> qttools5-<span class="built_in">dev</span>-tools libprotobuf-<span class="built_in">dev</span> protobuf-compiler</span><br><span class="line"></span><br><span class="line">sudo apt-<span class="built_in">get</span> install libqrencode-<span class="built_in">dev</span> libminiupnpc-<span class="built_in">dev</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="下载bitcoin核心"><a href="#下载bitcoin核心" class="headerlink" title="下载bitcoin核心"></a>下载bitcoin核心</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /work</span><br><span class="line">wget https:<span class="comment">//github.com/bitcoin/bitcoin/archive/v0.19.1.tar.gz</span></span><br><span class="line">tar zxf v0<span class="number">.19</span><span class="number">.1</span>.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装berkeley-db"><a href="#安装berkeley-db" class="headerlink" title="安装berkeley-db"></a>安装berkeley-db</h3><p>因我项目中核心需要钱包功能，所以需要安装berkeley-db,如果不需要可以编译bitcoin时使用<code>./configure --disable-wallet</code></p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> bitcoin-0.19.1</span><br><span class="line"><span class="string">./contrib/install_db4.sh</span> `<span class="keyword">pwd</span>`</span><br></pre></td></tr></table></figure>
+
+<p>如果执行失败,出现国内服务器无法访问<a href="https://gist.githubusercontent.com的情况下可手动下载clang.patch进行打补丁" target="_blank" rel="noopener">https://gist.githubusercontent.com的情况下可手动下载clang.patch进行打补丁</a></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">https:</span><span class="comment">//gist.githubusercontent.com/LnL7/5153b251fd525fe15de69b67e63a6075/raw/7778e9364679093a32dec2908656738e16b6bdcb/clang.patch</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#编辑./contrib/install_db4.sh第70行屏蔽掉下载</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#http_get <span class="string">"$&#123;CLANG_CXX11_PATCH_URL&#125;"</span> clang.patch <span class="string">"$&#123;CLANG_CXX11_PATCH_HASH&#125;"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>可手动复制以下文件为clang.patch到/work/bitcoin-0.19.1/db4/db-4.8.30.NC/</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/src/dbinc/atomic.h b/src/dbinc/atomic.h</span><br><span class="line">index <span class="number">6</span>a858f7.<span class="number">.9</span>f338dc <span class="number">100644</span></span><br><span class="line">--- a/src/dbinc/atomic.h</span><br><span class="line">+++ b/src/dbinc/atomic.h</span><br><span class="line">@@ <span class="number">-70</span>,<span class="number">7</span> +<span class="number">70</span>,<span class="number">7</span> @@ <span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">  * These have no memory barriers; the caller must include them when necessary.</span><br><span class="line">  */</span><br><span class="line"> <span class="meta">#<span class="meta-keyword">define</span>	atomic_read(p)		((p)-&gt;value)</span></span><br><span class="line">-<span class="meta">#<span class="meta-keyword">define</span>	atomic_init(p, val)	((p)-&gt;value = (val))</span></span><br><span class="line">+<span class="meta">#<span class="meta-keyword">define</span>	atomic_init_db(p, val)	((p)-&gt;value = (val))</span></span><br><span class="line"> </span><br><span class="line"> <span class="meta">#<span class="meta-keyword">ifdef</span> HAVE_ATOMIC_SUPPORT</span></span><br><span class="line"> </span><br><span class="line">@@ <span class="number">-144</span>,<span class="number">7</span> +<span class="number">144</span>,<span class="number">7</span> @@ <span class="keyword">typedef</span> LONG <span class="keyword">volatile</span> *interlocked_val;</span><br><span class="line"> <span class="meta">#<span class="meta-keyword">define</span>	atomic_inc(env, p)	__atomic_inc(p)</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">define</span>	atomic_dec(env, p)	__atomic_dec(p)</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">define</span>	atomic_compare_exchange(env, p, o, n)	\</span></span><br><span class="line">-	__atomic_compare_exchange((p), (o), (n))</span><br><span class="line">+	__atomic_compare_exchange_db((p), (o), (n))</span><br><span class="line"> <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">int</span> __atomic_inc(<span class="keyword">db_atomic_t</span> *p)</span><br><span class="line"> &#123;</span><br><span class="line"> 	<span class="keyword">int</span>	temp;</span><br><span class="line">@@ <span class="number">-176</span>,<span class="number">7</span> +<span class="number">176</span>,<span class="number">7</span> @@ <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">int</span> __atomic_dec(<span class="keyword">db_atomic_t</span> *p)</span><br><span class="line">  * http:<span class="comment">//gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Atomic-Builtins.html</span></span><br><span class="line">  * which configure could be changed to use.</span><br><span class="line">  */</span><br><span class="line">-<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">int</span> __atomic_compare_exchange(</span><br><span class="line">+<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">int</span> __atomic_compare_exchange_db(</span><br><span class="line"> 	<span class="keyword">db_atomic_t</span> *p, <span class="keyword">atomic_value_t</span> oldval, <span class="keyword">atomic_value_t</span> newval)</span><br><span class="line"> &#123;</span><br><span class="line"> 	<span class="keyword">atomic_value_t</span> was;</span><br><span class="line">@@ <span class="number">-206</span>,<span class="number">7</span> +<span class="number">206</span>,<span class="number">7</span> @@ <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">int</span> __atomic_compare_exchange(</span><br><span class="line"> #define	atomic_dec(env, p)	(--(p)-&gt;value)</span><br><span class="line"> #define	atomic_compare_exchange(env, p, oldval, newval)		\</span><br><span class="line"> 	(DB_ASSERT(env, atomic_read(p) == (oldval)),		\</span><br><span class="line">-	atomic_init(p, (newval)), <span class="number">1</span>)</span><br><span class="line">+	atomic_init_db(p, (newval)), <span class="number">1</span>)</span><br><span class="line"> #<span class="keyword">else</span></span><br><span class="line"> #define atomic_inc(env, p)	__atomic_inc(env, p)</span><br><span class="line"> #define atomic_dec(env, p)	__atomic_dec(env, p)</span><br><span class="line">diff --git a/src/mp/mp_fget.c b/src/mp/mp_fget.c</span><br><span class="line">index <span class="number">16</span>de695..d0dcc29 <span class="number">100644</span></span><br><span class="line">--- a/src/mp/mp_fget.c</span><br><span class="line">+++ b/src/mp/mp_fget.c</span><br><span class="line">@@ <span class="number">-649</span>,<span class="number">7</span> +<span class="number">649</span>,<span class="number">7</span> @@ alloc:		<span class="comment">/* Allocate a new buffer header and data space. */</span></span><br><span class="line"> </span><br><span class="line"> 		<span class="comment">/* Initialize enough so we can call __memp_bhfree. */</span></span><br><span class="line"> 		alloc_bhp-&gt;flags = <span class="number">0</span>;</span><br><span class="line">-		atomic_init(&amp;alloc_bhp-&gt;ref, <span class="number">1</span>);</span><br><span class="line">+		atomic_init_db(&amp;alloc_bhp-&gt;ref, <span class="number">1</span>);</span><br><span class="line"> #ifdef DIAGNOSTIC</span><br><span class="line"> 		<span class="keyword">if</span> ((<span class="keyword">uintptr_t</span>)alloc_bhp-&gt;buf &amp; (<span class="keyword">sizeof</span>(<span class="keyword">size_t</span>) - <span class="number">1</span>)) &#123;</span><br><span class="line"> 			__db_errx(env, DB_STR(<span class="string">"3025"</span>,</span><br><span class="line">@@ <span class="number">-955</span>,<span class="number">7</span> +<span class="number">955</span>,<span class="number">7</span> @@ alloc:		<span class="comment">/* Allocate a new buffer header and data space. */</span></span><br><span class="line"> 			MVCC_MPROTECT(bhp-&gt;buf, mfp-&gt;pagesize,</span><br><span class="line"> 			    PROT_READ);</span><br><span class="line"> </span><br><span class="line">-		atomic_init(&amp;alloc_bhp-&gt;ref, <span class="number">1</span>);</span><br><span class="line">+		atomic_init_db(&amp;alloc_bhp-&gt;ref, <span class="number">1</span>);</span><br><span class="line"> 		MUTEX_LOCK(env, alloc_bhp-&gt;mtx_buf);</span><br><span class="line"> 		alloc_bhp-&gt;priority = bhp-&gt;priority;</span><br><span class="line"> 		alloc_bhp-&gt;pgno = bhp-&gt;pgno;</span><br><span class="line">diff --git a/src/mp/mp_mvcc.c b/src/mp/mp_mvcc.c</span><br><span class="line">index <span class="number">770b</span>ad8..e28cce0 <span class="number">100644</span></span><br><span class="line">--- a/src/mp/mp_mvcc.c</span><br><span class="line">+++ b/src/mp/mp_mvcc.c</span><br><span class="line">@@ <span class="number">-276</span>,<span class="number">7</span> +<span class="number">276</span>,<span class="number">7</span> @@ __memp_bh_freeze(dbmp, infop, hp, bhp, need_frozenp)</span><br><span class="line"> #<span class="keyword">else</span></span><br><span class="line"> 	<span class="built_in">memcpy</span>(frozen_bhp, bhp, SSZA(BH, buf));</span><br><span class="line"> #endif</span><br><span class="line">-	atomic_init(&amp;frozen_bhp-&gt;ref, <span class="number">0</span>);</span><br><span class="line">+	atomic_init_db(&amp;frozen_bhp-&gt;ref, <span class="number">0</span>);</span><br><span class="line"> 	<span class="keyword">if</span> (mutex != MUTEX_INVALID)</span><br><span class="line"> 		frozen_bhp-&gt;mtx_buf = mutex;</span><br><span class="line"> 	<span class="keyword">else</span> <span class="keyword">if</span> ((ret = __mutex_alloc(env, MTX_MPOOL_BH,</span><br><span class="line">@@ <span class="number">-428</span>,<span class="number">7</span> +<span class="number">428</span>,<span class="number">7</span> @@ __memp_bh_thaw(dbmp, infop, hp, frozen_bhp, alloc_bhp)</span><br><span class="line"> #endif</span><br><span class="line"> 		alloc_bhp-&gt;mtx_buf = mutex;</span><br><span class="line"> 		MUTEX_LOCK(env, alloc_bhp-&gt;mtx_buf);</span><br><span class="line">-		atomic_init(&amp;alloc_bhp-&gt;ref, <span class="number">1</span>);</span><br><span class="line">+		atomic_init_db(&amp;alloc_bhp-&gt;ref, <span class="number">1</span>);</span><br><span class="line"> 		F_CLR(alloc_bhp, BH_FROZEN);</span><br><span class="line"> 	&#125;</span><br><span class="line"> </span><br><span class="line">diff --git a/src/mp/mp_region.c b/src/mp/mp_region.c</span><br><span class="line">index <span class="number">4952030.</span><span class="number">.47645</span>f8 <span class="number">100644</span></span><br><span class="line">--- a/src/mp/mp_region.c</span><br><span class="line">+++ b/src/mp/mp_region.c</span><br><span class="line">@@ <span class="number">-245</span>,<span class="number">7</span> +<span class="number">245</span>,<span class="number">7</span> @@ __memp_init(env, dbmp, reginfo_off, htab_buckets, max_nreg)</span><br><span class="line"> 			     MTX_MPOOL_FILE_BUCKET, <span class="number">0</span>, &amp;htab[i].mtx_hash)) != <span class="number">0</span>)</span><br><span class="line"> 				<span class="keyword">return</span> (ret);</span><br><span class="line"> 			SH_TAILQ_INIT(&amp;htab[i].hash_bucket);</span><br><span class="line">-			atomic_init(&amp;htab[i].hash_page_dirty, <span class="number">0</span>);</span><br><span class="line">+			atomic_init_db(&amp;htab[i].hash_page_dirty, <span class="number">0</span>);</span><br><span class="line"> 		&#125;</span><br><span class="line"> </span><br><span class="line"> 		<span class="comment">/*</span></span><br><span class="line"><span class="comment">@@ -302,7 +302,7 @@ no_prealloc:</span></span><br><span class="line"><span class="comment"> 		&#125; else</span></span><br><span class="line"><span class="comment"> 			hp-&gt;mtx_hash = mtx_base + (i % dbenv-&gt;mp_mtxcount);</span></span><br><span class="line"><span class="comment"> 		SH_TAILQ_INIT(&amp;hp-&gt;hash_bucket);</span></span><br><span class="line"><span class="comment">-		atomic_init(&amp;hp-&gt;hash_page_dirty, 0);</span></span><br><span class="line"><span class="comment">+		atomic_init_db(&amp;hp-&gt;hash_page_dirty, 0);</span></span><br><span class="line"><span class="comment"> #ifdef HAVE_STATISTICS</span></span><br><span class="line"><span class="comment"> 		hp-&gt;hash_io_wait = 0;</span></span><br><span class="line"><span class="comment"> 		hp-&gt;hash_frozen = hp-&gt;hash_thawed = hp-&gt;hash_frozen_freed = 0;</span></span><br><span class="line"><span class="comment">diff --git a/src/mutex/mut_method.c b/src/mutex/mut_method.c</span></span><br><span class="line"><span class="comment">index 09353b0..177353c 100644</span></span><br><span class="line"><span class="comment">--- a/src/mutex/mut_method.c</span></span><br><span class="line"><span class="comment">+++ b/src/mutex/mut_method.c</span></span><br><span class="line"><span class="comment">@@ -474,7 +474,7 @@ atomic_compare_exchange(env, v, oldval, newval)</span></span><br><span class="line"><span class="comment"> 	MUTEX_LOCK(env, mtx);</span></span><br><span class="line"><span class="comment"> 	ret = atomic_read(v) == oldval;</span></span><br><span class="line"><span class="comment"> 	if (ret)</span></span><br><span class="line"><span class="comment">-		atomic_init(v, newval);</span></span><br><span class="line"><span class="comment">+		atomic_init_db(v, newval);</span></span><br><span class="line"><span class="comment"> 	MUTEX_UNLOCK(env, mtx);</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> 	return (ret);</span></span><br><span class="line"><span class="comment">diff --git a/src/mutex/mut_tas.c b/src/mutex/mut_tas.c</span></span><br><span class="line"><span class="comment">index 106b161..fc4de9d 100644</span></span><br><span class="line"><span class="comment">--- a/src/mutex/mut_tas.c</span></span><br><span class="line"><span class="comment">+++ b/src/mutex/mut_tas.c</span></span><br><span class="line"><span class="comment">@@ -47,7 +47,7 @@ __db_tas_mutex_init(env, mutex, flags)</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment"> #ifdef HAVE_SHARED_LATCHES</span></span><br><span class="line"><span class="comment"> 	if (F_ISSET(mutexp, DB_MUTEX_SHARED))</span></span><br><span class="line"><span class="comment">-		atomic_init(&amp;mutexp-&gt;sharecount, 0);</span></span><br><span class="line"><span class="comment">+		atomic_init_db(&amp;mutexp-&gt;sharecount, 0);</span></span><br><span class="line"><span class="comment"> 	else</span></span><br><span class="line"><span class="comment"> #endif</span></span><br><span class="line"><span class="comment"> 	if (MUTEX_INIT(&amp;mutexp-&gt;tas)) &#123;</span></span><br><span class="line"><span class="comment">@@ -536,7 +536,7 @@ __db_tas_mutex_unlock(env, mutex)</span></span><br><span class="line"><span class="comment"> 			F_CLR(mutexp, DB_MUTEX_LOCKED);</span></span><br><span class="line"><span class="comment"> 			/* Flush flag update before zeroing count */</span></span><br><span class="line"> 			MEMBAR_EXIT();</span><br><span class="line">-			atomic_init(&amp;mutexp-&gt;sharecount, <span class="number">0</span>);</span><br><span class="line">+			atomic_init_db(&amp;mutexp-&gt;sharecount, <span class="number">0</span>);</span><br><span class="line"> 		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> 			DB_ASSERT(env, sharecount &gt; <span class="number">0</span>);</span><br><span class="line"> 			MEMBAR_EXIT();</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz</span></span><br><span class="line">tar -xzvf db<span class="number">-4.8</span><span class="number">.30</span>.NC.tar.gz</span><br><span class="line"></span><br><span class="line">cd db<span class="number">-4.8</span><span class="number">.30</span>.NC/build_unix/</span><br><span class="line"></span><br><span class="line">../dist/configure --enable-cxx --disable-<span class="keyword">shared</span> --with-pic --prefix=/work/bitcoin<span class="number">-0.19</span><span class="number">.1</span>/db4</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./configure LDFLAGS=<span class="string">"-L/work/bitcoin-0.19.1/db4/lib/"</span> CPPFLAGS=<span class="string">"-I/work/bitcoin-0.19.1/db4/include/"</span></span><br><span class="line"></span><br><span class="line">sudo <span class="built_in">make</span></span><br><span class="line"></span><br><span class="line">sudo <span class="built_in">make</span> install</span><br></pre></td></tr></table></figure>
+
+<p>默认安装到/usr/local/bin/目录下</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-rwxr-xr-x  <span class="number">1</span> root root <span class="number">140376160</span> May <span class="number">29</span> <span class="number">14</span>:<span class="number">08</span> bench_bitcoin*</span><br><span class="line">-rwxr-xr-x  <span class="number">1</span> root root   <span class="number">8032176</span> May <span class="number">29</span> <span class="number">14</span>:<span class="number">08</span> bitcoin-cli*</span><br><span class="line">-rwxr-xr-x  <span class="number">1</span> root root <span class="number">126259248</span> May <span class="number">29</span> <span class="number">14</span>:<span class="number">08</span> bitcoind*</span><br><span class="line">-rwxr-xr-x  <span class="number">1</span> root root  <span class="number">19538256</span> May <span class="number">29</span> <span class="number">14</span>:<span class="number">08</span> bitcoin-tx*</span><br><span class="line">-rwxr-xr-x  <span class="number">1</span> root root  <span class="number">58618744</span> May <span class="number">29</span> <span class="number">14</span>:<span class="number">08</span> bitcoin-wallet*</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /root/.bitcoin</span><br><span class="line"><span class="keyword">vim</span> /root/.bitcoin/bitcoin.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="启动测试网络"><a href="#启动测试网络" class="headerlink" title="启动测试网络"></a>启动测试网络</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">daemon</span>=<span class="number">1</span>  <span class="comment">#是否后台运行</span></span><br><span class="line"><span class="attr">server</span>=<span class="number">1</span>  <span class="comment">#允许接收JSON-RPC commands</span></span><br><span class="line"><span class="attr">rpcuser</span>=bitcoinrpc  <span class="comment">#rpc用户名</span></span><br><span class="line"><span class="comment"># generate random rpc password:</span></span><br><span class="line"><span class="comment">#   $ strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 30 | tr -d '\n'; echo</span></span><br><span class="line"><span class="attr">rpcpassword</span>=zvGzMyGKczjImkKMpD85WoGyUukhwf  <span class="comment">#rpc用户密码</span></span><br><span class="line"><span class="attr">rpcthreads</span>=<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="attr">datadir</span>=/work/blockdata   <span class="comment">#指定区块数据存放目录</span></span><br><span class="line"></span><br><span class="line"><span class="attr">testnet</span>=<span class="number">1</span>    <span class="comment">#为1代表使用测试网络  为0表示正式网络</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">rpcallowip</span>=<span class="number">172.16</span>.<span class="number">0.0</span>/<span class="number">12</span></span><br><span class="line"><span class="attr">rpcallowip</span>=<span class="number">192.168</span>.<span class="number">0.0</span>/<span class="number">16</span></span><br><span class="line"><span class="attr">rpcallowip</span>=<span class="number">10.0</span>.<span class="number">0.0</span>/<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># use 1G memory for utxo, depends on your machine's memory</span></span><br><span class="line"><span class="attr">dbcache</span>=<span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set maximum BIP141 block weight</span></span><br><span class="line"><span class="attr">blockmaxweight</span>=<span class="number">4000000</span></span><br></pre></td></tr></table></figure>
+
+<p>启动</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bitcoind </span>   </span><br><span class="line">#会提示<span class="keyword">Bitcoin </span>Core starting</span><br></pre></td></tr></table></figure>
+<p>启动后会在指定目录生成如下区块数据</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">total <span class="number">524</span></span><br><span class="line">drwxr-xr-x <span class="number">5</span> root root   <span class="number">4096</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> ./</span><br><span class="line">drwxr-xr-x <span class="number">3</span> root root   <span class="number">4096</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">13</span> ../</span><br><span class="line">-rw------- <span class="number">1</span> root root     <span class="number">37</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">13</span> banlist.dat</span><br><span class="line">drwx------ <span class="number">3</span> root root   <span class="number">4096</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> blocks/</span><br><span class="line">drwx------ <span class="number">2</span> root root   <span class="number">4096</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">13</span> chainstate/</span><br><span class="line">-rw------- <span class="number">1</span> root root  <span class="number">10073</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> debug.log</span><br><span class="line">-rw------- <span class="number">1</span> root root <span class="number">247985</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> fee_estimates.dat</span><br><span class="line">-rw------- <span class="number">1</span> root root      <span class="number">0</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">13</span> .lock</span><br><span class="line">-rw------- <span class="number">1</span> root root     <span class="number">17</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> mempool.dat</span><br><span class="line">-rw------- <span class="number">1</span> root root <span class="number">244776</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> peers.dat</span><br><span class="line">drwxr-xr-x <span class="number">2</span> root root   <span class="number">4096</span> May <span class="number">29</span> <span class="number">15</span>:<span class="number">14</span> wallets/</span><br></pre></td></tr></table></figure>
+
+<p>通过  tailf debug.log   查看区块数据同步进度</p>
+<p>停止</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli  <span class="built_in">stop</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="启动正式网络"><a href="#启动正式网络" class="headerlink" title="启动正式网络"></a>启动正式网络</h3><p>bitcoin.conf配置文件如下</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将testnet=<span class="number">1</span>改为testnet=<span class="number">0</span>即可</span><br></pre></td></tr></table></figure>
+
+
+<p>正式网络同步区块数据较长，取决于网络和节点。截至当前区块数据达300GB。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://github.com/bitcoin/bitcoin/blob/0.18/doc/build-unix.md" target="_blank" rel="noopener">https://github.com/bitcoin/bitcoin/blob/0.18/doc/build-unix.md</a></li>
+<li><a href="https://www.chainnode.com/tutorial/1702" target="_blank" rel="noopener">https://www.chainnode.com/tutorial/1702</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Bitcoin/" rel="tag"># Bitcoin</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/27/golang-cobra%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%AE%A1%E7%90%86/" rel="next" title="golang cobra应用程序管理">
+                <i class="fa fa-chevron-left"></i> golang cobra应用程序管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/psb.jpg"
+               alt="Roddy" />
+          <p class="site-author-name" itemprop="name">Roddy</p>
+           
+              <p class="site-description motion-element" itemprop="description">认认真真做事，踏踏实实做人</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/langubtc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:923401910@qq.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.liwenzhou.com" title="李文周" target="_blank">李文周</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.rainbowei.com" title="孙科伟" target="_blank">孙科伟</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://xiaorui.cc" title="丙峰云" target="_blank">丙峰云</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化服务器"><span class="nav-number">2.</span> <span class="nav-text">初始化服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装环境依赖"><span class="nav-number">3.</span> <span class="nav-text">安装环境依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载bitcoin核心"><span class="nav-number">4.</span> <span class="nav-text">下载bitcoin核心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装berkeley-db"><span class="nav-number">5.</span> <span class="nav-text">安装berkeley-db</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一"><span class="nav-number">5.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二"><span class="nav-number">5.2.</span> <span class="nav-text">方法二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译安装"><span class="nav-number">6.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建配置文件"><span class="nav-number">7.</span> <span class="nav-text">创建配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动测试网络"><span class="nav-number">8.</span> <span class="nav-text">启动测试网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动正式网络"><span class="nav-number">9.</span> <span class="nav-text">启动正式网络</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roddy</span>
+</div>
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("7zsWTa6GK79gjEjSJtNLJ1XQ-gzGzoHsz", "K3vcFhCPPhBlHnSAFoRK17n6");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
