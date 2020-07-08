@@ -293,6 +293,174 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/" itemprop="url">Gin web开发系列(五)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-10T14:58:07+08:00">
+                2020-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gin/" itemprop="url" rel="index">
+                    <span itemprop="name">Gin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/" class="leancloud_visitors" data-flag-title="Gin web开发系列(五)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="URL路径参数"><a href="#URL路径参数" class="headerlink" title="URL路径参数"></a>URL路径参数</h3><p>在web开发中经常见如下列表,那在gin中可以对这些path参数进行识别<br>/video/223232/02<br>/blog/2020/02/02</p>
+<p>使用方法在path上什么/blog/:xxx/:xxx,注意千万不要直接写成/:xxx/:xxx。这样其它请求会匹配到。然后什么<code>Param()</code>方法获取值.</p>
+<p>参考样例:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">r.GET(<span class="string">"/blog/:year/:month"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">	year := c.Param(<span class="string">"year"</span>)</span><br><span class="line">	month := c.Param(<span class="string">"month"</span>)</span><br><span class="line"></span><br><span class="line">	c.JSON(http.StatusOK,gin.H&#123;</span><br><span class="line">		<span class="string">"year"</span>:year,</span><br><span class="line">		<span class="string">"month"</span>:month,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>访问<br><img src="/img/20200610150747.png"></p>
+<h3 id="ShouldBind数据绑定"><a href="#ShouldBind数据绑定" class="headerlink" title="ShouldBind数据绑定"></a>ShouldBind数据绑定</h3><p>获取参数的方式还有一种，就是将参数绑定到结构上，使用ShouldBind，还有一个ShouldBindQuery方法,该方法只绑定参数，不返回参数的数据。也就是说只输出key。</p>
+<p>解析前端通过json传递过来的数据参数，绑定到结构体然后去访问，如果没有传递数值默认为空。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> UserInfo <span class="keyword">struct</span> &#123;</span><br><span class="line">		Username <span class="keyword">string</span> <span class="string">`json:"username"`</span></span><br><span class="line">		Password <span class="keyword">string</span>	<span class="string">`json:"password"`</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// shouldbind数据绑定</span></span><br><span class="line">r.POST(<span class="string">"/json2"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> u UserInfo</span><br><span class="line"></span><br><span class="line">	err :=c.ShouldBind(&amp;u)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.JSON(http.StatusBadRequest,gin.H&#123;</span><br><span class="line">			<span class="string">"error"</span>:err.Error(),</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		c.JSON(http.StatusOK,gin.H&#123;</span><br><span class="line">			<span class="string">"status"</span>:<span class="string">"ok"</span>,</span><br><span class="line">			<span class="string">"username"</span>:u.Username,</span><br><span class="line">			<span class="string">"password"</span>:u.Password,</span><br><span class="line">		&#125;)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>此外可以使用框架自带的验证方法，使username and password为必填</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> UserInfo <span class="keyword">struct</span> &#123;</span><br><span class="line">	Username <span class="keyword">string</span> <span class="string">`json:"username"  binding:"required"`</span></span><br><span class="line">	Password <span class="keyword">string</span>	<span class="string">`json:"password"  binding:"required"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果前端不填写数据则会提示如下错误</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"error"</span>: <span class="string">"Key: 'UserInfo.Username' Error:Field validation for 'Username' failed on the 'required' tag"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1994,191 +2162,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/" itemprop="url">glang 日志解析glog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-26T14:38:26+08:00">
-                2020-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/" class="leancloud_visitors" data-flag-title="glang 日志解析glog">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="glog"><a href="#glog" class="headerlink" title="glog"></a>glog</h3><p>go语言有一个标准库，log，提供了最基本的日志功能，但是没有什么高级的功能，如果需要高级的特性，可以选择glog或log4go,K8s默认的日志输出就是用的glog。</p>
-<p>glog是google提供的，类似于google的c++ log库，使用起来非常简单，下面介绍一下；log4go的用法和log4j一样，可配置性比较高。</p>
-<p>日志输出格式是固定的(Lmmdd hh:mm:ss.uuuuuu threadid file:line] msg…)</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">程序名.电脑名.用户名<span class="selector-class">.log</span><span class="selector-class">.xxx</span><span class="selector-class">.YYYYMMDD-HHMMSS</span><span class="selector-class">.pid</span></span><br></pre></td></tr></table></figure>
-
-<p>glog只提供了少数几个选项，通过命令行控制，例如：</p>
-<p>-log_dir: 日志文件保存目录</p>
-<p>-alsologtostderr: 日志写入文件的同时，输出到stderr</p>
-<p>-v：配置V输出的等级。</p>
-<p>glog使用非常简单，只需要import就可以了。glog package的init函数会初始化并启动一个glog 的flushDaemon协程，你只需要使用glog.Info, glog.Warning, glog.Error或glog.Fatal即可。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get github.com/golang/glog</span><br></pre></td></tr></table></figure>
-
-<h3 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">https:</span>//godoc<span class="meta">.org</span>/github.com/golang/glog</span><br></pre></td></tr></table></figure>
-
-<p>日志级别</p>
-<ul>
-<li>INFO：普通日志；</li>
-<li>WARNING：告警日志；</li>
-<li>ERROR：错误日志；</li>
-<li>FATAL：严重错误日志，打印完日志后程序将会推出 os.Exit()</li>
-</ul>
-<p>使用方式参考：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">glog.Info(<span class="string">"Prepare to repel boarders"</span>)</span><br><span class="line"></span><br><span class="line">glog.Fatalf(<span class="string">"Initialization failed: %s"</span>, err)</span><br><span class="line"></span><br><span class="line"><span class="keyword">defer</span> glog.Flush()</span><br><span class="line"></span><br><span class="line">glog.Info(<span class="string">"This is info message"</span>)</span><br><span class="line">glog.Infof(<span class="string">"This is info message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.InfoDepth(<span class="number">1</span>, <span class="string">"This is info message"</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">glog.Warning(<span class="string">"This is warning message"</span>)</span><br><span class="line">glog.Warningf(<span class="string">"This is warning message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.WarningDepth(<span class="number">1</span>, <span class="string">"This is warning message"</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">glog.Error(<span class="string">"This is error message"</span>)</span><br><span class="line">glog.Errorf(<span class="string">"This is error message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.ErrorDepth(<span class="number">1</span>, <span class="string">"This is error message"</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">glog.Fatal(<span class="string">"This is fatal message"</span>)</span><br><span class="line">glog.Fatalf(<span class="string">"This is fatal message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.FatalDepth(<span class="number">1</span>, <span class="string">"This is fatal message"</span>, <span class="number">12345</span>)</span><br></pre></td></tr></table></figure>
-
-<p>日志级别<br>使用日志级别,在程序运行时可以使用-v=5打印这个级别以下定义的日志输出  -alsologtostderr 是将日志同时输出到控制台。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">glog.V(<span class="number">3</span>).Info(<span class="string">"LEVEL 3 message"</span>) <span class="comment">// 使用日志级别 3</span></span><br><span class="line">glog.V(<span class="number">4</span>).Info(<span class="string">"LEVEL 4 message"</span>) <span class="comment">// 使用日志级别 4</span></span><br><span class="line">glog.V(<span class="number">5</span>).Info(<span class="string">"LEVEL 5 message"</span>) <span class="comment">// 使用日志级别 5</span></span><br><span class="line">glog.V(<span class="number">8</span>).Info(<span class="string">"LEVEL 8 message"</span>) <span class="comment">// 使用日志级别 8</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"flag"</span></span><br><span class="line">	<span class="string">"github.com/golang/glog"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ConfigData <span class="keyword">struct</span> &#123;</span><br><span class="line">	ServerID                    <span class="keyword">uint8</span></span><br><span class="line">	ServerPort                  <span class="keyword">int32</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(conf *ConfigData)</span> <span class="title">LoadFromFile</span><span class="params">(file <span class="keyword">string</span>)</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	configJSON, err := ioutil.ReadFile(file)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	err = json.Unmarshal(configJSON, conf)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//程序退出时确保写入文件中</span></span><br><span class="line">	<span class="keyword">defer</span> glog.Flush()</span><br><span class="line"></span><br><span class="line">	configFilePath := flag.String(<span class="string">"config"</span>, <span class="string">"./config.json"</span>, <span class="string">"Path of config file"</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> flag.NFlag() &lt; <span class="number">1</span> &#123; <span class="comment">//NFlag返回解析时进行了设置的flag的数量。</span></span><br><span class="line">		flag.Usage() <span class="comment">//当参数小于1个打印flag的默认提示</span></span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">		<span class="comment">// 读取配置文件</span></span><br><span class="line">	<span class="keyword">var</span> configData ConfigData</span><br><span class="line">	err := configData.LoadFromFile(*configFilePath)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		glog.Fatal(<span class="string">"加载配置文件失败: "</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	glog.Info(<span class="string">"配置加载正确"</span>)</span><br><span class="line">	glog.Info(<span class="string">"程序开始启动&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>)</span><br><span class="line">	fmt.Println(configData.ServerID,configData.ServerPort)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>会在log文件下生成</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GoLogMain.exe -config=<span class="string">"./config.json"</span> -log_dir=<span class="string">"./log"</span> -alsologtostderr</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2229,7 +2212,7 @@ var _hmt = _hmt || [];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2251,7 +2234,7 @@ var _hmt = _hmt || [];
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
