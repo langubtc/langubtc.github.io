@@ -94,14 +94,14 @@
 
 
 
-<meta name="description" content="##创建topic 1bash-4.4# .&#x2F;bin&#x2F;kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic  topicname 2181是zookeeper端口 创建成功提示,kafka建议不要使用.或者_作topic名，但是不影响使用。 12Create">
+<meta name="description" content="创建topic1bash-4.4# .&#x2F;bin&#x2F;kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic  topicname 2181是zookeeper端口 创建成功提示,kafka建议不要使用.或者_作topic名，但是不影响使用。 12Created t">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kafka 创建&amp;消费topic">
 <meta property="og:url" content="http://www.roddypy.com/2020/07/08/kafka-%E5%88%9B%E5%BB%BA-%E6%B6%88%E8%B4%B9topic/index.html">
 <meta property="og:site_name" content="普拉多VX">
-<meta property="og:description" content="##创建topic 1bash-4.4# .&#x2F;bin&#x2F;kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic  topicname 2181是zookeeper端口 创建成功提示,kafka建议不要使用.或者_作topic名，但是不影响使用。 12Create">
+<meta property="og:description" content="创建topic1bash-4.4# .&#x2F;bin&#x2F;kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic  topicname 2181是zookeeper端口 创建成功提示,kafka建议不要使用.或者_作topic名，但是不影响使用。 12Created t">
 <meta property="article:published_time" content="2020-07-08T05:42:29.000Z">
-<meta property="article:modified_time" content="2020-07-08T06:02:29.715Z">
+<meta property="article:modified_time" content="2020-07-08T06:05:04.641Z">
 <meta property="article:author" content="Roddy">
 <meta property="article:tag" content="kafka">
 <meta name="twitter:card" content="summary">
@@ -399,22 +399,18 @@ var _hmt = _hmt || [];
       
 
       
-        <p>##创建topic</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4# ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic  topicname</span><br></pre></td></tr></table></figure>
+        <h2 id="创建topic"><a href="#创建topic" class="headerlink" title="创建topic"></a>创建topic</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4# ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic  topicname</span><br></pre></td></tr></table></figure>
 <p>2181是zookeeper端口</p>
 <p>创建成功提示,kafka建议不要使用.或者_作topic名，但是不影响使用。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Created topic monitor_ping_topic</span><br></pre></td></tr></table></figure>
 
-<p>##查看topic</p>
-<p>查看topic使用–list 即可列出有哪些topic</p>
+<h2 id="查看topic"><a href="#查看topic" class="headerlink" title="查看topic"></a>查看topic</h2><p>查看topic使用–list 即可列出有哪些topic</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bash<span class="number">-4.4</span># ./bin/kafka-topics.sh --list --zookeeper zookeeper:<span class="number">2181</span></span><br><span class="line">__consumer_offsets</span><br><span class="line">monitor_ping_topic</span><br><span class="line">monitor_solve_topic</span><br><span class="line">monitor_times_topic</span><br><span class="line">bash<span class="number">-4.4</span>#</span><br></pre></td></tr></table></figure>
-<p>##生产消息</p>
-<p>回车输入消息内容</p>
+<h2 id="生产消息"><a href="#生产消息" class="headerlink" title="生产消息"></a>生产消息</h2><p>回车输入消息内容</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bash-4.4# </span>./<span class="keyword">bin/kafka-console-producer.sh </span>--<span class="keyword">broker-list </span>localhost:<span class="number">9092</span> --topic monitor_ping_topic</span><br><span class="line">&gt;&#123;<span class="string">"Host"</span>:<span class="string">"192.168.1.1"</span>,<span class="string">"Type"</span>:<span class="number">1</span>,<span class="string">"Status"</span>:<span class="string">"success"</span>,<span class="string">"PingCount"</span>:<span class="number">3</span>,<span class="string">"AvgRtt"</span>:<span class="number">10756000</span>,<span class="string">"PacketLoss"</span>:<span class="number">0</span>,<span class="string">"CreateTime"</span>:<span class="string">"2020/07/08 13:58:16"</span>&#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 
 
-<p>##消费消息</p>
-<p>from-beginning 表示从头开始消费消息</p>
+<h2 id="消费消息"><a href="#消费消息" class="headerlink" title="消费消息"></a>消费消息</h2><p>from-beginning 表示从头开始消费消息</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">bash-4.4# </span>./<span class="keyword">bin/kafka-console-consumer.sh </span>--<span class="keyword">bootstrap-server </span>localhost:<span class="number">9092</span> --topic monitor_ping_topic --from-<span class="keyword">beginning</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">&#123;"Host":"192.168.1.1","Type":1,"Status":"success","PingCount":3,"AvgRtt":119031000,"PacketLoss":0,"CreateTime":"2020/07/08 </span><span class="number">13</span>:<span class="number">53</span>:<span class="number">41</span><span class="string">"&#125;</span></span><br><span class="line"><span class="string">&#123;"</span>Host<span class="string">":"</span><span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">2</span><span class="string">","</span>Type<span class="string">":1,"</span>Status<span class="string">":"</span>failed<span class="string">","</span>PingCount<span class="string">":3,"</span>AvgRtt<span class="string">":0,"</span>PacketLoss<span class="string">":100,"</span>CreateTime<span class="string">":"</span><span class="number">2020</span>/<span class="number">07</span>/<span class="number">08</span> <span class="number">13</span>:<span class="number">53</span>:<span class="number">41</span><span class="string">"&#125;</span></span><br></pre></td></tr></table></figure>
 
       
@@ -506,8 +502,17 @@ var _hmt = _hmt || [];
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/psb.jpg"
@@ -619,6 +624,22 @@ var _hmt = _hmt || [];
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建topic"><span class="nav-number">1.</span> <span class="nav-text">创建topic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看topic"><span class="nav-number">2.</span> <span class="nav-text">查看topic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产消息"><span class="nav-number">3.</span> <span class="nav-text">生产消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消费消息"><span class="nav-number">4.</span> <span class="nav-text">消费消息</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
