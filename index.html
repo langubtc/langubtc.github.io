@@ -294,6 +294,347 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0docker-hub/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0docker-hub/" itemprop="url">docker 镜像发布到docker hub</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T15:31:53+08:00">
+                2020-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0docker-hub/" class="leancloud_visitors" data-flag-title="docker 镜像发布到docker hub">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="注册账户"><a href="#注册账户" class="headerlink" title="注册账户"></a>注册账户</h2><p>首先你得准备一个hub 的帐号, 去 <a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a> 注册</p>
+<h2 id="登录账户并创建仓库"><a href="#登录账户并创建仓库" class="headerlink" title="登录账户并创建仓库"></a>登录账户并创建仓库</h2><p>创建仓库</p>
+<img src="1597219076033.jpg">
+
+<img src="1597219113123.jpg">
+
+<h2 id="登录到docker-hub"><a href="#登录到docker-hub" class="headerlink" title="登录到docker hub"></a>登录到docker hub</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker login</span><br><span class="line">Login with your Docker ID to push and pull images from Docker Hub. If you don<span class="string">'t have a Docker ID, head over to https://hub.docker.com to create one.</span></span><br><span class="line"><span class="string">Username: roddy1219</span></span><br><span class="line"><span class="string">Password:</span></span><br><span class="line"><span class="string">Login Succeeded</span></span><br><span class="line"><span class="string">luodi@roddydeMacBook-Pro:~$</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="修改本地镜像tag"><a href="#修改本地镜像tag" class="headerlink" title="修改本地镜像tag"></a>修改本地镜像tag</h2><p>打一个tag 名称必须是账户名/仓库:tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker tag  busybox:latest roddy1219/busybox:latest</span><br><span class="line">luodi@roddydeMacBook-Pro:~$ docker images</span><br><span class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx                latest              08393e824c32        7 days ago          132MB</span><br><span class="line">busybox              latest              018c9d7b792b        2 weeks ago         1.22MB</span><br><span class="line">roddy1219/busybox    latest              018c9d7b792b        2 weeks ago         1.22MB</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker push roddy1219/busybox:latest</span><br><span class="line">The push refers to repository [docker.io/roddy1219/busybox]</span><br><span class="line">514c3a3e64d4: Pushed</span><br></pre></td></tr></table></figure>
+
+<h2 id="退出docker-hub"><a href="#退出docker-hub" class="headerlink" title="退出docker hub"></a>退出docker hub</h2><p>使用docker logout</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker <span class="built_in">logout</span></span><br><span class="line">Removing login credentials <span class="keyword">for</span> https://index.docker.io/v1/</span><br><span class="line">luodi@roddydeMacBook-Pro:~$</span><br></pre></td></tr></table></figure>
+
+<p>注:建议使用阿里云的容器仓库，docker hub太慢</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" itemprop="url">docker 镜像导入导出</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T15:31:26+08:00">
+                2020-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" class="leancloud_visitors" data-flag-title="docker 镜像导入导出">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="导出本地镜像"><a href="#导出本地镜像" class="headerlink" title="导出本地镜像"></a>导出本地镜像</h2><p>导出busybox镜像,也可以导出多个image到一个压缩文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker images</span><br><span class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx                latest              08393e824c32        7 days ago          132MB</span><br><span class="line">busybox              latest              018c9d7b792b        2 weeks ago         1.22MB</span><br><span class="line">cfcontorl            1.0.0               1a1b058798ce        4 weeks ago         97.6MB</span><br><span class="line">&lt;none&gt;               &lt;none&gt;              252cf95e99e7        4 weeks ago         97.6MB</span><br><span class="line">ubuntu               latest              adafef2e596e        5 weeks ago         73.9MB</span><br><span class="line">zookeeper            latest              6982b35ff928        6 weeks ago         252MB</span><br><span class="line">mysql                5.7.30              9cfcce23593a        2 months ago        448MB</span><br><span class="line">mysql                latest              be0dbf01a0f3        2 months ago        541MB</span><br><span class="line">wurstmeister/kafka   latest              f1905dce9659        3 months ago        431MB</span><br><span class="line">mysql                8.0.19              0c27e8e5fcfa        3 months ago        546MB</span><br><span class="line">luodi@roddydeMacBook-Pro:~$</span><br></pre></td></tr></table></figure>
+
+<p>使用docker save -o 导出镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker save -o  ./busybox_image.gz  busybox:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="导出多个image"><a href="#导出多个image" class="headerlink" title="导出多个image"></a>导出多个image</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker save -o  ./all_image.gz  busybox:latest  nginx:latest</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="导入镜像到其他宿主机"><a href="#导入镜像到其他宿主机" class="headerlink" title="导入镜像到其他宿主机"></a>导入镜像到其他宿主机</h2><p>上传busybox_imge.gz到其他宿主机</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx               latest              08393e824c32        7 days ago          132MB</span><br><span class="line">mysql               5.7                 8679ced16d20        2 weeks ago         448MB</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># ls busybox_image.gz </span></span><br><span class="line">busybox_image.gz</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>使用docker load命令导入镜像压缩包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker load &lt; busybox_image.gz </span></span><br><span class="line">514c3a3e64d4: Loading layer [==================================================&gt;]  1.442MB/1.442MB</span><br><span class="line">Loaded image: busybox:latest</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker image ls</span></span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx               latest              08393e824c32        7 days ago          132MB</span><br><span class="line">busybox             latest              018c9d7b792b        2 weeks ago         1.22MB</span><br><span class="line">mysql               5.7                 8679ced16d20        2 weeks ago         448MB</span><br></pre></td></tr></table></figure>
+
+<p>或者使用以下命令</p>
+<p>docker load -i busybox_image.gz<br>docker load –input busybox_image.gz </p>
+<h2 id="使用镜像启动容器"><a href="#使用镜像启动容器" class="headerlink" title="使用镜像启动容器"></a>使用镜像启动容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker run --name=test4 -itd busybox  </span></span><br><span class="line">b66d72fd79dc0940dc2c259bd38bcb5447bfd099405dea692a39ff6b9f6ce0ad</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">b66d72fd79dc        busybox             <span class="string">"sh"</span>                4 seconds ago       Up 2 seconds                            test4</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/11/docker-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1677,409 +2018,11 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/19/django-JWT%E8%AE%A4%E8%AF%81-%E4%BA%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/06/19/django-JWT%E8%AE%A4%E8%AF%81-%E4%BA%8C/" itemprop="url">django JWT认证(二)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-19T10:55:11+08:00">
-                2020-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/django/" itemprop="url" rel="index">
-                    <span itemprop="name">django</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/06/19/django-JWT%E8%AE%A4%E8%AF%81-%E4%BA%8C/" class="leancloud_visitors" data-flag-title="django JWT认证(二)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>我们在DRF前后端分离的情况使用django-rest-framework-jwt 这个包，这个包需要单独安装。它支持</p>
-<ul>
-<li>Python (2.7, 3.3, 3.4, 3.5, 3.6)</li>
-<li>Django (1.8, 1.9, 1.10, 1.11) # 2.0设置也是没有问题的</li>
-<li>Django REST Framework (3.1, 3.2, 3.3, 3.4, 3.5, 3.6)</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>使用pip安装</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> djangorestframework-jwt</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>安装完jwt后需要settings.py设置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">REST_FRAMEWORK = &#123;</span><br><span class="line">    <span class="comment"># 设置所有接口都需要被验证</span></span><br><span class="line">    <span class="string">'DEFAULT_PERMISSION_CLASSES'</span>: (</span><br><span class="line">        <span class="comment">#'rest_framework.permissions.IsAuthenticated',  建议是特定接口特定认证</span></span><br><span class="line">    ),</span><br><span class="line">    <span class="comment"># 用户登陆认证方式</span></span><br><span class="line">    <span class="string">'DEFAULT_AUTHENTICATION_CLASSES'</span>: (</span><br><span class="line">        <span class="string">'rest_framework_jwt.authentication.JSONWebTokenAuthentication'</span>,</span><br><span class="line">        <span class="string">'rest_framework.authentication.SessionAuthentication'</span>,</span><br><span class="line">        <span class="string">'rest_framework.authentication.BasicAuthentication'</span>,</span><br><span class="line">    ),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改urls.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> rest_framework_jwt.views <span class="keyword">import</span> obtain_jwt_token, refresh_jwt_token</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">r"login"</span>, obtain_jwt_token),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p><strong>测试访问</strong></p>
-<img src="/img/20200619113002.png">
-
-<p>返回的就是用户的token数据，前端获取到该token存储后携带上，默认token有效期为5分钟</p>
-<p><strong>解析token</strong></p>
-<img src="/img/20200619113409.png">
-
-
-<p><strong>客户端请求</strong></p>
-<p>在headers中带上<code>Authorization JWT &lt;token&gt;</code><br>以postman为例</p>
-<img src="/img/20200619114518.png">
-
-<p>如果没有携带后端会提示以下信息</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"detail"</span>: <span class="string">"Authentication credentials were not provided."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="JWT设置"><a href="#JWT设置" class="headerlink" title="JWT设置"></a>JWT设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">JWT_AUTH = &#123;</span><br><span class="line">    <span class="comment"># 设置token 有效期</span></span><br><span class="line">    <span class="string">'JWT_EXPIRATION_DELTA'</span>: datetime.timedelta(hours=<span class="number">24</span>),</span><br><span class="line">     <span class="comment">#续期有效期（该设置可在24小时内带未失效的token 进行续期） </span></span><br><span class="line">    <span class="string">'JWT_REFRESH_EXPIRATION_DELTA'</span>: datetime.timedelta(hours=<span class="number">24</span>),</span><br><span class="line">    <span class="comment"># 自定义返回格式，需要手工创建</span></span><br><span class="line">    <span class="string">'JWT_RESPONSE_PAYLOAD_HANDLER'</span>: <span class="string">'utils.jwt.jwt_response_payload_handler'</span>,</span><br><span class="line">    <span class="comment"># 用于令牌和授权标头的另一个常见值是Bearer ,默认是JWT</span></span><br><span class="line">    <span class="string">'JWT_AUTH_HEADER_PREFIX'</span>: <span class="string">'Token:'</span>,</span><br><span class="line">    <span class="comment"># 是否允许刷新</span></span><br><span class="line">    <span class="string">'JWT_ALLOW_REFRESH'</span>: <span class="literal">True</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>更详细设置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">JWT_AUTH = &#123;</span><br><span class="line">    <span class="string">'JWT_ENCODE_HANDLER'</span>:</span><br><span class="line">    <span class="string">'rest_framework_jwt.utils.jwt_encode_handler'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_DECODE_HANDLER'</span>:</span><br><span class="line">    <span class="string">'rest_framework_jwt.utils.jwt_decode_handler'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_PAYLOAD_HANDLER'</span>:</span><br><span class="line">    <span class="string">'rest_framework_jwt.utils.jwt_payload_handler'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_PAYLOAD_GET_USER_ID_HANDLER'</span>:</span><br><span class="line">    <span class="string">'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_RESPONSE_PAYLOAD_HANDLER'</span>:</span><br><span class="line">    <span class="string">'rest_framework_jwt.utils.jwt_response_payload_handler'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_SECRET_KEY'</span>: settings.SECRET_KEY,</span><br><span class="line">    <span class="string">'JWT_GET_USER_SECRET_KEY'</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">'JWT_PUBLIC_KEY'</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">'JWT_PRIVATE_KEY'</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">'JWT_ALGORITHM'</span>: <span class="string">'HS256'</span>,</span><br><span class="line">    <span class="string">'JWT_VERIFY'</span>: <span class="literal">True</span>,</span><br><span class="line">    <span class="string">'JWT_VERIFY_EXPIRATION'</span>: <span class="literal">True</span>,</span><br><span class="line">    <span class="string">'JWT_LEEWAY'</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">'JWT_EXPIRATION_DELTA'</span>: datetime.timedelta(seconds=<span class="number">300</span>),</span><br><span class="line">    <span class="string">'JWT_AUDIENCE'</span>: <span class="literal">None</span>,</span><br><span class="line">    <span class="string">'JWT_ISSUER'</span>: <span class="literal">None</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_ALLOW_REFRESH'</span>: <span class="literal">False</span>,</span><br><span class="line">    <span class="string">'JWT_REFRESH_EXPIRATION_DELTA'</span>: datetime.timedelta(days=<span class="number">7</span>),</span><br><span class="line"></span><br><span class="line">    <span class="string">'JWT_AUTH_HEADER_PREFIX'</span>: <span class="string">'JWT'</span>,</span><br><span class="line">    <span class="string">'JWT_AUTH_COOKIE'</span>: <span class="literal">None</span>,</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义返回数据"><a href="#自定义返回数据" class="headerlink" title="自定义返回数据"></a>自定义返回数据</h3><p>在utils目录下创建jwt.py文件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jwt_response_payload_handler</span><span class="params">(token, user=None, request=None, role=None)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">"authenticated"</span>: <span class="string">"true"</span>,</span><br><span class="line">        <span class="string">'id'</span>: user.id,</span><br><span class="line">        <span class="string">"role"</span>: role,</span><br><span class="line">        <span class="string">'username'</span>: user.username,</span><br><span class="line">        <span class="string">'email'</span>: user.email,</span><br><span class="line">        <span class="string">'token'</span>: token,</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>请求</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"authenticated"</span>: <span class="string">"true"</span>,</span><br><span class="line">    <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"role"</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="attr">"username"</span>: <span class="string">"admin"</span>,</span><br><span class="line">    <span class="attr">"email"</span>: <span class="string">"923401910@qq.com"</span>,</span><br><span class="line">    <span class="attr">"token"</span>: <span class="string">"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTkyNjI3ODk3LCJlbWFpbCI6IjkyMzQwMTkxMEBxcS5jb20iLCJvcmlnX2lhdCI6MTU5MjU0MTQ5N30.YBDrPiz0wX6i0lrQwqb5bbHf8wgEIPk5Si598jHQW1A"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="token-续期"><a href="#token-续期" class="headerlink" title="token 续期"></a>token 续期</h3><p>urls.py中加入refresh</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework_jwt.views <span class="keyword">import</span> obtain_jwt_token, refresh_jwt_token</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> <span class="keyword">admin</span></span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> <span class="type">path</span>, <span class="keyword">include</span></span><br><span class="line"><span class="keyword">from</span> music.views <span class="keyword">import</span> MusicListView</span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'login/'</span>, obtain_jwt_token),</span><br><span class="line">    path(<span class="string">'refresh/'</span>, refresh_jwt_token),</span><br><span class="line">    path(<span class="string">'music/'</span>, MusicListView.as_view()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>请求使用POST方法并且在BODY中带入token数据</p>
-<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><ul>
-<li><a href="https://github.com/langubtc/django_jwt_demo" target="_blank" rel="noopener">https://github.com/langubtc/django_jwt_demo</a></li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://jpadilla.github.io/django-rest-framework-jwt/" target="_blank" rel="noopener">https://jpadilla.github.io/django-rest-framework-jwt/</a></li>
-<li><a href="https://github.com/jpadilla/django-rest-framework-jwt" target="_blank" rel="noopener">https://github.com/jpadilla/django-rest-framework-jwt</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/18/django-JWT%E8%AE%A4%E8%AF%81-%E4%B8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/psb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/06/18/django-JWT%E8%AE%A4%E8%AF%81-%E4%B8%80/" itemprop="url">django JWT认证(一)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-18T15:00:53+08:00">
-                2020-06-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/django/" itemprop="url" rel="index">
-                    <span itemprop="name">django</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2020/06/18/django-JWT%E8%AE%A4%E8%AF%81-%E4%B8%80/" class="leancloud_visitors" data-flag-title="django JWT认证(一)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h3><p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（(RFC 7519).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
-<h3 id="什么时候使用JWT"><a href="#什么时候使用JWT" class="headerlink" title="什么时候使用JWT"></a>什么时候使用JWT</h3><p>我们在什么时候使用JWT呢，通常情况下JWT用于前后端分离的用户认证(Authentication)，后续用户每次请求都在请求上包含JWT，允许用户请求访问相关资源。单点登录(SSO)，是目前广泛使用的JWT的一项功能。JWT是一种无状态请求，它不需要在服务端保留用户的认证信息或会话信息，一个是为了安全，同时也为应用提供扩展提供了便利。</p>
-<h3 id="请求流程"><a href="#请求流程" class="headerlink" title="请求流程"></a>请求流程</h3><ul>
-<li>用户使用原始账户进行登录认证</li>
-<li>服务器验证用户认证信息</li>
-<li>认证通过后返回一个token一用户</li>
-<li>客户端存储token，并在每一个请求上附带这个token ，一般会附加到header请求头中</li>
-<li>服务器验证token，验证通过即返回数据</li>
-</ul>
-<h3 id="JWT结构"><a href="#JWT结构" class="headerlink" title="JWT结构"></a>JWT结构</h3><ul>
-<li>Header(头部信息)</li>
-<li>Payload(请求载荷)</li>
-<li>Signature(签名)</li>
-</ul>
-<p>通常看起来像这样</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">xxxxx</span><span class="selector-class">.yyyyy</span><span class="selector-class">.zzzzz</span></span><br></pre></td></tr></table></figure>
-
-<p>例子:</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI<span class="number">1</span><span class="symbol">NiIsInR5</span>cCI<span class="number">6</span>IkpX<span class="attr">VCJ9</span>.eyJzdWIiOiIxMj<span class="name">M0</span><span class="symbol">NTY3</span>ODkwIiwibmFtZSI<span class="number">6</span>Ikpva<span class="name">G4</span>gR<span class="name">G9</span>lIiwiaWF<span class="number">0</span>Ijox<span class="symbol">NTE2</span>Mj<span class="name">M5</span>MDIyfQ.SflKxwRJSMeKKF<span class="number">2</span>QT<span class="number">4</span>fwpMeJf<span class="number">36</span>POk<span class="number">6</span>yJV_adQssw<span class="number">5</span>c</span><br></pre></td></tr></table></figure>
-
-<p>解码JWT可以通过<a href="https://jwt.io" target="_blank" rel="noopener">https://jwt.io</a> 进行解码</p>
-<p>HEADER:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>将以上数据进行base64加密得到第一部分</p>
-<p>PAYLOAD:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"John Doe"</span>,</span><br><span class="line">  <span class="attr">"iat"</span>: <span class="number">1516239022</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>将以上数据进行base64加密得到第二部分</p>
-<p>SIGNATURE：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(<span class="name">header</span>) + <span class="string">"."</span> +</span><br><span class="line">  base64UrlEncode(<span class="name">payload</span>),</span><br><span class="line">  </span><br><span class="line">your-256-bit-secret //这里的secret 就是django settings.py 中的 SECRET_KEY 所有这个特别重要</span><br><span class="line"></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p><strong>SECRET_KEY一定要保存好，如果流出去就会意味者客户端可以自我生成jwt</strong></p>
-<p>签名由三部分组成:</p>
-<ul>
-<li>header (base64后的)</li>
-<li>payload (base64后的)</li>
-<li>secret</li>
-</ul>
-<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>在用户请求头上加上以下参数</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Authorization:</span> Bearer <span class="params">&lt;token&gt;</span> <span class="comment">//该token由服务端返回</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="安全提示"><a href="#安全提示" class="headerlink" title="安全提示"></a>安全提示</h3><p>1.由于JWT里面的信息可以解码出来的，基本上任何人都可以阅读(除非有额外加密)，否则不要在JWT中放入重要的信息。<br>2.保存好你的secret</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
 
 
@@ -2125,7 +2068,7 @@ var _hmt = _hmt || [];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">49</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
