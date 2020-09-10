@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="selinux," />
 
 
 
@@ -94,13 +94,16 @@
 
 
 
-<meta name="description" content="认认真真做事，踏踏实实做人">
-<meta property="og:type" content="website">
-<meta property="og:title" content="普拉多VX">
-<meta property="og:url" content="http://www.roddypy.com/archives/page/3/index.html">
+<meta name="description" content="查看Selinux状态12345[root@localhost ~]# getenforceEnforcing        &#x2F;&#x2F;enforceing代表开启，Permissive      &#x2F;&#x2F; permissive代表警告Disabled        &#x2F;&#x2F;disabled代表关闭[root@localhost ~]#   关闭selinux(临时关闭重启失效)1[root@localhost">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关闭SELINUX">
+<meta property="og:url" content="http://www.roddypy.com/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/index.html">
 <meta property="og:site_name" content="普拉多VX">
-<meta property="og:description" content="认认真真做事，踏踏实实做人">
+<meta property="og:description" content="查看Selinux状态12345[root@localhost ~]# getenforceEnforcing        &#x2F;&#x2F;enforceing代表开启，Permissive      &#x2F;&#x2F; permissive代表警告Disabled        &#x2F;&#x2F;disabled代表关闭[root@localhost ~]#   关闭selinux(临时关闭重启失效)1[root@localhost">
+<meta property="article:published_time" content="2020-09-10T06:59:26.000Z">
+<meta property="article:modified_time" content="2020-09-10T07:06:01.886Z">
 <meta property="article:author" content="Roddy">
+<meta property="article:tag" content="selinux">
 <meta name="twitter:card" content="summary">
 
 
@@ -142,13 +145,13 @@ var _hmt = _hmt || [];
 
 
 
-  <link rel="canonical" href="http://www.roddypy.com/archives/page/3/"/>
+  <link rel="canonical" href="http://www.roddypy.com/2020/09/10/关闭SELINUX/"/>
 
 
 
 
 
-  <title>归档 | 普拉多VX</title>
+  <title>关闭SELINUX | 普拉多VX</title>
   
 
 
@@ -173,7 +176,7 @@ var _hmt = _hmt || [];
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
     <a href="https://github.com/langubtc" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
@@ -278,410 +281,195 @@ var _hmt = _hmt || [];
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/psb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">关闭SELINUX</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-10T14:59:26+08:00">
+                2020-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        好! 目前共计 58 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h2 class="archive-year motion-element" id="archive-year-2020">2020</h2>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/" class="leancloud_visitors" data-flag-title="关闭SELINUX">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/12/ubuntu-16-04%E5%88%87%E6%8D%A2python%E7%89%88%E6%9C%AC%E4%BC%98%E5%85%88%E7%BA%A7/" itemprop="url">
-              
-                <span itemprop="name">Ubuntu 16.4切换python版本优先级</span>
-              
-            </a>
-        
-      </h2>
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-12T23:13:10+08:00"
-              content="2020-06-12" >
-          06-12
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="查看Selinux状态"><a href="#查看Selinux状态" class="headerlink" title="查看Selinux状态"></a>查看Selinux状态</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# getenforce</span><br><span class="line">Enforcing        //enforceing代表开启，</span><br><span class="line">Permissive      // permissive代表警告</span><br><span class="line">Disabled        //disabled代表关闭</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="关闭selinux-临时关闭重启失效"><a href="#关闭selinux-临时关闭重启失效" class="headerlink" title="关闭selinux(临时关闭重启失效)"></a>关闭selinux(临时关闭重启失效)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# setenforce 0   //开始 设置数字1</span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭selinux-永久"><a href="#关闭selinux-永久" class="headerlink" title="关闭selinux(永久)"></a>关闭selinux(永久)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux</span><br></pre></td></tr></table></figure>
+
+
+
 
 
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%85%AD/" itemprop="url">
-              
-                <span itemprop="name">Gin web开发系列(六)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-10T22:58:11+08:00"
-              content="2020-06-10" >
-          06-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/" itemprop="url">
-              
-                <span itemprop="name">Gin web开发系列(五)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-10T14:58:07+08:00"
-              content="2020-06-10" >
-          06-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/" itemprop="url">
-              
-                <span itemprop="name">Gin web开发系列(四)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-10T10:21:34+08:00"
-              content="2020-06-10" >
-          06-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%89/" itemprop="url">
-              
-                <span itemprop="name">Gin web开发系列(三)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-09T20:37:39+08:00"
-              content="2020-06-09" >
-          06-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%8C/" itemprop="url">
-              
-                <span itemprop="name">Gin web开发系列(二)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-09T15:58:40+08:00"
-              content="2020-06-09" >
-          06-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80/" itemprop="url">
-              
-                <span itemprop="name">Gin web开发系列(一)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-09T15:58:27+08:00"
-              content="2020-06-09" >
-          06-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/04/golang-%E6%8A%A5%E9%94%99mismatched-types-Duration-and-int/" itemprop="url">
-              
-                <span itemprop="name">golang  报错mismatched types Duration and int</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-04T17:33:48+08:00"
-              content="2020-06-04" >
-          06-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/06/03/go-%E8%BF%9E%E6%8E%A5mysql-%E6%8A%A5%E9%94%99sql-unknown-driver-mysql-forgotten-import/" itemprop="url">
-              
-                <span itemprop="name">go 连接mysql 报错sql: unknown driver mysql (forgotten import?)</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-06-03T15:13:23+08:00"
-              content="2020-06-03" >
-          06-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/05/29/ubuntu%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Bitcoin%E6%A0%B8%E5%BF%83/" itemprop="url">
-              
-                <span itemprop="name">ubuntu下编译安装Bitcoin核心</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-05-29T14:20:03+08:00"
-              content="2020-05-29" >
-          05-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/selinux/" rel="tag"># selinux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/28/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%9B%86/" rel="next" title="docker 常用命令集">
+                <i class="fa fa-chevron-left"></i> docker 常用命令集
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/2/">上一页</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/4/">下一页</a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -689,6 +477,10 @@ var _hmt = _hmt || [];
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -709,8 +501,17 @@ var _hmt = _hmt || [];
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/psb.jpg"
@@ -822,6 +623,22 @@ var _hmt = _hmt || [];
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看Selinux状态"><span class="nav-number">1.</span> <span class="nav-text">查看Selinux状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭selinux-临时关闭重启失效"><span class="nav-number">2.</span> <span class="nav-text">关闭selinux(临时关闭重启失效)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭selinux-永久"><span class="nav-number">3.</span> <span class="nav-text">关闭selinux(永久)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -963,11 +780,9 @@ var _hmt = _hmt || [];
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
 
 
   
