@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-27 22:17:23 / 修改时间：22:42:39" itemprop="dateCreated datePublished" datetime="2020-09-27T22:17:23+08:00">2020-09-27</time>
+              <time title="创建时间：2020-09-27 22:17:23 / 修改时间：22:45:58" itemprop="dateCreated datePublished" datetime="2020-09-27T22:17:23+08:00">2020-09-27</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,8 +276,7 @@
 
 <h3 id="2-配置数据源"><a href="#2-配置数据源" class="headerlink" title="2.配置数据源"></a>2.配置数据源</h3><p>启用插件<br>在plugins设置里可以看到zabbix插件已安装<br><img src="/img/1601213739093.jpg"></p>
 <p>点击进入插件详情-启用插件<br><img src="/img/1601213757376.jpg"></p>
-<p>添加数据源</p>
-<p>此时争取安装zabbix插件，添加数据源找不到zabbix数据源。解决方法如下</p>
+<p>添加数据源找不到zabbix数据源。解决方法如下：</p>
 <p>编辑grafana配置文件grafana.ini</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># vim /etc/grafana/grafana.ini</span></span><br><span class="line">724 [plugins]</span><br><span class="line">725 ;enable_alpha = <span class="literal">false</span></span><br><span class="line">726 ;app_tls_skip_verify_insecure = <span class="literal">false</span></span><br><span class="line">727 <span class="comment"># Enter a comma-separated list of plugin identifiers to identify plugins that are allowed to be loaded even if they lack a valid signature.</span></span><br><span class="line">728 ;allow_loading_unsigned_plugins =</span><br><span class="line">729 allow_loading_unsigned_plugins = alexanderzobnin-zabbix-datasource   <span class="comment"># 取消注释，并添加zabbix.允许加载未签名的插件。 这里有点疑惑，就是在plugins下提示签名正常呢，不太清楚为啥。</span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl restart grafana-server.service</span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
