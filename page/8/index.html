@@ -191,6 +191,273 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/27/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/27/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%BA%8C/" class="post-title-link" itemprop="url">golang 函数学习(二)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-27 11:57:57" itemprop="dateCreated datePublished" datetime="2020-04-27T11:57:57+08:00">2020-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-18 15:56:30" itemprop="dateModified" datetime="2020-05-18T15:56:30+08:00">2020-05-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/04/27/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%BA%8C/" class="post-meta-item leancloud_visitors" data-flag-title="golang 函数学习(二)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/27/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%BA%8C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/27/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%BA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p>匿名函数就是一个没有名字的函数，只有函数体，函数可以被作为一种类型被赋值给函数类型的变量，匿名函数往往是以变量方式被传递。</p>
+<p><strong>匿名函数的定义</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(参数列表)</span><span class="params">(返回值列表)</span> &#123;</span></span><br><span class="line">	函数体</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>调用方式</strong></p>
+<ul>
+<li>声明时直接调用</li>
+<li>赋值给变量进行调用</li>
+</ul>
+<p>实例：匿名函数调用</p>
+<p>1.声明时直接调用</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//func (参数列表)(返回值列表) &#123;</span></span><br><span class="line"><span class="comment">//	函数体</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="params">(userId,age <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"用户ID:%d,年龄:%d\n"</span>,userId,age)</span><br><span class="line">	&#125;(<span class="number">1</span>,<span class="number">24</span>)		<span class="comment">//声明时直接调用</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.赋值给变量调用</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//func (参数列表)(返回值列表) &#123;</span></span><br><span class="line"><span class="comment">//	函数体</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	result :=<span class="function"><span class="keyword">func</span> <span class="params">(a,b <span class="keyword">int</span> )</span><span class="title">int</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> a+b</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(result(<span class="number">2</span>,<span class="number">6</span>))   <span class="comment">//直接赋值给result，然后调用即可</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="全局匿名函数"><a href="#全局匿名函数" class="headerlink" title="全局匿名函数"></a>全局匿名函数</h3><p>以上我们的函数调用都是一个局部调用，如何进行全局调用呢，可以将匿名函数赋值给一个全局变量，就可以程序中使用了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"><span class="comment">//全局匿名函数</span></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	getResult = <span class="function"><span class="keyword">func</span><span class="params">(a,b <span class="keyword">int</span>,meth_type <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> meth_type == <span class="string">"+"</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> a + b</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span> meth_type == <span class="string">"-"</span> &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> a -b</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span> meth_type == <span class="string">"*"</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> a *b</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">funcMethod</span><span class="params">(a,b <span class="keyword">int</span>)</span><span class="params">(<span class="keyword">int</span>,<span class="keyword">int</span>,<span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//加法</span></span><br><span class="line">	add := getResult(a,b,<span class="string">"+"</span>)   <span class="comment">//函数中调用全局匿名函数</span></span><br><span class="line">	<span class="comment">//减法</span></span><br><span class="line">	sub := getResult(a,b,<span class="string">"-"</span>)</span><br><span class="line">	<span class="comment">//乘法</span></span><br><span class="line">	mul := getResult(a,b,<span class="string">"*"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> add,sub,mul</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	fmt.Println(funcMethod(<span class="number">1</span>,<span class="number">23</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="函数闭包"><a href="#函数闭包" class="headerlink" title="函数闭包"></a>函数闭包</h3><p>闭包就是一个函数与其相关的引用环境组成的一个整体。它本质上是一个函数,但是这个函数会用于函数外的变量，它们共同组成的整体称为闭包。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//累积数据,返回值是一个func  </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addUpper</span><span class="params">()</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	n := <span class="number">10</span></span><br><span class="line">	n -= <span class="number">1</span></span><br><span class="line">	c := <span class="number">20</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span> <span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">		c -= <span class="number">2</span></span><br><span class="line">		fmt.Println(c)</span><br><span class="line">		</span><br><span class="line">		n = n +x</span><br><span class="line">		<span class="keyword">return</span> n</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	t := addUpper()  <span class="comment">//t变量用于接收返回的函数 </span></span><br><span class="line"></span><br><span class="line">	fmt.Println(t(<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="defer（延迟函数）"><a href="#defer（延迟函数）" class="headerlink" title="defer（延迟函数）"></a>defer（延迟函数）</h3><p>defer用来声明一个延迟函数，并把这个函数放到一个栈上，当外部的包含方法return之前，放回参数到调用方法之前调用。通常用于做资源释放，比如关闭io等。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//defer 用于程序释放资源,用于延迟操作。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//延迟调用，采用FILO(先进后出原则)  延迟函数执行按后进先出顺序执行，即先出现的defer后执行</span></span><br><span class="line">	i:=<span class="number">0</span></span><br><span class="line">	<span class="keyword">defer</span>  fmt.Println(i)</span><br><span class="line">	i++</span><br><span class="line">	<span class="keyword">defer</span> fmt.Println(i)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	f()  <span class="comment">//结果是1 后是0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关闭文件io</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">closeFile</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	f, _ := os.Open(<span class="string">"Godefer.go"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将文件名交给带有缓存的IO Reader</span></span><br><span class="line">	r := bufio.NewReader(f)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		line, err := r.ReadString(<span class="string">'\n'</span>) <span class="comment">//指定分割符</span></span><br><span class="line">		<span class="comment">//判断是否是文件结尾</span></span><br><span class="line">		<span class="keyword">if</span> err == io.EOF &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Print(line)</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">defer</span>  f.Close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="函数作用域"><a href="#函数作用域" class="headerlink" title="函数作用域"></a>函数作用域</h3><p>1.在函数内部声明/定义的变量叫局部变量,<strong>作用域仅限于函数内部</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">change</span><span class="params">()</span></span>&#123;  </span><br><span class="line">	a := <span class="number">124</span>    <span class="comment">//在change函数体内部声明的变量叫局部变量</span></span><br><span class="line">	fmt.Println(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.函数外部声明/定义的变量叫全局变量,<strong>作用于在整个包内</strong>。如果变量的首字母大写，则可以外部访问调用(作用域为整个程序)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 外部变量</span></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	Name <span class="keyword">string</span> = <span class="string">"default"</span></span><br><span class="line">	Age <span class="keyword">int64</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">change</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//修改的就是全局变量</span></span><br><span class="line">	Name = <span class="string">"1234"</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line"></span><br><span class="line">	Age = <span class="number">100</span></span><br><span class="line">	fmt.Println(Name,Age)</span><br><span class="line"></span><br><span class="line">	change()</span><br><span class="line">	Age = <span class="number">100</span></span><br><span class="line">	fmt.Println(Name,Age)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" class="post-title-link" itemprop="url">golang 函数学习(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-26 14:49:04 / 修改时间：16:18:34" itemprop="dateCreated datePublished" datetime="2020-04-26T14:49:04+08:00">2020-04-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="golang 函数学习(一)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/26/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h3><p>golang 的函数声明包含func关键字、函数名、形式参数列表（可省略）、返回值列表及函数体</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">FuncName</span><span class="params">(username <span class="keyword">string</span>,age <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最简单的函数定义如果，以func开头及函数名</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Simple</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">//表示该函数不需要输入参数，以及没有返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面通过两个实例来介绍下函数的使用</p>
+<p>1.计算两个数相加。定义一下funcAdd 函数，接收两个参数a,b 类型为int  返回值为int。函数调用时，以函数名()的形式进行调用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">funcAdd</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span><span class="title">int</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a+b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	fmt.Println(funcAdd(<span class="number">3</span>,<span class="number">5</span>))  <span class="comment">//输出结果为8</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数返回时还可以直接以变量的形式进行返回</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">funcAdd</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="params">(result <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">	result=a+b</span><br><span class="line">	<span class="keyword">return</span>                  <span class="comment">//直接输入return进行返回即可</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	fmt.Println(funcAdd(<span class="number">7</span>,<span class="number">8</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.计算商品价格。定义一个函数名加ShopPrice,接收几个参数，并且返回商品价格。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ShopPrice</span><span class="params">(s_price,number,sale <span class="keyword">float64</span>)</span><span class="params">(price <span class="keyword">float64</span>)</span></span>&#123;</span><br><span class="line">	<span class="comment">//商品原价 * 数量 * 折扣</span></span><br><span class="line">	<span class="comment">// 999.88 * 2 * 98/100</span></span><br><span class="line">	price = s_price * number * sale / <span class="number">100.00</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(ShopPrice(<span class="number">999.25</span>,<span class="number">2</span>,<span class="number">98</span>))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以返回多个数据,传入商品名、价格、数量。最后返回商品及计算结果</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ShopDetail</span><span class="params">(s_price,number,sale <span class="keyword">float64</span>,name <span class="keyword">string</span>)</span><span class="params">(<span class="keyword">float64</span>, <span class="keyword">string</span>)</span></span>&#123;</span><br><span class="line">	<span class="comment">//商品原价 * 数量 * 折扣</span></span><br><span class="line">	<span class="comment">// 999.88 * 2 * 98/100</span></span><br><span class="line">	price := s_price * number * sale / <span class="number">100.00</span></span><br><span class="line">	<span class="keyword">return</span> price,name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	price,name := ShopDetail(<span class="number">999.25</span>,<span class="number">2</span>,<span class="number">98</span>,<span class="string">"大衣"</span>)</span><br><span class="line">	fmt.Println(<span class="string">"商品:"</span>,name,<span class="string">"价格:"</span>,price)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数多返回值"><a href="#函数多返回值" class="headerlink" title="函数多返回值"></a>函数多返回值</h3><p>在go中，一个函数可以接收多个参数列表，同时也可以返回多个值，便于我们进行处理。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AbcFunc</span><span class="params">(a,b,c <span class="keyword">int</span>)</span><span class="params">(<span class="keyword">int</span>,<span class="keyword">int</span>,<span class="keyword">int</span>)</span></span>&#123;   <span class="comment">//返回值为3个int数值</span></span><br><span class="line">	<span class="keyword">return</span> c,b,a   <span class="comment">//将123 转成321输出</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	c,b,a := AbcFunc(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">	fmt.Println(c,b,a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="空白符号的使用"><a href="#空白符号的使用" class="headerlink" title="空白符号的使用"></a>空白符号的使用</h3><p>如果在接收参数时，有不想使用的变量数值，可以使用_进行代替,程序不作处理。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">nullValue</span><span class="params">(username <span class="keyword">string</span>,age <span class="keyword">int</span>,address <span class="keyword">string</span>)</span><span class="params">(<span class="keyword">string</span>,<span class="keyword">int</span>,<span class="keyword">string</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> username,age,address</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//_用于接收任何类型的任何值，如果以“_”表示，那将省略，可以理解为垃圾桶</span></span><br><span class="line">	username,age,_ := nullValue(<span class="string">"roddy"</span>,<span class="number">27</span>,<span class="string">"sichuan"</span>)</span><br><span class="line">	fmt.Println(username,age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="函数可变参数"><a href="#函数可变参数" class="headerlink" title="函数可变参数"></a>函数可变参数</h3><p>向函数传递一个未知数量的参数值时，可以使用…来代替，下面样例就是传递一个数字序列，然后分别打印出来例子。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func MultipleNumber(args ...<span class="built_in">int</span>)&#123;</span><br><span class="line">	<span class="keyword">for</span> i:=<span class="number">0</span>;i&lt;len(args);i++&#123;</span><br><span class="line">		fmt.Println(args[i])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line"></span><br><span class="line">	MultipleNumber(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>输入一列数据，返回这组数据的最小值与最大值</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">package</span> main</span><br><span class="line"></span><br><span class="line">import <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">func MinMax(<span class="built_in">input</span> ...int)(<span class="built_in">min</span>,<span class="built_in">max</span> int)&#123;</span><br><span class="line">	<span class="built_in">min</span> = <span class="built_in">input</span>[<span class="number">0</span>]</span><br><span class="line">	<span class="built_in">max</span> = <span class="built_in">input</span>[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i :=<span class="number">0</span>;i&lt;<span class="built_in">len</span>(<span class="built_in">input</span>);i++&#123;</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">input</span>[i] &lt; <span class="built_in">min</span>&#123;</span><br><span class="line">			<span class="built_in">min</span> = <span class="built_in">input</span>[i]</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">input</span>[i] &gt;<span class="built_in">max</span> &#123;</span><br><span class="line">			<span class="built_in">max</span> = <span class="built_in">input</span>[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main()&#123;</span><br><span class="line">	<span class="built_in">min</span>,<span class="built_in">max</span> :=MinMax(<span class="number">1</span>,<span class="number">2</span>,<span class="number">34</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>)</span><br><span class="line">	fmt.Println(<span class="string">"最小值为:"</span>,<span class="built_in">min</span>,<span class="string">"最大值为:"</span>,<span class="built_in">max</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/22/golang-%E6%89%93%E5%8D%B0%E4%B9%98%E6%B3%95%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -362,7 +629,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

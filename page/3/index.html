@@ -191,6 +191,317 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">DockerFile 构建镜像(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-17 15:01:04" itemprop="dateCreated datePublished" datetime="2020-08-17T15:01:04+08:00">2020-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-18 12:35:04" itemprop="dateModified" datetime="2020-08-18T12:35:04+08:00">2020-08-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="DockerFile 构建镜像(一)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>从docker 官方下载的基础镜像有时候无法满足我们自己本身的业务需求，特别是配置文件，环境变量。这个时候通常需要自制我们自己的镜像。</p>
+<h2 id="DockerFile"><a href="#DockerFile" class="headerlink" title="DockerFile"></a>DockerFile</h2><p>Dokerfile是用来制作docker镜像的一个文本文件，并包含了构建镜像所需要的的指令及其参数。dockerfile 第一个非注释行必须是from,必须指明基础镜像。<br>Dockerfile其内部包含了一条条的指令，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。    </p>
+<h2 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h2><p>两类：</p>
+<ul>
+<li>指令</li>
+<li>指令参数</li>
+</ul>
+<p>注意点：</p>
+<ul>
+<li>必须要有专用的工作目录</li>
+<li>首字母必须大写</li>
+<li>引用目录必须是在当前工作目录之下</li>
+</ul>
+<p>参考样例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#基于centos镜像</span></span><br><span class="line">FROM centos  <span class="comment">#可以跟版本，如果不加默认是latest。FROM centos:latest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#维护人的信息</span></span><br><span class="line">MAINTAINER The CentOS Project &lt;923401910@qq.com&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装httpd软件包</span></span><br><span class="line">RUN yum -y update</span><br><span class="line">RUN yum -y install httpd</span><br><span class="line"></span><br><span class="line"><span class="comment">#开启80端口</span></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制网站首页文件至镜像中web站点下 index.html 必须要在当前目录存在</span></span><br><span class="line">COPY index.html /var/www/html/</span><br><span class="line"></span><br><span class="line">COPY static /var/www/html/static/  <span class="comment"># 一定要以斜线结尾 static不存在将会创建</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#复制该脚本至镜像中，并修改其权限</span></span><br><span class="line">ADD run.sh /run.sh</span><br><span class="line">RUN chmod 775 /run.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#当启动容器时执行的脚本文件</span></span><br><span class="line">CMD [<span class="string">"/run.sh"</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="制作镜像"><a href="#制作镜像" class="headerlink" title="制作镜像"></a>制作镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build  -t smhttpd:1.0.0 . </span><br><span class="line">docker build  -t smhttpd  .    <span class="comment">#默认是latest</span></span><br></pre></td></tr></table></figure>
+
+<p>制作过程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker build -t smnginx .</span><br><span class="line">Sending build context to Docker daemon   7.68kB</span><br><span class="line">Step 1/10 : FROM centos</span><br><span class="line"> ---&gt; 0d120b6ccaa8</span><br><span class="line">Step 2/10 : MAINTAINER The CentOS Project &lt;923401910@qq.com&gt;</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 73711e378096</span><br><span class="line">Step 3/10 : RUN yum -y update</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 17e83a7625bc</span><br><span class="line">Step 4/10 : RUN yum -y install </span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; d65bbe61e58a</span><br><span class="line">Step 5/10 : EXPOSE 80</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 013883f8a333</span><br><span class="line">Step 6/10 : COPY index.html /var/www/html/</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 98a2d57e8bf1</span><br><span class="line">Step 7/10 : COPY static /var/www/html/static/</span><br><span class="line"> ---&gt; 6156265c2a76</span><br><span class="line">Step 8/10 : ADD run.sh /run.sh</span><br><span class="line"> ---&gt; 4832b8d59439</span><br><span class="line">Step 9/10 : RUN chmod 775 /run.sh</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> a60d60aa3e19</span><br><span class="line">Removing intermediate container a60d60aa3e19</span><br><span class="line"> ---&gt; a95e79794432</span><br><span class="line">Step 10/10 : CMD [<span class="string">"/run.sh"</span>]</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 5f71bc6a29b1</span><br><span class="line">Removing intermediate container 5f71bc6a29b1</span><br><span class="line"> ---&gt; 97a35e3ef1b7</span><br><span class="line">Successfully built 97a35e3ef1b7</span><br><span class="line">Successfully tagged smnginx:latest</span><br></pre></td></tr></table></figure>
+
+<p>检查文件是否存在（不运行容器）</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker images</span><br><span class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">smnginx              latest              <span class="number">97</span>a35e3ef1b7        <span class="number">2</span> minutes ago       <span class="number">278</span>MB</span><br></pre></td></tr></table></figure>
+
+<p><strong>rm选项运行后会自动删除容器，后面可以指定自定义命令，一般用于测试</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">luodi<span class="meta">@roddydeMacBook</span>-<span class="string">Pro:</span><span class="regexp">~/dockerfile_build/</span>nginx$ docker run --name smweb1 --rm smnginx ls -a <span class="regexp">/var/</span>www<span class="regexp">/html/</span></span><br><span class="line">.</span><br><span class="line">..</span><br><span class="line">index.html</span><br><span class="line"><span class="keyword">static</span></span><br><span class="line">luodi<span class="meta">@roddydeMacBook</span>-<span class="string">Pro:</span><span class="regexp">~/dockerfile_build/</span>nginx$ docker run --name smweb1 --rm smnginx ls -a <span class="regexp">/var/</span>www<span class="regexp">/html/</span><span class="keyword">static</span></span><br><span class="line">.</span><br><span class="line">..</span><br><span class="line">css</span><br><span class="line">img</span><br><span class="line">luodi<span class="meta">@roddydeMacBook</span>-<span class="string">Pro:</span><span class="regexp">~/dockerfile_build/</span>nginx$</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="指令介绍"><a href="#指令介绍" class="headerlink" title="指令介绍"></a>指令介绍</h2><h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><p>FROM是最重要的一个且必须是DockerFile文件中的第一个非注释行，用于指定基准镜像。</p>
+<p>语法:</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM   <span class="params">&lt;repository&gt;</span>[:<span class="params">&lt;tag&gt;</span>] </span><br><span class="line">FROM   <span class="params">&lt;repository&gt;</span>@<span class="params">&lt;digest&gt;</span>   <span class="meta">#hash码</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="MAINTAINER-废弃"><a href="#MAINTAINER-废弃" class="headerlink" title="MAINTAINER(废弃)"></a>MAINTAINER(废弃)</h3><p>指定镜像的制作者，一般是名称加联系方式。不过目前已经被LABLE替代</p>
+<h3 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h3><p>LABEL 指令会添加元数据到镜像。LABEL是以键值对形式出现的。MAINTAINER可以是一个KEY,同时还可以指定多个元数据信息。</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">"luodi &lt;923401910@qq.com&gt;"</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> version=<span class="string">"1.0"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>但是并不建议这样写，最好就写成一行，如太长需要换行的话则使用\符号</p>
+<p>如下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LABEL multi.<span class="attribute">label1</span>=<span class="string">"value1"</span> \</span><br><span class="line">multi.<span class="attribute">label2</span>=<span class="string">"value2"</span> \</span><br><span class="line"><span class="attribute">other</span>=<span class="string">"value3"</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：LABEL会继承基础镜像种的LABEL，如遇到key相同，则值覆盖</p>
+<h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><p>用于从Docker主机复制文件到创建的镜像文件中</p>
+<p>语法:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash">  &lt;src&gt; &lt;dest&gt;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash">  [<span class="string">"&lt;src&gt;"</span>,<span class="string">"dest"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>注意:</p>
+<ul>
+<li>src 必须是build上下文件中的路径，不能是父目录中的文件</li>
+<li>如果src是目录，其内部文件或子目录会被递归复制，但src本身不会</li>
+<li>如果dest事先不存在，它将会被自动创建，这包括其父目录路径</li>
+<li>如果指定了多个src，或者在src使用通配符，dest必须是个目录，且必须是/结尾</li>
+</ul>
+<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><p>功能和copy相似，但是ADD支持URL路径和TAR文件。如果是一个本地tar.gz包，会被执行tar -x命令被自动展开。但是URL上的tar包不会</p>
+<p>语法:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="bash">  &lt;src&gt; &lt;dest&gt;</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">  [<span class="string">"&lt;src&gt;"</span>,<span class="string">"dest"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>下载并解压文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ADD http:<span class="regexp">//</span>nginx.org<span class="regexp">/download/</span>nginx-<span class="number">1.19</span>.<span class="number">2</span>.tar.gz  <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>   <span class="comment">#下载到src但是并不会解压</span></span><br><span class="line">ADD nginx-<span class="number">1.19</span>.<span class="number">2</span>.tar.gz  <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>      <span class="comment">#解压本地文件到/usr/local/src/下</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><p>设置工作目录，对RUN,CMD,ENTRYPOINT,COPY,ADD生效。如果不存在则会创建，也可以设置多次。</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /path/to/workdir</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><p>设置启动容器的用户，可以是用户名或UID，所以，只有下面的两种写法是正确的</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER daemo</span><br><span class="line">USER UID</span><br></pre></td></tr></table></figure>
+<p>注意：如果设置了容器以daemon用户去运行，那么RUN, CMD 和 ENTRYPOINT 都会以这个用户去运行</p>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><p>可实现挂载功能，用于在镜像中创建一个挂载点目录，以挂载Docker Host上的卷和其他容器上的卷到容器中</p>
+<p>语法为：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/data"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<p>[“/data”]可以是一个JsonArray ，也可以是多个值。所以如下几种写法都是正确的</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/var/log/"</span>]</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /var/<span class="built_in">log</span></span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /var/<span class="built_in">log</span> /var/db</span></span><br></pre></td></tr></table></figure>
+<p>一般的使用场景为需要持久化存储数据时</p>
+<p>容器使用的是AUFS，这种文件系统不能持久化数据，当容器关闭后，所有的更改都会丢失。</p>
+<p>所以当数据需要持久化时用这个命令。</p>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><p>用于为容器打开要监听的端口以实现外部通信，相当于暴露端口，会添加一条NAT规则。</p>
+<p>只是声明可以暴露的端口，但是不会真正暴露。如果要暴露端口需要启动容器时加上<strong>-P</strong>选项,会随机做端口映射，可以使用-p 指定映射关系</p>
+<p>语法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE <span class="tag">&lt;<span class="name">port</span>&gt;</span></span><br><span class="line">EXPOSE <span class="tag">&lt;<span class="name">port</span>&gt;</span>[/protocol] <span class="tag">&lt;<span class="name">port</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>-P</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker run -dit  -P --rm --name webhttpd smhttpd</span><br><span class="line"><span class="number">1</span>d12e3386299        smhttpd             <span class="string">"/run.sh"</span>                <span class="number">2</span> minutes ago       Up <span class="number">2</span> minutes        <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">32771</span>-&gt;<span class="number">80</span>/tcp               webhttpd</span><br></pre></td></tr></table></figure>
+
+<p>指定端口</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker run -dit -p <span class="number">8044</span>:<span class="number">80</span> --name webhttp2 smhttpd</span><br><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line"><span class="number">62f</span>afeb4aaa4        smhttpd             <span class="string">"/run.sh"</span>                <span class="number">3</span> seconds ago       Up <span class="number">2</span> seconds        <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8044</span>-&gt;<span class="number">80</span>/tcp                webhttp2</span><br><span class="line"><span class="number">1</span>d12e3386299        smhttpd             <span class="string">"/run.sh"</span>                <span class="number">2</span> minutes ago       Up <span class="number">2</span> minutes        <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">32771</span>-&gt;<span class="number">80</span>/tcp               webhttpd</span><br></pre></td></tr></table></figure>
+
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><p>功能为设置环境变量,可被Dockerfile文件中位于其后的其他指令调用</p>
+<p>语法有两种</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV <span class="tag">&lt;<span class="name">key</span>&gt;</span> <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">ENV <span class="tag">&lt;<span class="name">key</span>&gt;</span>=<span class="tag">&lt;<span class="name">value</span>&gt;</span> ...</span><br></pre></td></tr></table></figure>
+<p>两者的区别就是第一种是一次设置一个，第二种是一次设置多个</p>
+<p>样例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> DOC_ROOT /var/www/html/</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制网站首页文件至镜像中web站点下 index.html 必须要在当前目录存在</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> index.html <span class="variable">$DOC_ROOT</span>  <span class="comment"># $&#123;DOC_ROOT:-/var/www/html/&#125;  如果没有值，赋默认值</span></span></span><br></pre></td></tr></table></figure>
+
+<p>可以在docker run 的时候设定变量值</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="builtin-name">run</span> --name testweb -e <span class="attribute">WEB_HOST</span>=<span class="string">"172.103.2.2"</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p>构建镜像时运行指定的命令,可以运行多次，如果有关联关系建议使用&amp;&amp;关联</p>
+<p>语法:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> &lt;cmd&gt;</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> [<span class="string">"cmd"</span>,<span class="string">"参数1"</span>,<span class="string">"参数2"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>样例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：多行命令不要写多个RUN，原因是Dockerfile中每一个指令都会建立一层.</p>
+<p>多少个RUN就构建了多少层镜像，会造成镜像的臃肿、多层，不仅仅增加了构件部署的时间，还容易出错。</p>
+<p>RUN书写时的换行符是\</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>容器启动时要运行的命令</p>
+<p>语法：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"executable"</span>,<span class="string">"param1"</span>,<span class="string">"param2"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"param1"</span>,<span class="string">"param2"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> <span class="built_in">command</span> param1 param2</span></span><br></pre></td></tr></table></figure>
+
+<p>样例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#当启动容器时执行的脚本文件</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"/run.sh"</span>]</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/13/django-dbshell-CommandError/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/13/django-dbshell-CommandError/" class="post-title-link" itemprop="url">django dbshell CommandError  You appear not to have the 'mysql' program installed or on your path.</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-13 17:20:27 / 修改时间：17:25:09" itemprop="dateCreated datePublished" datetime="2020-08-13T17:20:27+08:00">2020-08-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/django/" itemprop="url" rel="index"><span itemprop="name">django</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/08/13/django-dbshell-CommandError/" class="post-meta-item leancloud_visitors" data-flag-title="django dbshell CommandError  You appear not to have the 'mysql' program installed or on your path." title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/13/django-dbshell-CommandError/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/13/django-dbshell-CommandError/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="系统版本"><a href="#系统版本" class="headerlink" title="系统版本"></a>系统版本</h2><p>Ubuntu 16.04</p>
+<h2 id="错误提示"><a href="#错误提示" class="headerlink" title="错误提示"></a>错误提示</h2><p>“CommandError: You appear not to have the ‘mysql’ program installed or on your path.”</p>
+<h2 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h2><p>安装mysql-client</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mysql-client</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e6fdj7fol5q85vjyw6Z:/data/webserver<span class="comment"># python manage.py dbshell</span></span><br><span class="line">mysql: [Warning] Using a password on the <span class="built_in">command</span> line interface can be insecure.</span><br><span class="line">Reading table information <span class="keyword">for</span> completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 4886593</span><br><span class="line">Server version: 5.7.26-log Source distribution</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0docker-hub/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1070,245 +1381,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/30/GORM%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/30/GORM%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">GORM安装使用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-30 16:16:30" itemprop="dateCreated datePublished" datetime="2020-06-30T16:16:30+08:00">2020-06-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-12 14:33:54" itemprop="dateModified" datetime="2020-08-12T14:33:54+08:00">2020-08-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/06/30/GORM%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="GORM安装使用" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/06/30/GORM%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/30/GORM%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="官方网站"><a href="#官方网站" class="headerlink" title="官方网站"></a>官方网站</h3><ul>
-<li><a href="https://gorm.io/zh_CN/docs" target="_blank" rel="noopener">https://gorm.io/zh_CN/docs</a></li>
-<li><a href="https://github.com/go-gorm/gorm" target="_blank" rel="noopener">https://github.com/go-gorm/gorm</a> </li>
-</ul>
-<h3 id="Gorm安装"><a href="#Gorm安装" class="headerlink" title="Gorm安装"></a>Gorm安装</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get -u github.com/jinzhu/gorm</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>连接数据库首先要导入驱动。gorm默认包含了如下一些驱动可以使用</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> _ <span class="string">"github.com/jinzhu/gorm/dialects/mysql"</span></span><br><span class="line"><span class="comment">// import _ "github.com/jinzhu/gorm/dialects/postgres"</span></span><br><span class="line"><span class="comment">// import _ "github.com/jinzhu/gorm/dialects/sqlite"</span></span><br><span class="line"><span class="comment">// import _ "github.com/jinzhu/gorm/dialects/mssql"</span></span><br></pre></td></tr></table></figure>
-
-
-<h3 id="连接实例"><a href="#连接实例" class="headerlink" title="连接实例"></a>连接实例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/jinzhu/gorm"</span></span><br><span class="line">	_ <span class="string">"github.com/jinzhu/gorm/dialects/mysql"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db, err := gorm.Open(<span class="string">"mysql"</span>, <span class="string">"user:password@/dbname?charset=utf8&amp;parseTime=True&amp;loc=Local"</span>)</span><br><span class="line">	<span class="keyword">defer</span> db.Close()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">"连接失败"</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/jinzhu/gorm"</span></span><br><span class="line">	_ <span class="string">"github.com/jinzhu/gorm/dialects/mysql"</span></span><br><span class="line">	<span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建User表struct 默认表名是users</span></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	ID <span class="keyword">int</span>                    <span class="comment">//如果有ID字段，将自动设置为主键</span></span><br><span class="line">	Username <span class="keyword">string</span></span><br><span class="line">	Password <span class="keyword">string</span></span><br><span class="line">	CreatedAt  *time.Time     <span class="comment">//系统将自动插入当前时间</span></span><br><span class="line">	UpdatedAt  *time.Time</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 User 的表名设置为 `monitor_users`</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(User)</span> <span class="title">TableName</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"monitor_users"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db, err := gorm.Open(<span class="string">"mysql"</span>, <span class="string">"root:root@tcp(127.0.0.1:3307)/monitor?charset=utf8&amp;parseTime=True&amp;loc=Local"</span>)</span><br><span class="line">	<span class="keyword">defer</span> db.Close()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">"连接失败"</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 应用模型到数据库</span></span><br><span class="line">	db.AutoMigrate(&amp;User&#123;&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><p>插入数据</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Create(&amp;User&#123;Username: <span class="string">"roddy"</span>,Password: <span class="string">"123456"</span>,&#125;)  <span class="comment">//插入一条数据</span></span><br></pre></td></tr></table></figure>
-
-<p>插入数据前判断</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u := User&#123;Username: <span class="string">"test"</span>,Password: <span class="string">"123456"</span>&#125;</span><br><span class="line">fmt.Println(db.NewRecord(&amp;u))  <span class="comment">//判断主键是否为空，表中是否存在主键冲突，如果以Id为主键改判断可以忽略</span></span><br><span class="line">db.Create(&amp;u)</span><br><span class="line">fmt.Println(db.NewRecord(&amp;u))</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><p>查询第一条数据</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> firstValue User</span><br><span class="line">db.First(&amp;firstValue)</span><br><span class="line">fmt.Println(<span class="string">"username:"</span>,firstValue.Username)</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用debug查询执行原始语句</span></span><br><span class="line">db.Debug().First(&amp;User&#123;&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>查询最后一条数据</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询最后一条数据</span></span><br><span class="line"><span class="keyword">var</span> lastValue User</span><br><span class="line">db.Last(&amp;lastValue)</span><br><span class="line">fmt.Println(<span class="string">"last username:"</span>,lastValue.Username)</span><br></pre></td></tr></table></figure>
-
-
-<p>根据条件筛选</p>
-<p>where 条件筛选</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 条件筛选</span></span><br><span class="line"><span class="keyword">var</span> users [] User</span><br><span class="line">db.Where(<span class="string">"username = ?"</span>, <span class="string">"roddy"</span>).Find(&amp;users)</span><br><span class="line"><span class="keyword">for</span> _,v := <span class="keyword">range</span> users&#123;</span><br><span class="line">	fmt.Printf(<span class="string">"username:%v password:%v\n"</span>,v.Username,v.Password)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 获取第一个匹配的记录</span></span><br><span class="line">db.Where(<span class="string">"name = ?"</span>, <span class="string">"jinzhu"</span>).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = 'jinzhu' limit 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取所有匹配的记录</span></span><br><span class="line">db.Where(<span class="string">"name = ?"</span>, <span class="string">"jinzhu"</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = 'jinzhu';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &lt;&gt;</span></span><br><span class="line">db.Where(<span class="string">"name &lt;&gt; ?"</span>, <span class="string">"jinzhu"</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name &lt;&gt; 'jinzhu';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// IN</span></span><br><span class="line">db.Where(<span class="string">"name IN (?)"</span>, []<span class="keyword">string</span>&#123;<span class="string">"jinzhu"</span>, <span class="string">"jinzhu 2"</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name in ('jinzhu','jinzhu 2');</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// LIKE</span></span><br><span class="line">db.Where(<span class="string">"name LIKE ?"</span>, <span class="string">"%jin%"</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name LIKE '%jin%';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// AND</span></span><br><span class="line">db.Where(<span class="string">"name = ? AND age &gt;= ?"</span>, <span class="string">"jinzhu"</span>, <span class="string">"22"</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = 'jinzhu' AND age &gt;= 22;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Time</span></span><br><span class="line">db.Where(<span class="string">"updated_at &gt; ?"</span>, lastWeek).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE updated_at &gt; '2000-01-01 00:00:00';</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// BETWEEN</span></span><br><span class="line">db.Where(<span class="string">"created_at BETWEEN ? AND ?"</span>, lastWeek, today).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE created_at BETWEEN '2000-01-01 00:00:00' AND '2000-01-08 00:00:00';</span></span><br></pre></td></tr></table></figure>
-
-
-<h3 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h3><p>更新表中username为roddy1的username 字段，修改为”haha”</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Model(&amp;User&#123;&#125;).Where(<span class="string">"username=?"</span>,<span class="string">"roddy1"</span>).Update(<span class="string">"username"</span>,<span class="string">"haha"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>参考样例</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新单个属性，如果它有变化</span></span><br><span class="line">db.Model(&amp;user).Update(<span class="string">"name"</span>, <span class="string">"hello"</span>)</span><br><span class="line"><span class="comment">//// UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE id=111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据给定的条件更新单个属性</span></span><br><span class="line">db.Model(&amp;user).Where(<span class="string">"active = ?"</span>, <span class="literal">true</span>).Update(<span class="string">"name"</span>, <span class="string">"hello"</span>)</span><br><span class="line"><span class="comment">//// UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE id=111 AND active=true;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 map 更新多个属性，只会更新其中有变化的属性</span></span><br><span class="line">db.Model(&amp;user).Updates(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">"name"</span>: <span class="string">"hello"</span>, <span class="string">"age"</span>: <span class="number">18</span>, <span class="string">"actived"</span>: <span class="literal">false</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name='hello', age=18, actived=false, updated_at='2013-11-17 21:34:10' WHERE id=111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 struct 更新多个属性，只会更新其中有变化且为非零值的字段</span></span><br><span class="line">db.Model(&amp;user).Updates(User&#123;Name: <span class="string">"hello"</span>, Age: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name='hello', age=18, updated_at = '2013-11-17 21:34:10' WHERE id = 111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 警告：当使用 struct 更新时，GORM只会更新那些非零值的字段</span></span><br><span class="line"><span class="comment">// 对于下面的操作，不会发生任何更新，"", 0, false 都是其类型的零值</span></span><br><span class="line">db.Model(&amp;user).Updates(User&#123;Name: <span class="string">""</span>, Age: <span class="number">0</span>, Actived: <span class="literal">false</span>&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除所有数据</span></span><br><span class="line">db.Delete(&amp;User&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除匹配数据</span></span><br><span class="line">db.Where(<span class="string">"email LIKE ?"</span>, <span class="string">"%jinzhu%"</span>).Delete(Email&#123;&#125;)</span><br><span class="line"><span class="comment">//// DELETE from emails where email LIKE "%jinzhu%";</span></span><br><span class="line"></span><br><span class="line">db.Delete(Email&#123;&#125;, <span class="string">"email LIKE ?"</span>, <span class="string">"%jinzhu%"</span>)</span><br><span class="line"><span class="comment">//// DELETE from emails where email LIKE "%jinzhu%";</span></span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/29/Macbook%20Pro%20%20Sublime3%E6%B3%A8%E5%86%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/29/Macbook%20Pro%20%20Sublime3%E6%B3%A8%E5%86%8C/" class="post-title-link" itemprop="url">Macbook Pro Sublime3注册</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-29 08:32:42" itemprop="dateCreated datePublished" datetime="2020-06-29T08:32:42+08:00">2020-06-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-30 16:53:08" itemprop="dateModified" datetime="2020-06-30T16:53:08+08:00">2020-06-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Other/" itemprop="url" rel="index"><span itemprop="name">Other</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/06/29/Macbook%20Pro%20%20Sublime3%E6%B3%A8%E5%86%8C/" class="post-meta-item leancloud_visitors" data-flag-title="Macbook Pro Sublime3注册" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/06/29/Macbook%20Pro%20%20Sublime3%E6%B3%A8%E5%86%8C/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/29/Macbook%20Pro%20%20Sublime3%E6%B3%A8%E5%86%8C/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>点击 help -&gt; enter Licence ,然后输入如下信息:</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">----- BEGIN LICENSE -----</span><br><span class="line">Member J2TeaM</span><br><span class="line">Single User License</span><br><span class="line">EA7E<span class="number">-1011316</span></span><br><span class="line">D7DA350E <span class="number">1</span>B8B0760 <span class="number">972</span>F8B60 F3E64036</span><br><span class="line">B9B4E234 F356F38F <span class="number">0</span>AD1E3B7 <span class="number">0E9</span>C5FAD</span><br><span class="line">FA0A2ABE <span class="number">25</span>F65BD8 D51458E5 <span class="number">3923</span>CE80</span><br><span class="line"><span class="number">87428428</span> <span class="number">79079</span>A01 AA69F319 A1AF29A4</span><br><span class="line">A684C2DC <span class="number">0</span>B1583D4 <span class="number">19</span>CBD290 <span class="number">217618</span>CD</span><br><span class="line"><span class="number">5653E0</span>A0 BACE3948 BB2EE45E <span class="number">422</span>D2C87</span><br><span class="line">DD9AF44B <span class="number">99</span>C49590 D2DBDEE1 <span class="number">75860</span>FD2</span><br><span class="line"><span class="number">8</span>C8BB2AD B2ECE5A4 EFC08AF2 <span class="number">25</span>A9B864</span><br><span class="line">------ END LICENSE ------​</span><br></pre></td></tr></table></figure>
-
-<p>测试可用</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1378,7 +1450,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

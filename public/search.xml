@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>Grafana 7.0 SMTP邮箱配置</title>
+      <link href="2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/"/>
+      <url>2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<h2 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h2><p>Grafana 以qq邮箱为例</p><p>修改grafana.ini配置文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># vim  /etc/grafana/grafana.ini  # 找到smtp标签</span></span><br><span class="line"><span class="comment">#################################### SMTP / Emailing ##########################</span></span><br><span class="line">[smtp]</span><br><span class="line">enabled = <span class="literal">true</span>。            <span class="comment"># 启用，默认是false</span></span><br><span class="line">host = smtp.qq.com:465      <span class="comment"># 邮箱服务器及端口</span></span><br><span class="line">user = 923401910@qq.com</span><br><span class="line"><span class="comment"># If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""</span></span><br><span class="line">password = xxxxxxxxxxx      <span class="comment"># 授权码/密码</span></span><br><span class="line">;cert_file =</span><br><span class="line">;key_file =</span><br><span class="line">;skip_verify = <span class="literal">false</span></span><br><span class="line">from_address = 923401910@qq.com <span class="comment"># 发件人账户，必须和user一致 </span></span><br><span class="line">from_name = Grafana   <span class="comment">#自定义的名字</span></span><br></pre></td></tr></table></figure><p>重启</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># /etc/init.d/grafana-server restart</span></span><br><span class="line">Restarting grafana-server (via systemctl):                 [  OK  ]</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure><p>测试结果</p><img src="/img/1601280147621.jpg"><img src="/img/1601279929133.jpg">]]></content>
+      
+      
+      <categories>
+          
+          <category> Grafana </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> grafana </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Grafana 基础概念及用法</title>
+      <link href="2020/09/28/Grafana-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%94%A8%E6%B3%95/"/>
+      <url>2020/09/28/Grafana-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%94%A8%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="Dashboard-仪表盘"><a href="#Dashboard-仪表盘" class="headerlink" title="Dashboard(仪表盘)"></a>Dashboard(仪表盘)</h3><p>仪表盘是Grafana里最为重要的一部分，它是由一行或者多行，或者多个面板组成。也就是说仪表盘可以单独由面板构成，也可以是面板和行一起构成。我们可以根据自己的需求来创建一个比较漂亮的仪表盘。<br>仪表盘也支持通过多种不同的方式来共享，支持通过链接的方式共享或者导出JSON等格式的文件。</p><p>仪表盘<br><img src="/img/1601276579189.jpg"></p><p>分享<br><img src="/img/1601275484127.jpg"></p><h3 id="Panel-面板"><a href="#Panel-面板" class="headerlink" title="Panel(面板)"></a>Panel(面板)</h3><p>面板(panel)是Grafana可视化的基本块。每个面板都有一个特定于面板中的选数据源的查询编辑器(依赖于数据源)。查询编辑器允许您提取完美的可视化效果以显示在面板上。<br>面板（或整个仪表板）可以以多种方式轻松共享，既可以通过链接分享，也可以导出JSON等文本文件。<br>为了显示数据，需要至少向Grafana添加一个数据源。同时面板可以在仪表板上拖放和重新排列。它们也可以调整大小。</p><p>比如像这样<br><img src="/img/1601274613586.jpg"></p><h3 id="Row-行"><a href="#Row-行" class="headerlink" title="Row(行)"></a>Row(行)</h3><p>行(Row)是仪表板内的逻辑分隔。用于将面板分组在一起。它一般是12个单位宽度，这些单位会根据浏览器的水平分辨率自动缩放。同时可以通过设置面板的特定宽度来控制面板中的相对宽度。<br>添加一个Row</p><p>1.添加一个面板<br><img src="/img/1601274985565.jpg"></p><p>2.修改成行<br><img src="/img/1601275067404.jpg"></p><p>3.添加完成<br>如果当前dashboard没有row，那么默认的面板将在新添加的row下。</p><p>可以编辑或者删除<br><img src="/img/1601275134123.jpg"></p><h3 id="Data-Source-数据源"><a href="#Data-Source-数据源" class="headerlink" title="Data Source(数据源)"></a>Data Source(数据源)</h3><p>数据源顾名思义就是数据来源，grafana只是作为数据可视化，需要后端提供数据。目前，Grafana官方提供了对：Graphite, InfluxDB,Mysql,OpenTSDB, Prometheus, Elasticsearch, CloudWatch,PostgreSQL等的支持。对于管理员而言，只需要将这些对象以数据源的形式添加到Grafana中，Grafana便可以轻松的实现对这些数据的可视化工作。从Grafana 3.0开始，可以将数据源安装为插件。</p><p>获得更多数据源：<a href="https://grafana.com/grafana/plugins，选择&quot;Plugin" target="_blank" rel="noopener">https://grafana.com/grafana/plugins，选择&quot;Plugin</a> Type” 为 “Data Source”即可查询数据源。</p><img src="/img/1601273969369.jpg"><h3 id="User-用户"><a href="#User-用户" class="headerlink" title="User(用户)"></a>User(用户)</h3><p>Grafana默认创建的用户为管理员账户，一般情况下如果需求开发或者给普通运维权限的话需要为每个用户单独创建一个指定的用户。并且可以给这些用户设定相关的权限。<br>在Grafana中，只有管理员可以管理用户和团队</p><img src="/img/1601277109820.jpg"><img src="/img/1601277292682.jpg"><img src="/img/1601277202629.jpg"><h3 id="Permissions-权限"><a href="#Permissions-权限" class="headerlink" title="Permissions(权限)"></a>Permissions(权限)</h3><ul><li>Admin Role（管理员角色）：可以做一切操作的组织。 例如：添加和编辑数据源。添加和编辑组织用户和团队。配置App插件并设置组织设置。</li><li>Editor Role（编辑角色）：可以创建和修改仪表板和警报规则。 可以在特定文件夹和仪表板上禁用此功能。无法创建或编辑数据源，也无法邀请新用户。</li><li>Viewer Role（查看者角色）：查看任何仪表板。 可以在特定文件夹和仪表板上禁用此功能。无法创建或编辑仪表板或数据源。</li></ul><p>重置管理员密码</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># grafana-cli  admin</span></span><br><span class="line">NAME:</span><br><span class="line">   Grafana CLI admin - Grafana admin commands</span><br><span class="line"></span><br><span class="line">USAGE:</span><br><span class="line">   Grafana CLI admin <span class="built_in">command</span> [<span class="built_in">command</span> options] [arguments...]</span><br><span class="line"></span><br><span class="line">COMMANDS:</span><br><span class="line">   reset-admin-password  reset-admin-password &lt;new password&gt;</span><br><span class="line">   data-migration        Runs a script that migrates or cleanups data <span class="keyword">in</span> your db</span><br><span class="line">   <span class="built_in">help</span>, h               Shows a list of commands or <span class="built_in">help</span> <span class="keyword">for</span> one <span class="built_in">command</span></span><br><span class="line"></span><br><span class="line">OPTIONS:</span><br><span class="line">   --<span class="built_in">help</span>, -h     show <span class="built_in">help</span> (default: <span class="literal">false</span>)</span><br><span class="line">   --version, -v  <span class="built_in">print</span> the version (default: <span class="literal">false</span>)</span><br><span class="line">   </span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># </span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># grafana-cli  admin reset-admin-password admin123456   # admin123456为新密码</span></span><br><span class="line">INFO[09-28|15:07:07] Connecting to DB                         logger=sqlstore dbtype=sqlite3</span><br><span class="line">INFO[09-28|15:07:07] Starting DB migrations                   logger=migrator</span><br><span class="line"></span><br><span class="line">Admin password changed successfully ✔</span><br></pre></td></tr></table></figure><h3 id="Plugins-插件"><a href="#Plugins-插件" class="headerlink" title="Plugins(插件)"></a>Plugins(插件)</h3><p>安装完Grafana后可以使用立即进行数据可视化，如果这些条件不满足，可以安装Grafana插件。也可以自己构建一个插件，构建插件<a href="https://grafana.com/docs/grafana/latest/developers/plugins/" target="_blank" rel="noopener">https://grafana.com/docs/grafana/latest/developers/plugins/</a><br>Grafana插件分为3种：1.面板  2.数据源   3.应用插件</p><p>插件位置：<a href="https://grafana.com/grafana/plugins" target="_blank" rel="noopener">https://grafana.com/grafana/plugins</a></p><p>插件安装有两种方式：</p><ul><li>使用命令行安装grafana-cli</li><li>下载插件的zip包到指定位置下</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Grafana </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> grafana </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Grafana 7.0 集成zabbix 5最新版本</title>
       <link href="2020/09/27/Grafana-%E9%9B%86%E6%88%90zabbix-5-0%E6%96%B9%E6%B3%95/"/>
       <url>2020/09/27/Grafana-%E9%9B%86%E6%88%90zabbix-5-0%E6%96%B9%E6%B3%95/</url>

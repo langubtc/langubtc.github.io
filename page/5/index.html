@@ -191,6 +191,288 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%8C/" class="post-title-link" itemprop="url">Gin web开发系列(二)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-09 15:58:40" itemprop="dateCreated datePublished" datetime="2020-06-09T15:58:40+08:00">2020-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-19 00:27:12" itemprop="dateModified" datetime="2020-06-19T00:27:12+08:00">2020-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gin/" itemprop="url" rel="index"><span itemprop="name">Gin</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%8C/" class="post-meta-item leancloud_visitors" data-flag-title="Gin web开发系列(二)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%8C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Gin渲染"><a href="#Gin渲染" class="headerlink" title="Gin渲染"></a>Gin渲染</h3><p>Gin支持各种渲染方法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">c.String()   <span class="comment">//返回字符串</span></span><br><span class="line">c.XML()  <span class="comment">//返回XML格式</span></span><br><span class="line">c.JSON() <span class="comment">//返回JSON数据格式</span></span><br><span class="line">c.HTML() <span class="comment">//返回HTML文档格式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h3><p>通常情况下使用Gin一般是用于写API接口，那另一个就是使用模版渲染。API通常用JSON数据返回即可，如果要用模版渲染就要使用HTML方式。<br>gin的模版文件比较简单，在工作目录下创建一个index.html即可，也可以使用go的模版文件命名index.tmpl。</p>
+<p>参考项目代码:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	r:=gin.Default()</span><br><span class="line">	r.LoadHTMLFiles(<span class="string">"index.html"</span>)</span><br><span class="line">	r.GET(<span class="string">"/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span></span> &#123;</span><br><span class="line">		context.HTML(<span class="number">200</span>,<span class="string">"index.html"</span>,<span class="literal">nil</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">	http.ListenAndServe(<span class="string">":8003"</span>,r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码首先创建了index.html的模版<br>通过r.LoadHTMLFiles加载这个文件，只有加载后才能使用模版<br>渲染模版context.HTML(200,”index.html”,nil)  nil表示不需要向模版传递变量，设置就可以向模版数据</p>
+<h3 id="模版变量"><a href="#模版变量" class="headerlink" title="模版变量"></a>模版变量</h3><p>上面我们提到了可以向模版传递变量，现在传递一个测试下</p>
+<p>index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    hello world  my &#123;&#123;.&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>传递变量</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	r:=gin.Default()</span><br><span class="line">	r.LoadHTMLFiles(<span class="string">"index.html"</span>)  <span class="comment">//r.LoadHTMLFiles("index.html","user.html")加载多个模版</span></span><br><span class="line">	r.GET(<span class="string">"/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span></span> &#123;</span><br><span class="line">		context.HTML(<span class="number">200</span>,<span class="string">"index.html"</span>,<span class="string">"name is roddy"</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run(<span class="string">":8003"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递多个变量</p>
+<p>使用gin.H, <code>H is a shortcut for map[string]interface{}</code></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">r.GET(<span class="string">"/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span> &#123;</span></span><br><span class="line">	context.HTML(<span class="number">200</span>,<span class="string">"index.html"</span>,gin.H&#123;</span><br><span class="line">		<span class="string">"name"</span>:<span class="string">"roddy"</span>,</span><br><span class="line">		<span class="string">"age"</span>:<span class="number">29</span>,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>模版使用  使用.”变量名”,如果使用{{.}}返回渲染的数据，interface对象</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    hello world  my name &#123;&#123;.name&#125;&#125; age &#123;&#123; .age&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问请求<br><img src="/img/20200609173549.png"></p>
+<h3 id="加载目录"><a href="#加载目录" class="headerlink" title="加载目录"></a>加载目录</h3><p>r.LoadHTMLFiles 可以加载多个模版文件，但是如果想加载一个目录下的所有模版文件如何设置呢？Gin提供了<code>LoadHTMLGlob</code>方法即可。<br>创建一个templates并将html文件移动到该目录下</p>
+<p>修改代码如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r:=gin.Default()</span><br><span class="line">r.LoadHTMLGlob(<span class="string">"template/*"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参考实例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	r:=gin.Default()</span><br><span class="line">	r.LoadHTMLGlob(<span class="string">"templates/*"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	r.GET(<span class="string">"/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span></span> &#123;</span><br><span class="line">		context.HTML(<span class="number">200</span>,<span class="string">"index.html"</span>,gin.H&#123;</span><br><span class="line">			<span class="string">"name"</span>:<span class="string">"roddy"</span>,</span><br><span class="line">			<span class="string">"age"</span>:<span class="number">29</span>,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	r.GET(<span class="string">"/user"</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span></span> &#123;</span><br><span class="line">		context.HTML(<span class="number">200</span>,<span class="string">"user.html"</span>,<span class="literal">nil</span>)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	r.Run(<span class="string">":8003"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>加载子目录</strong></p>
+<p>如果你的模版是类似这样的</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">templates/<span class="keyword">user</span>/<span class="keyword">index</span>.html</span><br><span class="line">templates/<span class="keyword">admin</span>/<span class="keyword">index</span>.html</span><br><span class="line">templates/product/<span class="keyword">index</span>.html</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>**/*</code>加载多级模版</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.LoadHTMLGlob(<span class="string">"templates/**/*"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h3><p>在html模版中默认的模版功能有时候可能不能满足我们的需求，这个时候我们需要自定一个函数解决，下面演示两个功能。一个是将string格式化成html格式，一个是md5</p>
+<p>使用<code>r.SetFuncMap()</code>方法</p>
+<p>实例一:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">r := gin.Default()</span><br><span class="line"><span class="comment">//自定义模版变量必须放在解析模版之前</span></span><br><span class="line">r.SetFuncMap(template.FuncMap&#123;</span><br><span class="line">	<span class="string">"safe"</span>: <span class="function"><span class="keyword">func</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">template</span>.<span class="title">HTML</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> template.HTML(str)</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">r.LoadHTMLGlob(<span class="string">"templates/*"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//r.LoadHTMLFiles("user.html")</span></span><br><span class="line">r.GET(<span class="string">"/user"</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span></span> &#123;</span><br><span class="line">	context.HTML(<span class="number">200</span>,<span class="string">"user.html"</span>,<span class="string">"&lt;a href='xxxx'&gt;herf&lt;/a&gt;"</span>) <span class="comment">//将字符串标签格式成html格式</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>This Is User Page &#123;&#123; . |safe &#125;&#125; <span class="tag">&lt;/<span class="name">h1</span>&gt;</span> //使用</span><br></pre></td></tr></table></figure>
+
+
+<p>实例二：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">r.SetFuncMap(template.FuncMap&#123;</span><br><span class="line">	<span class="string">"safe"</span>: <span class="function"><span class="keyword">func</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">template</span>.<span class="title">HTML</span></span>&#123;   <span class="comment">//这里可以添加多个自定义变量</span></span><br><span class="line">		<span class="keyword">return</span> template.HTML(str)</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">"md5"</span>: <span class="function"><span class="keyword">func</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>,error)</span></span>&#123;</span><br><span class="line">		hash:= md5.Sum([]<span class="keyword">byte</span>(str))</span><br><span class="line">		<span class="keyword">return</span> hex.EncodeToString(hash[:]),<span class="literal">nil</span></span><br><span class="line">	&#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; md5 .name&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="返回JSON数据"><a href="#返回JSON数据" class="headerlink" title="返回JSON数据"></a>返回JSON数据</h3><p>很多时候我们需要返回JSON数据给前端，那么可使用JSON渲染。</p>
+<p><strong>1.方法一</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// json数据</span></span><br><span class="line">r.GET(<span class="string">"/json"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line">	data := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;</span><br><span class="line">		<span class="string">"name"</span>:<span class="string">"roddy"</span>,</span><br><span class="line">		<span class="string">"message"</span>:<span class="string">"hello world!"</span>,</span><br><span class="line">		<span class="string">"age"</span>:<span class="number">28</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	c.JSON(http.StatusOK,data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.方法二</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以结构体返回json数据</span></span><br><span class="line">r.GET(<span class="string">"/structJson"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line">	<span class="keyword">type</span> Msg <span class="keyword">struct</span>&#123;</span><br><span class="line">		Name <span class="keyword">string</span> <span class="string">`json:"name"`</span></span><br><span class="line">		Age <span class="keyword">int</span></span><br><span class="line">		Message <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//实例化结构体数据</span></span><br><span class="line">	data := Msg&#123;<span class="string">"roddy"</span>,<span class="number">23</span>,<span class="string">"this is "</span>&#125;</span><br><span class="line"></span><br><span class="line">	c.JSON(http.StatusOK,data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80/" class="post-title-link" itemprop="url">Gin web开发系列(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-09 15:58:27" itemprop="dateCreated datePublished" datetime="2020-06-09T15:58:27+08:00">2020-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-19 00:26:48" itemprop="dateModified" datetime="2020-06-19T00:26:48+08:00">2020-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gin/" itemprop="url" rel="index"><span itemprop="name">Gin</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="Gin web开发系列(一)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Gin介绍"><a href="#Gin介绍" class="headerlink" title="Gin介绍"></a>Gin介绍</h3><p>最近在学习Golang，顺带研究下Golang的web框架。目前选择轻量级，也是比较流行的web框架的Gin。<br>官方介绍：Gin 是一个 Go (Golang) 语言框架。 它是一个拥有更好性能的 martini-like API 框架, 由于 httprouter，速度提高了近 40 倍。 如果你是性能和高效的追求者, 那么你会爱上 Gin。</p>
+<h3 id="Gin安装"><a href="#Gin安装" class="headerlink" title="Gin安装"></a>Gin安装</h3><p>1.安装gin</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get -u github.com/gin-gonic/gin</span><br></pre></td></tr></table></figure>
+
+<p>2.将gin添加到代码中</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line"></span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<p>3.初始化gin web引擎</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r := gin.Default()</span><br></pre></td></tr></table></figure>
+
+<p>4.配置方法和路由</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">r.GET(<span class="string">"/path"</span>)</span><br><span class="line">r.POST(<span class="string">"/path"</span>)</span><br><span class="line">r.PUT(<span class="string">"/path"</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p>5.启动</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.Run()  <span class="comment">//除了Run()方法还可以使用http.ListenAndServe方法</span></span><br></pre></td></tr></table></figure>
+
+<p>参考</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r:=gin.Default()</span><br><span class="line"></span><br><span class="line">http.ListenAndServe(<span class="string">":8003"</span>,r)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><p>参考样例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">HelloHandler</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line">	c.String(<span class="number">200</span>,<span class="string">"Hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r:=gin.Default()</span><br><span class="line">	r.GET(<span class="string">"/index"</span>,HelloHandler)</span><br><span class="line">	r.Run(<span class="string">":8002"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果内容不是较为复杂，可使用匿名函数写法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r:=gin.<span class="type">Default</span>()</span><br><span class="line">	r.<span class="type">GET</span>(<span class="string">"/index"</span>, <span class="function"><span class="keyword">func</span><span class="params">(<span class="built_in">c</span> *gin.Context)</span></span> &#123;</span><br><span class="line">		<span class="built_in">c</span>.<span class="type">String</span>(<span class="number">200</span>,<span class="string">"New Hello world"</span>)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.<span class="type">Run</span>(<span class="string">":8002"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问结果</p>
+<img src="/img/20200609165112.png">
+
+
+<h3 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h3><ul>
+<li><a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">https://github.com/gin-gonic/gin</a></li>
+<li><a href="https://gin-gonic.com" target="_blank" rel="noopener">https://gin-gonic.com</a></li>
+<li><a href="https://gin-gonic.com/zh-cn/doc" target="_blank" rel="noopener">https://gin-gonic.com/zh-cn/doc</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/04/golang-%E6%8A%A5%E9%94%99mismatched-types-Duration-and-int/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1174,211 +1456,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/21/golang-%E8%AF%BB%E5%8F%96YAML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/21/golang-%E8%AF%BB%E5%8F%96YAML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">golang 读取YAML配置文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-21 10:57:53 / 修改时间：13:41:56" itemprop="dateCreated datePublished" datetime="2020-05-21T10:57:53+08:00">2020-05-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/05/21/golang-%E8%AF%BB%E5%8F%96YAML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="post-meta-item leancloud_visitors" data-flag-title="golang 读取YAML配置文件" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/05/21/golang-%E8%AF%BB%E5%8F%96YAML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/21/golang-%E8%AF%BB%E5%8F%96YAML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="YAML配置"><a href="#YAML配置" class="headerlink" title="YAML配置"></a>YAML配置</h3><p>参考配置文件config.yaml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">languages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Ruby</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Perl</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Python</span></span><br><span class="line"><span class="attr">Nginx:</span></span><br><span class="line">  <span class="attr">Port:</span> <span class="number">443</span></span><br><span class="line">  <span class="attr">LogPath:</span>  <span class="string">"/var/log//nginx/nginx.log"</span></span><br><span class="line">  <span class="attr">Path:</span> <span class="string">"/opt/nginx/"</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="安装yaml包"><a href="#安装yaml包" class="headerlink" title="安装yaml包"></a>安装yaml包</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">go</span> <span class="built_in">get</span> gopkg.<span class="keyword">in</span>/yaml.v2</span><br></pre></td></tr></table></figure>
-
-<h3 id="结构体解析"><a href="#结构体解析" class="headerlink" title="结构体解析"></a>结构体解析</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Nginx <span class="keyword">struct</span> &#123;</span><br><span class="line">	Port <span class="keyword">int</span> <span class="string">`yaml:"Port"`</span></span><br><span class="line">	LogPath <span class="keyword">string</span> <span class="string">`yaml:"LogPath"`</span></span><br><span class="line">	Path <span class="keyword">string</span> <span class="string">`yaml:"Path"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> language <span class="keyword">struct</span> &#123;</span><br><span class="line">	Languages []<span class="keyword">string</span></span><br><span class="line">	SiteNginx  Nginx <span class="string">`yaml:"Nginx"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="解析YAML"><a href="#解析YAML" class="headerlink" title="解析YAML"></a>解析YAML</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> language language</span><br><span class="line"></span><br><span class="line">file, err := ioutil.ReadFile(<span class="string">"config.yaml"</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	log.Printf(<span class="string">"yamlFile.Get err   #%v "</span>, err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">err = yaml.Unmarshal(file, &amp;language)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	log.Fatalf(<span class="string">"Unmarshal: %v"</span>, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"gopkg.in/yaml.v2"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Nginx <span class="keyword">struct</span> &#123;</span><br><span class="line">	Port <span class="keyword">int</span> <span class="string">`yaml:"Port"`</span></span><br><span class="line">	LogPath <span class="keyword">string</span> <span class="string">`yaml:"LogPath"`</span></span><br><span class="line">	Path <span class="keyword">string</span> <span class="string">`yaml:"Path"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> language <span class="keyword">struct</span> &#123;</span><br><span class="line">	Languages []<span class="keyword">string</span></span><br><span class="line">	SiteNginx  Nginx <span class="string">`yaml:"Nginx"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> language language</span><br><span class="line"></span><br><span class="line">	file, err := ioutil.ReadFile(<span class="string">"config.yaml"</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"读取配置文件失败   #%v "</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	err = yaml.Unmarshal(file, &amp;language)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalf(<span class="string">"解析失败: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(language.Languages)</span><br><span class="line">	fmt.Println(language.SiteNginx.Port)</span><br><span class="line">	fmt.Println(language.SiteNginx.LogPath)</span><br><span class="line">	fmt.Println(language.SiteNginx.Path)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/21/golang-%E8%AF%BB%E5%8F%96ini%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/21/golang-%E8%AF%BB%E5%8F%96ini%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">golang 读取ini配置文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-21 10:57:35 / 修改时间：11:48:30" itemprop="dateCreated datePublished" datetime="2020-05-21T10:57:35+08:00">2020-05-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/05/21/golang-%E8%AF%BB%E5%8F%96ini%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="post-meta-item leancloud_visitors" data-flag-title="golang 读取ini配置文件" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/05/21/golang-%E8%AF%BB%E5%8F%96ini%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/21/golang-%E8%AF%BB%E5%8F%96ini%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="ini配置文件"><a href="#ini配置文件" class="headerlink" title="ini配置文件"></a>ini配置文件</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Host]</span></span><br><span class="line"><span class="attr">host</span>=<span class="string">"127.0.0.1"</span></span><br><span class="line"><span class="attr">name</span>=<span class="string">"roddy"</span></span><br><span class="line"><span class="attr">dbpath</span>=<span class="string">"/user/local/mysql/bin/"</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="安装gcfg-v1"><a href="#安装gcfg-v1" class="headerlink" title="安装gcfg.v1"></a>安装gcfg.v1</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get gopkg.in/gcfg.v1</span><br></pre></td></tr></table></figure>
-
-<h3 id="解析ini"><a href="#解析ini" class="headerlink" title="解析ini"></a>解析ini</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">config := <span class="keyword">struct</span> &#123;</span><br><span class="line">	Host <span class="keyword">struct</span>&#123;</span><br><span class="line">		Host <span class="keyword">string</span></span><br><span class="line">		Name <span class="keyword">string</span></span><br><span class="line">		DBPath <span class="keyword">string</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">err := gcfg.ReadFileInto(&amp;config, <span class="string">"config.ini"</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	fmt.Printf(<span class="string">"读取文件失败,err:%v\n"</span>,err)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="多Section解析"><a href="#多Section解析" class="headerlink" title="多Section解析"></a>多Section解析</h3><p>多节点配置文件</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Host]</span></span><br><span class="line"><span class="attr">host</span>=<span class="string">"127.0.0.1"</span></span><br><span class="line"><span class="attr">name</span>=<span class="string">"roddy"</span></span><br><span class="line"><span class="attr">dbpath</span>=<span class="string">"/user/local/mysql/bin/"</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Config]</span></span><br><span class="line"><span class="attr">path</span>=<span class="string">"/etc/sys.ini"</span></span><br><span class="line"><span class="attr">user</span>=<span class="string">"roddy"</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3388</span></span><br></pre></td></tr></table></figure>
-
-<p>解析</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">config := <span class="keyword">struct</span> &#123;</span><br><span class="line">	Host <span class="keyword">struct</span>&#123;</span><br><span class="line">		Host <span class="keyword">string</span></span><br><span class="line">		Name <span class="keyword">string</span></span><br><span class="line">		DBPath <span class="keyword">string</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Config <span class="keyword">struct</span>&#123;</span><br><span class="line">		Path <span class="keyword">string</span></span><br><span class="line">		User <span class="keyword">string</span></span><br><span class="line">		Port <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="完整实例"><a href="#完整实例" class="headerlink" title="完整实例"></a>完整实例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"gopkg.in/gcfg.v1"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	config := <span class="keyword">struct</span> &#123;</span><br><span class="line">		Host <span class="keyword">struct</span>&#123;</span><br><span class="line">			Host <span class="keyword">string</span></span><br><span class="line">			Name <span class="keyword">string</span></span><br><span class="line">			DBPath <span class="keyword">string</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		Config <span class="keyword">struct</span>&#123;</span><br><span class="line">			Path <span class="keyword">string</span></span><br><span class="line">			User <span class="keyword">string</span></span><br><span class="line">			Port <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;&#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">"xxx"</span>)</span><br><span class="line">	err := gcfg.ReadFileInto(&amp;config, <span class="string">"config.ini"</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"读取文件失败,err:%v\n"</span>,err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(config.Host.Host)</span><br><span class="line">	fmt.Println(config.Host.Name)</span><br><span class="line">	fmt.Println(config.Host.DBPath)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"----------------"</span>)</span><br><span class="line">	fmt.Println(config.Config.Path)</span><br><span class="line">	fmt.Println(config.Config.Port)</span><br><span class="line">	fmt.Println(config.Config.User)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1448,7 +1525,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
