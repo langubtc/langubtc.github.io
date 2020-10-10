@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.roddypy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="Influxdb介绍InfluxDB是一个时间序列数据库，旨在处理较高的写入和查询负载。它是TICK Stack（Telegraf，InfluxDB，Chronograf，Kapacitor）的开源时间序列数据库组件。旨在处理高写入和查询负载，并提供一种称为InfluxQL的类似于SQL的查询语言，用于与数据进行交互。目前有开源版和企业版本，具体费用及价格参照官网https:&#x2F;&#x2F;www.influ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="influxdb for centos 安装部署">
+<meta property="og:url" content="http://www.roddypy.com/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="普拉多VX">
+<meta property="og:description" content="Influxdb介绍InfluxDB是一个时间序列数据库，旨在处理较高的写入和查询负载。它是TICK Stack（Telegraf，InfluxDB，Chronograf，Kapacitor）的开源时间序列数据库组件。旨在处理高写入和查询负载，并提供一种称为InfluxQL的类似于SQL的查询语言，用于与数据进行交互。目前有开源版和企业版本，具体费用及价格参照官网https:&#x2F;&#x2F;www.influ">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.roddypy.com/img/1602296276751.jpg">
+<meta property="article:published_time" content="2020-10-10T01:58:16.000Z">
+<meta property="article:modified_time" content="2020-10-10T03:36:30.954Z">
+<meta property="article:author" content="Roddy">
+<meta property="article:tag" content="influxdb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.roddypy.com/img/1602296276751.jpg">
+
+<link rel="canonical" href="http://www.roddypy.com/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>influxdb for centos 安装部署 | 普拉多VX</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">普拉多VX</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生一路，不问来时，不知归期</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          influxdb for centos 安装部署
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-10 09:58:16 / 修改时间：11:36:30" itemprop="dateCreated datePublished" datetime="2020-10-10T09:58:16+08:00">2020-10-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Influxdb/" itemprop="url" rel="index"><span itemprop="name">Influxdb</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" class="post-meta-item leancloud_visitors" data-flag-title="influxdb for centos 安装部署" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Influxdb介绍"><a href="#Influxdb介绍" class="headerlink" title="Influxdb介绍"></a>Influxdb介绍</h2><p>InfluxDB是一个时间序列数据库，旨在处理较高的写入和查询负载。它是TICK Stack（Telegraf，InfluxDB，Chronograf，Kapacitor）的开源时间序列数据库组件。旨在处理高写入和查询负载，并提供一种称为InfluxQL的类似于SQL的查询语言，用于与数据进行交互。目前有开源版和企业版本，具体费用及价格参照官网<a href="https://www.influxdata.com/products/influxdb-overview/" target="_blank" rel="noopener">https://www.influxdata.com/products/influxdb-overview/</a></p>
+<p><strong>主要特性有：</strong></p>
+<ul>
+<li>内置HTTP接口，使用方便</li>
+<li>数据可以打标记，这样查询可以很灵活</li>
+<li>类SQL的查询语句</li>
+<li>安装管理很简单，并且读写数据很高效</li>
+<li>能够实时查询，数据在写入时被索引后就能够被立即查出</li>
+<li>……</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装环境系统为 Centos7</p>
+<p>1.下载<br><a href="https://portal.influxdata.com/downloads/" target="_blank" rel="noopener">https://portal.influxdata.com/downloads/</a></p>
+<p>选择1.8.3<br>后会弹出如下安装方式<br><img src="/img/1602296276751.jpg"></p>
+<p>2.安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># wget https://dl.influxdata.com/influxdb/releases/influxdb-1.8.3.x86_64.rpm  # 下载</span></span><br><span class="line">sudo yum localinstall influxdb-1.8.3.x86_64.rpm--2020-10-10 10:14:53--  https://dl.influxdata.com/influxdb/releases/influxdb-1.8.3.x86_64.rpm</span><br><span class="line">Resolving dl.influxdata.com (dl.influxdata.com)... 13.227.75.119, 13.227.75.14, 13.227.75.22, ...</span><br><span class="line">Connecting to dl.influxdata.com (dl.influxdata.com)|13.227.75.119|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 64097226 (61M) [application/octet-stream]</span><br><span class="line">Saving to: ‘influxdb-1.8.3.x86_64.rpm’</span><br><span class="line"></span><br><span class="line">100%[===========================================================================================================================&gt;] 64,097,226  2.62MB/s   <span class="keyword">in</span> 27s    </span><br><span class="line"></span><br><span class="line">2020-10-10 10:15:20 (2.28 MB/s) - ‘influxdb-1.8.3.x86_64.rpm’ saved [64097226/64097226]</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># sudo yum localinstall influxdb-1.8.3.x86_64.rpm # 安装</span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="网络端口"><a href="#网络端口" class="headerlink" title="网络端口"></a>网络端口</h2><p>默认情况下，InfluxDB使用以下端口</p>
+<ul>
+<li>TCP端口8086通过InfluxDB HTTP API进行客户端-服务器通信。</li>
+<li>TCP端口8088可用于RPC服务执行备份和还原操作。</li>
+</ul>
+<h2 id="生成文件"><a href="#生成文件" class="headerlink" title="生成文件"></a>生成文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/etc/influxdb/influxdb.conf    <span class="comment"># 配置文件</span></span><br><span class="line">/etc/logrotate.d/influxdb      <span class="comment"># 日志文件轮询配置</span></span><br><span class="line">/usr/bin/influx                <span class="comment"># cli 命令</span></span><br><span class="line">/usr/bin/influx_inspect</span><br><span class="line">/usr/bin/influx_stress</span><br><span class="line">/usr/bin/influx_tsm</span><br><span class="line">/usr/bin/influxd              <span class="comment"># 二进制文件</span></span><br><span class="line">/usr/lib/influxdb/scripts/influxdb.service <span class="comment"># 开机启动文件</span></span><br><span class="line">/usr/lib/influxdb/scripts/init.sh</span><br><span class="line">/usr/share/man/man1/influx.1.gz</span><br><span class="line">/usr/share/man/man1/influx_inspect.1.gz</span><br><span class="line">/usr/share/man/man1/influx_stress.1.gz</span><br><span class="line">/usr/share/man/man1/influx_tsm.1.gz</span><br><span class="line">/usr/share/man/man1/influxd-backup.1.gz</span><br><span class="line">/usr/share/man/man1/influxd-config.1.gz</span><br><span class="line">/usr/share/man/man1/influxd-restore.1.gz</span><br><span class="line">/usr/share/man/man1/influxd-run.1.gz</span><br><span class="line">/usr/share/man/man1/influxd-version.1.gz</span><br><span class="line">/usr/share/man/man1/influxd.1.gz</span><br><span class="line">/var/lib/influxdb   <span class="comment"># 库文件</span></span><br><span class="line">/var/<span class="built_in">log</span>/influxdb   <span class="comment"># 日志存放路径</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">[meta]</span><br><span class="line">  <span class="comment"># Where the metadata/raft database is stored  # 元数据存放路径</span></span><br><span class="line">  dir = <span class="string">"/var/lib/influxdb/meta"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Automatically create a default retention policy when creating a database.</span></span><br><span class="line">  <span class="comment"># retention-autocreate = true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># If log messages are printed for the meta service</span></span><br><span class="line">  <span class="comment"># logging-enabled = true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"><span class="comment">### [data]</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"><span class="comment">### Controls where the actual shard data for InfluxDB lives and how it is</span></span><br><span class="line"><span class="comment">### flushed from the WAL. "dir" may need to be changed to a suitable place</span></span><br><span class="line"><span class="comment">### for your system, but the WAL settings are an advanced configuration. The</span></span><br><span class="line"><span class="comment">### defaults should work for most systems.</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line">[data]</span><br><span class="line">  <span class="comment"># The directory where the TSM storage engine stores TSM files.</span></span><br><span class="line">  dir = <span class="string">"/var/lib/influxdb/data"</span> <span class="comment"># 数据存储目录</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The directory where the TSM storage engine stores WAL files.</span></span><br><span class="line">  wal-dir = <span class="string">"/var/lib/influxdb/wal"</span> <span class="comment"># wal 数据存储目录</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># The amount of time that a write will wait before fsyncing.  A duration</span></span><br><span class="line">  <span class="comment"># greater than 0 can be used to batch up multiple fsync calls.  This is useful for slower</span></span><br><span class="line">  <span class="comment"># disks or when WAL write contention is seen.  A value of 0s fsyncs every write to the WAL.</span></span><br><span class="line">  <span class="comment"># Values in the range of 0-100ms are recommended for non-SSD disks.</span></span><br><span class="line">  <span class="comment"># wal-fsync-delay = "0s"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The type of shard index to use for new shards.  The default is an in-memory index that is</span></span><br><span class="line">  <span class="comment"># recreated at startup.  A value of "tsi1" will use a disk based index that supports higher</span></span><br><span class="line">  <span class="comment"># cardinality datasets.</span></span><br><span class="line">  <span class="comment"># index-version = "inmem"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Trace logging provides more verbose output around the tsm engine. Turning</span></span><br><span class="line">  <span class="comment"># this on can provide more useful output for debugging tsm engine issues.</span></span><br><span class="line">  <span class="comment"># trace-logging-enabled = false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Whether queries should be logged before execution. Very useful for troubleshooting, but will</span></span><br><span class="line">  <span class="comment"># log any sensitive data contained within a query.</span></span><br><span class="line">  <span class="comment"># query-log-enabled = true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Validates incoming writes to ensure keys only have valid unicode characters.</span></span><br><span class="line">  <span class="comment"># This setting will incur a small overhead because every key must be checked.</span></span><br><span class="line">  <span class="comment"># validate-keys = false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Settings for the TSM engine</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># CacheMaxMemorySize is the maximum size a shard's cache can</span></span><br><span class="line">  <span class="comment"># reach before it starts rejecting writes.</span></span><br><span class="line">  <span class="comment"># Valid size suffixes are k, m, or g (case insensitive, 1024 = 1k).</span></span><br><span class="line">  <span class="comment"># Values without a size suffix are in bytes.</span></span><br><span class="line">  cache-max-memory-size = <span class="string">"1g"</span>  <span class="comment"># 最大缓存大小，可以设置k,m,g</span></span><br><span class="line"></span><br><span class="line">[coordinator]</span><br><span class="line">  <span class="comment"># The default time a write request will wait until a "timeout" error is returned to the caller.</span></span><br><span class="line">  write-timeout = <span class="string">"10s"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The maximum number of concurrent queries allowed to be executing at one time.  If a query is</span></span><br><span class="line">  <span class="comment"># executed and exceeds this limit, an error is returned to the caller.  This limit can be disabled</span></span><br><span class="line">  <span class="comment"># by setting it to 0.</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># max-concurrent-queries项是配置最大的可执行的命令数，此项值为零则表示无限制。</span></span><br><span class="line">  <span class="comment"># 如果你执行的命令数超过这个配置项的数量，则会报如下错误:</span></span><br><span class="line">  <span class="comment"># ERR: max concurrent queries reached</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  max-concurrent-queries = 0</span><br><span class="line"></span><br><span class="line">  <span class="comment"># The maximum time a query will is allowed to execute before being killed by the system.  This limit</span></span><br><span class="line">  <span class="comment"># can help prevent run away queries.  Setting the value to 0 disables the limit.</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># query-timeout项用来配置命令的超时时间，如果命令的执行时长超过了此时间，则influxDB会杀掉这条语句并报出如下错误：</span></span><br><span class="line">  <span class="comment"># ERR: query timeout reached</span></span><br><span class="line">  <span class="comment"># 如果配置了连续查询，那么最好不要配置query-timeout超时时间，因为随着数据量的增加，连续查询生成的数据所需要的时间更长，配置之后会导致数据生成不成功。</span></span><br><span class="line">  query-timeout = <span class="string">"0"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The time threshold when a query will be logged as a slow query.  This limit can be set to help</span></span><br><span class="line">  <span class="comment"># discover slow or resource intensive queries.  Setting the value to 0 disables the slow query logging.</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="comment"># log-queries-after用来配置执行时长为多少的语句会被记录为慢查询。配置为0则表示不会记录这些语句。</span></span><br><span class="line">  <span class="comment"># 比如，改项配置为“1s”，则执行时长超过1秒的语句会被标记为慢查询，并记录在日志里。</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="built_in">log</span>-queries-after = <span class="string">"10s"</span></span><br><span class="line"></span><br><span class="line">[http]</span><br><span class="line">  <span class="comment"># Determines whether HTTP endpoint is enabled.</span></span><br><span class="line">  <span class="comment"># enabled = true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The bind address used by the HTTP service.</span></span><br><span class="line">   <span class="built_in">bind</span>-address = <span class="string">":8066"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Determines whether user authentication is enabled over HTTP/HTTPS.</span></span><br><span class="line">  <span class="comment"># auth-enabled = false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The default realm sent back when issuing a basic auth challenge.</span></span><br><span class="line">  <span class="comment"># realm = "InfluxDB"</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Determines whether HTTP request logging is enabled.</span></span><br><span class="line">  <span class="comment"># 默认为true,会生成很多http请求的数据，建议关闭，不然日志文件跟插入数据量成正比，大致1:1的关系</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="built_in">log</span>-enabled = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># The default chunk size for result sets that should be chunked.</span></span><br><span class="line">  <span class="comment"># 查询页面显示最大记录数</span></span><br><span class="line">  max-row-limit = 10000</span><br><span class="line"></span><br><span class="line">[continuous_queries]</span><br><span class="line">  <span class="comment"># Determines whether the continuous query service is enabled.</span></span><br><span class="line">  <span class="comment"># //开启连续查询</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Controls whether queries are logged when executed by the CQ service.</span></span><br><span class="line">  <span class="comment"># //开启连续查询的日志，有助于异常发现</span></span><br><span class="line">  <span class="comment">#</span></span><br><span class="line">  <span class="built_in">log</span>-enabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Controls whether queries are logged to the self-monitoring data store.</span></span><br><span class="line">  <span class="comment"># query-stats-enabled = false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># interval for how often continuous queries will be checked if they need to run</span></span><br><span class="line">  <span class="comment"># run-interval = "1s"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>可以看到目前两个端口都已启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl  start influxdb.service</span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># netstat -nlpt | grep influxd</span></span><br><span class="line">tcp        0      0 127.0.0.1:8088          0.0.0.0:*               LISTEN      2844/influxd        </span><br><span class="line">tcp6       0      0 :::8086                 :::*                    LISTEN      2844/influxd        </span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="WEBUI"><a href="#WEBUI" class="headerlink" title="WEBUI"></a>WEBUI</h2><p>从influxdb1.3+都已经取消了web管理界面,只有安装低版本的influxdb,或者两种并存，但是需要修改数据目录指向1.8版本 参考<a href="https://blog.csdn.net/wsdc0521/article/details/106064914/。" target="_blank" rel="noopener">https://blog.csdn.net/wsdc0521/article/details/106064914/。</a></p>
+<h2 id="命令行基本使用"><a href="#命令行基本使用" class="headerlink" title="命令行基本使用"></a>命令行基本使用</h2><p>安装完成后输入influx即可进入命令行</p>
+<p>1.进入命令行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># influx</span></span><br><span class="line">Connected to http://localhost:8086 version 1.8.3</span><br><span class="line">InfluxDB shell version: 1.8.3</span><br><span class="line">&gt; </span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.查看数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; show databases; <span class="comment"># 查看数据库</span></span><br><span class="line">name: databases</span><br><span class="line">name</span><br><span class="line">----</span><br><span class="line">_internal   <span class="comment"># 默认系统自带数据库_internal</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3.创建数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; create database roddydb;</span><br><span class="line">&gt; show databases;</span><br><span class="line">name: databases</span><br><span class="line">name</span><br><span class="line">----</span><br><span class="line">_internal</span><br><span class="line">roddydb</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>4.使用数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use roddydb</span><br><span class="line">Using database roddydb</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>5.写入数据</p>
+<p>向cpu中新增一条记录，如果cpu这个measurement不存在，则新建一个。host，ip 称为TAG，value为值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; INSERT cpu,host=WEB,IP=172.16.2.3 value=0.64</span><br></pre></td></tr></table></figure>
+
+<p>6.查询measurements(表)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; show MEASUREMENTS;</span><br><span class="line">name: measurements</span><br><span class="line">name</span><br><span class="line">----</span><br><span class="line">cpu</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>7.查询全部记录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; select * from cpu</span><br><span class="line">name: cpu</span><br><span class="line">time                IP         host value</span><br><span class="line">----                --         ---- -----</span><br><span class="line">1602299302885589799 172.16.2.3 WEB  0.64</span><br><span class="line">1602299673721103381 172.16.243 WEB  0.95</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>8.筛选条件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; select * from <span class="string">"cpu"</span> <span class="built_in">where</span> value &gt; 0.8</span><br><span class="line">name: cpu</span><br><span class="line">time                IP         host value</span><br><span class="line">----                --         ---- -----</span><br><span class="line">1602299673721103381 172.16.243 WEB  0.95</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意 ：在WHERE子句中，如果是string类型的field value，一定要用单引号括起来。如果不适用引号括起来，或者使用的是双引号，将不会返回任何数据，有时甚至都不报错！</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; select * from <span class="string">"cpu"</span> <span class="built_in">where</span> <span class="string">"IP"</span> = <span class="string">'172.16.2.3'</span> <span class="comment"># value要为单引号</span></span><br><span class="line">name: cpu</span><br><span class="line">time                IP         host value</span><br><span class="line">----                --         ---- -----</span><br><span class="line">1602299302885589799 172.16.2.3 WEB  0.64</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; select * from <span class="string">"cpu"</span> <span class="built_in">where</span> <span class="string">"host"</span> = <span class="string">'WEB'</span></span><br><span class="line">name: cpu</span><br><span class="line">time                IP         host value</span><br><span class="line">----                --         ---- -----</span><br><span class="line">1602299302885589799 172.16.2.3 WEB  0.64</span><br><span class="line">1602299673721103381 172.16.243 WEB  0.95</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>9.删除表/measurements</p>
+<p>方法1.删除表里的数据,直到没有数据那么该measurements就被删除。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; show MEASUREMENTs</span><br><span class="line">name: measurements</span><br><span class="line">name</span><br><span class="line">----</span><br><span class="line">cpu</span><br><span class="line">&gt; select * from <span class="string">"cpu"</span></span><br><span class="line">name: cpu</span><br><span class="line">time                IP          host value</span><br><span class="line">----                --          ---- -----</span><br><span class="line">1602300774790998139 192.168.2.3 DB   0.12</span><br><span class="line"></span><br><span class="line">&gt; delete from cpu <span class="built_in">where</span> <span class="string">"IP"</span>=<span class="string">'192.168.2.3'</span></span><br><span class="line">&gt; select * from <span class="string">"cpu"</span></span><br><span class="line">&gt; show MEASUREMENTs</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<p>方法2.使用drop</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; drop MEASUREMENT cpu</span><br></pre></td></tr></table></figure>
+
+<p>更多语法参考官网：<a href="https://docs.influxdata.com/influxdb/v1.8/query_language/sample-data/" target="_blank" rel="noopener">https://docs.influxdata.com/influxdb/v1.8/query_language/sample-data/</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://portal.influxdata.com/downloads/" target="_blank" rel="noopener">https://portal.influxdata.com/downloads/</a></li>
+<li><a href="https://docs.influxdata.com/influxdb/v1.8/introduction/install/" target="_blank" rel="noopener">https://docs.influxdata.com/influxdb/v1.8/introduction/install/</a></li>
+<li><a href="https://www.jianshu.com/p/5f732c5b848e" target="_blank" rel="noopener">https://www.jianshu.com/p/5f732c5b848e</a></li>
+<li><a href="https://docs.influxdata.com/influxdb/v1.8/query_language/sample-data/" target="_blank" rel="noopener">https://docs.influxdata.com/influxdb/v1.8/query_language/sample-data/</a></li>
+<li><a href="https://www.cnblogs.com/suhaha/archive/2019/10/17/11692210.html" target="_blank" rel="noopener">https://www.cnblogs.com/suhaha/archive/2019/10/17/11692210.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/influxdb/" rel="tag"># influxdb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/" rel="prev" title="Grafana 7.0 SMTP邮箱配置">
+      <i class="fa fa-chevron-left"></i> Grafana 7.0 SMTP邮箱配置
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Influxdb介绍"><span class="nav-number">1.</span> <span class="nav-text">Influxdb介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络端口"><span class="nav-number">3.</span> <span class="nav-text">网络端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成文件"><span class="nav-number">4.</span> <span class="nav-text">生成文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">5.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">6.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEBUI"><span class="nav-number">7.</span> <span class="nav-text">WEBUI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行基本使用"><span class="nav-number">8.</span> <span class="nav-text">命令行基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Roddy</p>
+  <div class="site-description" itemprop="description">认认真真做事，踏踏实实做人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/langubtc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;langubtc" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:923401910@qq.com" title="E-Mail → mailto:923401910@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.liwenzhou.com/" title="https:&#x2F;&#x2F;www.liwenzhou.com" rel="noopener" target="_blank">李文周</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.rainbowei.com/" title="http:&#x2F;&#x2F;www.rainbowei.com" rel="noopener" target="_blank">孙科伟</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://xiaorui.cc/" title="http:&#x2F;&#x2F;xiaorui.cc" rel="noopener" target="_blank">丙峰云</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.simlinux.com/" title="http:&#x2F;&#x2F;www.simlinux.com" rel="noopener" target="_blank">Geekwolf</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ttxsgoto.github.io/" title="https:&#x2F;&#x2F;ttxsgoto.github.io" rel="noopener" target="_blank">钟强博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roddy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?547d989a7055abbbc8faf5fc9e5fb90a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'OkYu0hJfOxyBXYDjgnYWA3m2-gzGzoHsz',
+      appKey     : 'z3bkXuLWL3R5uos7A5zbBsUV',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

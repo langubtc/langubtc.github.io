@@ -191,6 +191,159 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/22/zabbix-sender%E5%92%8Cget%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/22/zabbix-sender%E5%92%8Cget%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">zabbix sender和get使用方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-22 10:31:53 / 修改时间：12:05:06" itemprop="dateCreated datePublished" datetime="2020-09-22T10:31:53+08:00">2020-09-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/22/zabbix-sender%E5%92%8Cget%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix sender和get使用方法" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/22/zabbix-sender%E5%92%8Cget%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/22/zabbix-sender%E5%92%8Cget%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="zabbix-sender"><a href="#zabbix-sender" class="headerlink" title="zabbix_sender"></a>zabbix_sender</h2><p>zabbix_sender 是用于将监视数据发送到Zabbix服务器或代理的命令行实用程序。也就是说可以在客户端主动上报数据给zabbix服务器，前提需要配置具体的监控项（items)。</p>
+<p>zabbix_sender安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment"># yum install zabbix-sender -y</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * centos-sclo-rh: mirrors.huaweicloud.com</span><br><span class="line"> * centos-sclo-sclo: mirrors.bfsu.edu.cn</span><br><span class="line">Resolving Dependencies</span><br><span class="line">--&gt; Running transaction check</span><br><span class="line">---&gt; Package zabbix-sender.x86_64 0:5.0.3-1.el7 will be installed</span><br><span class="line">--&gt; Finished Dependency Resolution</span><br><span class="line"></span><br><span class="line">Dependencies Resolved</span><br><span class="line"></span><br><span class="line">=====================================================================================================================================================================</span><br><span class="line"> Package                                    Arch                                Version                                    Repository                           Size</span><br><span class="line">=====================================================================================================================================================================</span><br><span class="line">Installing:</span><br><span class="line"> zabbix-sender                              x86_64                              5.0.3-1.el7                                zabbix                              348 k</span><br><span class="line"></span><br><span class="line">Transaction Summary</span><br><span class="line">=====================================================================================================================================================================</span><br><span class="line">Install  1 Package</span><br><span class="line"></span><br><span class="line">Total download size: 348 k</span><br><span class="line">Installed size: 1.5 M</span><br><span class="line">Downloading packages:</span><br><span class="line">zabbix-sender-5.0.3-1.el7.x86_64.rpm                                                                                                          | 348 kB  00:00:00     </span><br><span class="line">Running transaction check</span><br><span class="line">Running transaction <span class="built_in">test</span></span><br><span class="line">Transaction <span class="built_in">test</span> succeeded</span><br><span class="line">Running transaction</span><br><span class="line">  Installing : zabbix-sender-5.0.3-1.el7.x86_64                                                                                                                  1/1 </span><br><span class="line">  Verifying  : zabbix-sender-5.0.3-1.el7.x86_64                                                                                                                  1/1 </span><br><span class="line"></span><br><span class="line">Installed:</span><br><span class="line">  zabbix-sender.x86_64 0:5.0.3-1.el7                                                                                                                                 </span><br><span class="line"></span><br><span class="line">Complete!</span><br><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Example(s):</span><br><span class="line">  zabbix_sender -z 127.0.0.1 -s <span class="string">"Linux DB3"</span> -k db.connections -o 43</span><br><span class="line"></span><br><span class="line">  zabbix_sender -z 127.0.0.1 -s <span class="string">"Linux DB3"</span> -k db.connections -o 43 \</span><br><span class="line">    --tls-connect cert --tls-ca-file /home/zabbix/zabbix_ca_file \</span><br><span class="line">    --tls-server-cert-issuer \</span><br><span class="line">    <span class="string">"CN=Signing CA,OU=IT operations,O=Example Corp,DC=example,DC=com"</span> \</span><br><span class="line">    --tls-server-cert-subject \</span><br><span class="line">    <span class="string">"CN=Zabbix proxy,OU=IT operations,O=Example Corp,DC=example,DC=com"</span> \</span><br><span class="line">    --tls-cert-file /home/zabbix/zabbix_agentd.crt \</span><br><span class="line">    --tls-key-file /home/zabbix/zabbix_agentd.key</span><br><span class="line"></span><br><span class="line">  zabbix_sender -z 127.0.0.1 -s <span class="string">"Linux DB3"</span> -k db.connections -o 43 \</span><br><span class="line">    --tls-connect psk --tls-psk-identity <span class="string">"PSK ID Zabbix agentd"</span> \</span><br><span class="line">    --tls-psk-file /home/zabbix/zabbix_agentd.psk</span><br></pre></td></tr></table></figure>
+
+<p>常见参数说明，具体参考文档:<a href="https://www.zabbix.com/documentation/current/manpages/zabbix_sender?s[]=sender" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manpages/zabbix_sender?s[]=sender</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-z 	指定zabbix server ip</span><br><span class="line">-s 	指定zabbix 客户端配置文件中的hostname </span><br><span class="line">-k 	指监控项对应的key值 </span><br><span class="line">-o 	则表示要主动推送的数据</span><br><span class="line">-r 	将数据实时提交给服务器</span><br><span class="line">-v 	详细模式, -vv 更详细</span><br><span class="line">-p 	zabbix server端口,默认10051</span><br><span class="line">-i 	从输入文件读取数据</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考实例"><a href="#参考实例" class="headerlink" title="参考实例"></a>参考实例</h3><p>上报游戏客户端连接数量给zabbix服务端</p>
+<p>1.创建一个模版</p>
+<img src="/img/1600743588653.jpg">
+
+<p>2.创建监控项<br><img src="/img/1600745217765.jpg"></p>
+<p>3.关联模版<br><img src="/img/1600743766570.jpg"></p>
+<p>4.发送测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 1 -vv</span></span><br><span class="line">zabbix_sender [21938]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 0; failed: 1; total: 1; seconds spent: 0.000071"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 0; failed: 1; total: 1; seconds spent: 0.000071"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 1 -vv          </span></span><br><span class="line">zabbix_sender [21940]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000087"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000087"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 500 -vv</span></span><br><span class="line">zabbix_sender [21946]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000092"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000092"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 501 -vv </span></span><br><span class="line">zabbix_sender [21951]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000029"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000029"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 505 -vv</span></span><br><span class="line">zabbix_sender [21953]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000091"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000091"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>4.通过最新数据获取结果</p>
+<img src="/img/1600745357605.jpg">
+
+<img src="/img/1600745375841.jpg">
+
+<p><strong>说明</strong>：</p>
+<ul>
+<li>此时可以把命令写成脚本文件定时执行</li>
+<li>可以添加一个触发器进行报警</li>
+</ul>
+<h2 id="zabbix-get"><a href="#zabbix-get" class="headerlink" title="zabbix_get"></a>zabbix_get</h2><p>zabbix_get 是用于从Zabbix代理获取数据的命令行实用程序。 就是从服务端获取客户端的数据，主要用于测试两边连通行和监控项是否正确。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment"># yum install zabbix-get -y</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * centos-sclo-rh: mirror.bit.edu.cn</span><br><span class="line"> * centos-sclo-sclo: mirror.bit.edu.cn</span><br><span class="line">Resolving Dependencies</span><br><span class="line">--&gt; Running transaction check</span><br><span class="line">---&gt; Package zabbix-get.x86_64 0:5.0.3-1.el7 will be installed</span><br><span class="line">--&gt; Finished Dependency Resolution</span><br><span class="line"></span><br><span class="line">Dependencies Resolved</span><br><span class="line"></span><br><span class="line">=====================================================================================================================================================================</span><br><span class="line"> Package                                  Arch                                 Version                                    Repository                            Size</span><br><span class="line">=====================================================================================================================================================================</span><br><span class="line">Installing:</span><br><span class="line"> zabbix-get                               x86_64                               5.0.3-1.el7                                zabbix                               315 k</span><br><span class="line"></span><br><span class="line">Transaction Summary</span><br><span class="line">=====================================================================================================================================================================</span><br><span class="line">Install  1 Package</span><br><span class="line"></span><br><span class="line">Total download size: 315 k</span><br><span class="line">Installed size: 1.3 M</span><br><span class="line">Downloading packages:</span><br><span class="line">zabbix-get-5.0.3-1.el7.x86_64.rpm                                                                                                             | 315 kB  00:00:00     </span><br><span class="line">Running transaction check</span><br><span class="line">Running transaction <span class="built_in">test</span></span><br><span class="line">Transaction <span class="built_in">test</span> succeeded</span><br><span class="line">Running transaction</span><br><span class="line">  Installing : zabbix-get-5.0.3-1.el7.x86_64                                                                                                                     1/1 </span><br><span class="line">  Verifying  : zabbix-get-5.0.3-1.el7.x86_64                                                                                                                     1/1 </span><br><span class="line"></span><br><span class="line">Installed:</span><br><span class="line">  zabbix-get.x86_64 0:5.0.3-1.el7                                                                                                                                    </span><br><span class="line"></span><br><span class="line">Complete!</span><br><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Example(s):</span><br><span class="line">  zabbix_get -s 127.0.0.1 -p 10050 -k <span class="string">"system.cpu.load[all,avg1]"</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">General options:</span><br><span class="line">  -s --host host-name-or-IP  指定客户端主机名或者IP</span><br><span class="line">  -p --port port-number      客户端端口，默认10050</span><br><span class="line">  -I --<span class="built_in">source</span>-address IP-address   指定源IP，写上zabbix server的ip地址即可，一般留空</span><br><span class="line">  -k --key item-key          你想获取的key</span><br><span class="line">  -h --<span class="built_in">help</span>                  打印帮助信息</span><br><span class="line">  -V --version               显示版本</span><br></pre></td></tr></table></figure>
+
+<p>官方文档:<a href="https://www.zabbix.com/documentation/current/manpages/zabbix_get" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manpages/zabbix_get</a></p>
+<h3 id="参考实例-1"><a href="#参考实例-1" class="headerlink" title="参考实例"></a>参考实例</h3><p>1.获取客户端CPU负载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment"># zabbix_get -s 59.110.115.72 -p 10050 -k "system.cpu.load[all,avg5]"</span></span><br><span class="line">0.020000</span><br><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>2.创建一个自定义监控，并通过zabbix_get获取数据</p>
+<p>在客户端的zabbix_agentd.conf中增加自定义监控项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Option: UserParameter</span></span><br><span class="line"><span class="comment">#       User-defined parameter to monitor. There can be several user-defined parameters.</span></span><br><span class="line"><span class="comment">#       Format: UserParameter=&lt;key&gt;,&lt;shell command&gt;</span></span><br><span class="line"><span class="comment">#       See 'zabbix_agentd' directory for examples.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Mandatory: no</span></span><br><span class="line"><span class="comment"># Default:</span></span><br><span class="line">UserParameter=Echo[*],<span class="built_in">echo</span> <span class="variable">$1</span></span><br></pre></td></tr></table></figure>
+
+<p>重启客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl  restart zabbix-agent </span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>在服务端测试，输入什么参数就会回显什么</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment"># zabbix_get -s 59.110.115.72 -p 10050 -k "Echo[c]"                  </span></span><br><span class="line">c</span><br><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment"># zabbix_get -s 59.110.115.72 -p 10050 -k "Echo[ewewe]"</span></span><br><span class="line">ewewe</span><br><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/21/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Centos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1391,146 +1544,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/19/%E6%9E%84%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/19/%E6%9E%84%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" class="post-title-link" itemprop="url">构建docker私有Registry</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-08-19 14:20:40 / 修改时间：16:55:16" itemprop="dateCreated datePublished" datetime="2020-08-19T14:20:40+08:00">2020-08-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/08/19/%E6%9E%84%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" class="post-meta-item leancloud_visitors" data-flag-title="构建docker私有Registry" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/08/19/%E6%9E%84%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/19/%E6%9E%84%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Registry分类"><a href="#Registry分类" class="headerlink" title="Registry分类"></a>Registry分类</h2><ul>
-<li>Sponsor Registry: 第三方registry,供客户和社区使用</li>
-<li>Mirror Registry: 第三方registry,只让用户使用</li>
-<li>Vendor Registry: 由发布镜像的供应商提供的registry</li>
-<li>Private Registry: 通过设有防火期和额外安全层（ssl）的私有registry</li>
-</ul>
-<h2 id="为什么需要私有Registry"><a href="#为什么需要私有Registry" class="headerlink" title="为什么需要私有Registry"></a>为什么需要私有Registry</h2><p>一般部署在本地自建（使用内网），如果使用阿里云直接使用阿里的registry就可以。</p>
-<ul>
-<li>托管镜像</li>
-<li>占用带宽低</li>
-<li>下载速度快</li>
-<li>快速部署</li>
-</ul>
-<h2 id="安装docker-registry"><a href="#安装docker-registry" class="headerlink" title="安装docker-registry"></a>安装docker-registry</h2><p>ubuntu 16.04 安装registry 使用apt-get install docker-registry即可.安装完镜像存储目录为。<strong>/var/lib/docker-registry</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># apt-get install docker-registry</span></span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree       </span><br><span class="line">Reading state information... Done</span><br><span class="line">The following packages were automatically installed and are no longer required:</span><br><span class="line">  libopts25 python-meld3 python-pkg-resources</span><br><span class="line">Use <span class="string">'apt autoremove'</span> to remove them.</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  docker-registry</span><br><span class="line">0 upgraded, 1 newly installed, 0 to remove and 205 not upgraded.</span><br><span class="line">Need to get 2,694 kB of archives.</span><br><span class="line">After this operation, 12.6 MB of additional disk space will be used.</span><br><span class="line">Get:1 http://mirrors.cloud.aliyuncs.com/ubuntu xenial/universe amd64 docker-registry amd64 2.3.0~ds1-1 [2,694 kB]</span><br><span class="line">Fetched 2,694 kB <span class="keyword">in</span> 0s (8,438 kB/s)       </span><br><span class="line">Selecting previously unselected package docker-registry.</span><br><span class="line">(Reading database ... 103689 files and directories currently installed.)</span><br><span class="line">Preparing to unpack .../docker-registry_2.3.0~ds1-1_amd64.deb ...</span><br><span class="line">Unpacking docker-registry (2.3.0~ds1-1) ...</span><br><span class="line">Processing triggers <span class="keyword">for</span> systemd (229-4ubuntu21.16) ...</span><br><span class="line">Processing triggers <span class="keyword">for</span> ureadahead (0.100.0-19) ...</span><br><span class="line">Setting up docker-registry (2.3.0~ds1-1) ...</span><br><span class="line">Adding system user `docker-registry<span class="string">' (UID 113) ...</span></span><br><span class="line"><span class="string">Adding new group `docker-registry'</span> (GID 122) ...</span><br><span class="line">Adding new user `docker-registry<span class="string">' (UID 113) with group `docker-registry'</span> ...</span><br><span class="line">Not creating home directory `/var/lib/docker-registry<span class="string">'.</span></span><br><span class="line"><span class="string">Processing triggers for systemd (229-4ubuntu21.16) ...</span></span><br><span class="line"><span class="string">Processing triggers for ureadahead (0.100.0-19) ...</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>检查启动端口 5000</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># netstat -nlpt</span></span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</span><br><span class="line">tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      27873/nginx -g daem</span><br><span class="line">tcp        0      0 127.0.0.1:8222          0.0.0.0:*               LISTEN      8466/python3    </span><br><span class="line">tcp6       0      0 :::5000                 :::*                    LISTEN      32026/docker-regist</span><br><span class="line">tcp6       0      0 :::8335                 :::*                    LISTEN      17406/docker-proxy</span><br><span class="line">tcp6       0      0 :::8336                 :::*                    LISTEN      17989/docker-proxy</span><br></pre></td></tr></table></figure>
-
-
-<p>修改客户端镜像tag</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker tag nginxtest 120.27.0.222:5000/nginxtest:1.0.0</span><br><span class="line">luodi@roddydeMacBook-Pro:~$ docker images</span><br><span class="line">REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">&lt;none&gt;                        &lt;none&gt;              5b5cf5c2be8f        23 hours ago        249MB</span><br><span class="line">120.27.0.222:5000/nginxtest   1.0.0               1c26cc9ad467        24 hours ago        249MB</span><br><span class="line">nginxtest                     latest              1c26cc9ad467        24 hours ago        249MB</span><br></pre></td></tr></table></figure>
-
-<p>推送镜像</p>
-<p>无法推送到私有registry，提示我们需要https，不过可以修改docker 配置文件加上insecure-registries</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">luodi@roddydeMacBook-Pro:~$ docker push 120.27.0.222:5000/nginxtest:1.0.0</span><br><span class="line">The push refers to repository [120.27.0.222:5000/nginxtest]</span><br><span class="line">Get https://120.27.0.222:5000/v2/: http: server gave HTTP response to HTTPS client</span><br><span class="line">luodi@roddydeMacBook-Pro:~$</span><br></pre></td></tr></table></figure>
-
-
-<p>配置参考:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"experimental"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"debug"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [</span><br><span class="line">    <span class="string">"http://hub-mirror.c.163.com"</span>,</span><br><span class="line">    <span class="string">"https://docker.mirrors.ustc.edu.cn"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"insecure-registries"</span>:[<span class="string">"120.27.0.222:5000"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改后重启客户端docker</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~/dockerfile_build/httpd$ docker push 120.27.0.222:5000/nginxtest:1.0.0</span><br><span class="line">The push refers to repository [120.27.0.222:5000/nginxtest]</span><br><span class="line">291f6e44771a: Pushed </span><br><span class="line">1.0.0: digest: sha256:fc4a234b91cc4b542bac8a6ad23b2ddcee60ae68fc4dbd4a52efb5f1b0baad71 size: 529</span><br></pre></td></tr></table></figure>
-
-
-
-<p>上传成功后看目录结构，会存放到v2目录下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/var/lib/docker-registry/</span><br><span class="line">└── docker</span><br><span class="line">    └── registry</span><br><span class="line">        └── v2</span><br><span class="line">            ├── blobs</span><br><span class="line">            │   └── sha256</span><br><span class="line">            │       ├── 0d</span><br><span class="line">            │       │   └── 0d120b6ccaa8c5e149176798b3501d4dd1885f961922497cd0abef155c869566</span><br><span class="line">            │       │       └── data</span><br><span class="line">            │       ├── 3c</span><br><span class="line">            │       │   └── 3c72a8ed68140139e483fe7368ae4d9651422749e91483557cbd5ecf99a96110</span><br><span class="line">            │       │       └── data</span><br><span class="line">            │       └── <span class="built_in">fc</span></span><br><span class="line">            │           └── fc4a234b91cc4b542bac8a6ad23b2ddcee60ae68fc4dbd4a52efb5f1b0baad71</span><br><span class="line">            │               └── data</span><br><span class="line">            └── repositories</span><br><span class="line">                └── nginxtest</span><br><span class="line">                    ├── _layers</span><br><span class="line">                    │   └── sha256</span><br><span class="line">                    │       ├── 0d120b6ccaa8c5e149176798b3501d4dd1885f961922497cd0abef155c869566</span><br><span class="line">                    │       │   └── link</span><br><span class="line">                    │       └── 3c72a8ed68140139e483fe7368ae4d9651422749e91483557cbd5ecf99a96110</span><br><span class="line">                    │           └── link</span><br><span class="line">                    ├── _manifests</span><br><span class="line">                    │   ├── revisions</span><br><span class="line">                    │   │   └── sha256</span><br><span class="line">                    │   │       └── fc4a234b91cc4b542bac8a6ad23b2ddcee60ae68fc4dbd4a52efb5f1b0baad71</span><br><span class="line">                    │   │           └── link</span><br><span class="line">                    │   └── tags</span><br><span class="line">                    │       └── 1.0.0</span><br><span class="line">                    │           ├── current</span><br><span class="line">                    │           │   └── link</span><br><span class="line">                    │           └── index</span><br><span class="line">                    │               └── sha256</span><br><span class="line">                    │                   └── fc4a234b91cc4b542bac8a6ad23b2ddcee60ae68fc4dbd4a52efb5f1b0baad71</span><br><span class="line">                    │                       └── link</span><br><span class="line">                    └── _uploads</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="使用容器安装"><a href="#使用容器安装" class="headerlink" title="使用容器安装"></a>使用容器安装</h2><p>因registry本身就是一个容器，默认情况下，会将私有仓库存放于容器内的/var/lib/registry目录下，这样如果容器被删除，则存放于容器中的镜像也会丢失。</p>
-<p>下载registry镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker pull registry       </span></span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/registry</span><br><span class="line">cbdbe7a5bc2a: Pull complete </span><br><span class="line">47112e65547d: Pull complete </span><br><span class="line">46bcb632e506: Pull complete </span><br><span class="line">c1cc712bcecd: Pull complete </span><br><span class="line">3db6272dcbfa: Pull complete </span><br><span class="line">Digest: sha256:8be26f81ffea54106bae012c6f349df70f4d5e7e2ec01b143c46e2c03b9e551d</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> registry:latest</span><br><span class="line">docker.io/library/registry:latest</span><br></pre></td></tr></table></figure>
-
-<p>启动registry容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker run -dit -p 5000:5000 --restart=always --name Myregistry -v /root/registry:/var/lib/registry registry </span></span><br><span class="line">d65c75db0954348d5d06a896c04c5e935606e023a1a260b62959600e0165d146</span><br><span class="line">droot@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                     NAMES</span><br><span class="line">d65c75db0954        registry            <span class="string">"/entrypoint.sh /etc…"</span>   3 seconds ago       Up 2 seconds        0.0.0.0:5000-&gt;5000/tcp    Myregistry</span><br></pre></td></tr></table></figure>
-
-
-<p>推送镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~/dockerfile_build/httpd$ docker push 120.27.0.222:5000/nginxtest:1.0.0</span><br><span class="line">The push refers to repository [120.27.0.222:5000/nginxtest]</span><br><span class="line">291f6e44771a: Pushed </span><br><span class="line">1.0.0: digest: sha256:fc4a234b91cc4b542bac8a6ad23b2ddcee60ae68fc4dbd4a52efb5f1b0baad71 size: 529</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1600,20 +1613,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">74</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
