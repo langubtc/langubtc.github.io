@@ -191,6 +191,249 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/" class="post-title-link" itemprop="url">Gin web开发系列(五)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-10 14:58:07" itemprop="dateCreated datePublished" datetime="2020-06-10T14:58:07+08:00">2020-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-19 00:27:38" itemprop="dateModified" datetime="2020-06-19T00:27:38+08:00">2020-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gin/" itemprop="url" rel="index"><span itemprop="name">Gin</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/" class="post-meta-item leancloud_visitors" data-flag-title="Gin web开发系列(五)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%BA%94/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="URL路径参数"><a href="#URL路径参数" class="headerlink" title="URL路径参数"></a>URL路径参数</h3><p>在web开发中经常见如下列表,那在gin中可以对这些path参数进行识别<br>/video/223232/02<br>/blog/2020/02/02</p>
+<p>使用方法在path上什么/blog/:xxx/:xxx,注意千万不要直接写成/:xxx/:xxx。这样其它请求会匹配到。然后什么<code>Param()</code>方法获取值.</p>
+<p>参考样例:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">r.GET(<span class="string">"/blog/:year/:month"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">	year := c.Param(<span class="string">"year"</span>)</span><br><span class="line">	month := c.Param(<span class="string">"month"</span>)</span><br><span class="line"></span><br><span class="line">	c.JSON(http.StatusOK,gin.H&#123;</span><br><span class="line">		<span class="string">"year"</span>:year,</span><br><span class="line">		<span class="string">"month"</span>:month,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>访问<br><img src="/img/20200610150747.png"></p>
+<h3 id="ShouldBind数据绑定"><a href="#ShouldBind数据绑定" class="headerlink" title="ShouldBind数据绑定"></a>ShouldBind数据绑定</h3><p>获取参数的方式还有一种，就是将参数绑定到结构上，使用ShouldBind，还有一个ShouldBindQuery方法,该方法只绑定参数，不返回参数的数据。也就是说只输出key。</p>
+<p>解析前端通过json传递过来的数据参数，绑定到结构体然后去访问，如果没有传递数值默认为空。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> UserInfo <span class="keyword">struct</span> &#123;</span><br><span class="line">		Username <span class="keyword">string</span> <span class="string">`json:"username"`</span></span><br><span class="line">		Password <span class="keyword">string</span>	<span class="string">`json:"password"`</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// shouldbind数据绑定</span></span><br><span class="line">r.POST(<span class="string">"/json2"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> u UserInfo</span><br><span class="line"></span><br><span class="line">	err :=c.ShouldBind(&amp;u)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.JSON(http.StatusBadRequest,gin.H&#123;</span><br><span class="line">			<span class="string">"error"</span>:err.Error(),</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		c.JSON(http.StatusOK,gin.H&#123;</span><br><span class="line">			<span class="string">"status"</span>:<span class="string">"ok"</span>,</span><br><span class="line">			<span class="string">"username"</span>:u.Username,</span><br><span class="line">			<span class="string">"password"</span>:u.Password,</span><br><span class="line">		&#125;)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>此外可以使用框架自带的验证方法，使username and password为必填</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> UserInfo <span class="keyword">struct</span> &#123;</span><br><span class="line">	Username <span class="keyword">string</span> <span class="string">`json:"username"  binding:"required"`</span></span><br><span class="line">	Password <span class="keyword">string</span>	<span class="string">`json:"password"  binding:"required"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果前端不填写数据则会提示如下错误</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"error"</span>: <span class="string">"Key: 'UserInfo.Username' Error:Field validation for 'Username' failed on the 'required' tag"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/" class="post-title-link" itemprop="url">Gin web开发系列(四)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-10 10:21:34 / 修改时间：14:42:38" itemprop="dateCreated datePublished" datetime="2020-06-10T10:21:34+08:00">2020-06-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gin/" itemprop="url" rel="index"><span itemprop="name">Gin</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/" class="post-meta-item leancloud_visitors" data-flag-title="Gin web开发系列(四)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/10/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E5%9B%9B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="获取GET参数"><a href="#获取GET参数" class="headerlink" title="获取GET参数"></a>获取GET参数</h3><p><strong>获取参数</strong></p>
+<p>使用Query()方法，如果没有name查询关键字，那就为空。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">r.GET(<span class="string">"/server"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	queryName := c.Query(<span class="string">"name"</span>)</span><br><span class="line"></span><br><span class="line">	c.HTML(http.StatusOK,<span class="string">"server"</span>,gin.H&#123;</span><br><span class="line">		<span class="string">"name"</span>:queryName,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>默认参数</strong></p>
+<p>使用DefaultQuery，如果没获取到name默认值就为”default”</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">r.GET(<span class="string">"/server"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	queryName := c.DefaultQuery(<span class="string">"name"</span>,<span class="string">"default"</span>)</span><br><span class="line">	queryAge := c.DefaultQuery(<span class="string">"age"</span>,<span class="string">"18"</span>)</span><br><span class="line"></span><br><span class="line">	c.HTML(http.StatusOK,<span class="string">"server"</span>,gin.H&#123;</span><br><span class="line">		<span class="string">"name"</span>:queryName,</span><br><span class="line">		<span class="string">"age"</span>:queryAge,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>判断请求参数</strong><br>使用GetQuery()方法判断是否有该参数，返回两个值，一个是值，另一个是状态。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">query,ok := c.GetQuery(<span class="string">"queryName"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ok == <span class="literal">false</span>&#123;</span><br><span class="line">	query = <span class="string">"123"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>源码</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span> <span class="title">GetQuery</span><span class="params">(key <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> values, ok := c.GetQueryArray(key); ok &#123;</span><br><span class="line">		<span class="keyword">return</span> values[<span class="number">0</span>], ok</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">""</span>, <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>url请求</strong></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span><span class="comment">//127.0.0.1:8001/server?name=roddy&amp;age=29</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="获取form表单参数"><a href="#获取form表单参数" class="headerlink" title="获取form表单参数"></a>获取form表单参数</h3><p><strong>PostForm</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">r.GET(<span class="string">"/login"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">		c.HTML(http.StatusOK,<span class="string">"login"</span>,<span class="literal">nil</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">r.POST(<span class="string">"/login"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">		username := c.PostForm(<span class="string">"username"</span>)</span><br><span class="line">		password := c.PostForm(<span class="string">"password"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		c.HTML(http.StatusOK,<span class="string">"server"</span>,gin.H&#123;</span><br><span class="line">			<span class="string">"username"</span>:username,</span><br><span class="line">			<span class="string">"password"</span>:password,</span><br><span class="line">		&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; template "base"&#125;&#125; </span><br><span class="line"></span><br><span class="line">&#123;&#123; define "content"&#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/login"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">&#123;&#123;end&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>DefaultPostForm</strong></p>
+<p>如果获取不到key，设置默认值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username := c.DefaultPostForm(<span class="string">"username1"</span>,<span class="string">"roddy"</span>)</span><br><span class="line">password := c.DefaultPostForm(<span class="string">"password1"</span>,<span class="string">"pass"</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>GetPostForm</strong><br>如果没有获取到值，那设置一个默认值</p>
+<p>其中GetPostForm判断的三种状态</p>
+<ul>
+<li>1.如果有key并且有值 返回值和true</li>
+<li>2.如果有key没值，返回空和true</li>
+<li>3.如果没key没值，返回空和false</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// For example, during a PATCH request to update the user's email:</span></span><br><span class="line"><span class="comment">//     email=mail@example.com  --&gt;  ("mail@example.com", true) := GetPostForm("email") // set email to "mail@example.com"</span></span><br><span class="line"><span class="comment">// 	   email=                  --&gt;  ("", true) := GetPostForm("email") // set email to ""</span></span><br><span class="line"><span class="comment">//                             --&gt;  ("", false) := GetPostForm("email") // do nothing with email</span></span><br><span class="line"></span><br><span class="line">r.POST(<span class="string">"/login"</span>,<span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	username,ok := c.GetPostForm(<span class="string">"username"</span>)</span><br><span class="line">	<span class="keyword">if</span> username == <span class="string">""</span>&#123;</span><br><span class="line">		username=<span class="string">"rrr"</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	password,ok := c.GetPostForm(<span class="string">"password"</span>)</span><br><span class="line"></span><br><span class="line">	fmt.Println(username,password,ok)</span><br><span class="line">	<span class="keyword">if</span> password==<span class="string">""</span>&#123;</span><br><span class="line">		password=<span class="string">"xxxxx"</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(username,password)</span><br><span class="line">	c.HTML(http.StatusOK,<span class="string">"server"</span>,gin.H&#123;</span><br><span class="line">		<span class="string">"username"</span>:username,</span><br><span class="line">		<span class="string">"password"</span>:password,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/06/09/Gin-web%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1216,287 +1459,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/" class="post-title-link" itemprop="url">glang 日志解析glog</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-26 14:38:26 / 修改时间：15:45:36" itemprop="dateCreated datePublished" datetime="2020-05-26T14:38:26+08:00">2020-05-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/" class="post-meta-item leancloud_visitors" data-flag-title="glang 日志解析glog" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/26/glang-%E6%97%A5%E5%BF%97%E8%A7%A3%E6%9E%90glog/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="glog"><a href="#glog" class="headerlink" title="glog"></a>glog</h3><p>go语言有一个标准库，log，提供了最基本的日志功能，但是没有什么高级的功能，如果需要高级的特性，可以选择glog或log4go,K8s默认的日志输出就是用的glog。</p>
-<p>glog是google提供的，类似于google的c++ log库，使用起来非常简单，下面介绍一下；log4go的用法和log4j一样，可配置性比较高。</p>
-<p>日志输出格式是固定的(Lmmdd hh:mm:ss.uuuuuu threadid file:line] msg…)</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">程序名.电脑名.用户名<span class="selector-class">.log</span><span class="selector-class">.xxx</span><span class="selector-class">.YYYYMMDD-HHMMSS</span><span class="selector-class">.pid</span></span><br></pre></td></tr></table></figure>
-
-<p>glog只提供了少数几个选项，通过命令行控制，例如：</p>
-<p>-log_dir: 日志文件保存目录</p>
-<p>-alsologtostderr: 日志写入文件的同时，输出到stderr</p>
-<p>-v：配置V输出的等级。</p>
-<p>glog使用非常简单，只需要import就可以了。glog package的init函数会初始化并启动一个glog 的flushDaemon协程，你只需要使用glog.Info, glog.Warning, glog.Error或glog.Fatal即可。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get github.com/golang/glog</span><br></pre></td></tr></table></figure>
-
-<h3 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">https:</span>//godoc<span class="meta">.org</span>/github.com/golang/glog</span><br></pre></td></tr></table></figure>
-
-<p>日志级别</p>
-<ul>
-<li>INFO：普通日志；</li>
-<li>WARNING：告警日志；</li>
-<li>ERROR：错误日志；</li>
-<li>FATAL：严重错误日志，打印完日志后程序将会推出 os.Exit()</li>
-</ul>
-<p>使用方式参考：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">glog.Info(<span class="string">"Prepare to repel boarders"</span>)</span><br><span class="line"></span><br><span class="line">glog.Fatalf(<span class="string">"Initialization failed: %s"</span>, err)</span><br><span class="line"></span><br><span class="line"><span class="keyword">defer</span> glog.Flush()</span><br><span class="line"></span><br><span class="line">glog.Info(<span class="string">"This is info message"</span>)</span><br><span class="line">glog.Infof(<span class="string">"This is info message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.InfoDepth(<span class="number">1</span>, <span class="string">"This is info message"</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">glog.Warning(<span class="string">"This is warning message"</span>)</span><br><span class="line">glog.Warningf(<span class="string">"This is warning message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.WarningDepth(<span class="number">1</span>, <span class="string">"This is warning message"</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">glog.Error(<span class="string">"This is error message"</span>)</span><br><span class="line">glog.Errorf(<span class="string">"This is error message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.ErrorDepth(<span class="number">1</span>, <span class="string">"This is error message"</span>, <span class="number">12345</span>)</span><br><span class="line"></span><br><span class="line">glog.Fatal(<span class="string">"This is fatal message"</span>)</span><br><span class="line">glog.Fatalf(<span class="string">"This is fatal message: %v"</span>, <span class="number">12345</span>)</span><br><span class="line">glog.FatalDepth(<span class="number">1</span>, <span class="string">"This is fatal message"</span>, <span class="number">12345</span>)</span><br></pre></td></tr></table></figure>
-
-<p>日志级别<br>使用日志级别,在程序运行时可以使用-v=5打印这个级别以下定义的日志输出  -alsologtostderr 是将日志同时输出到控制台。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">glog.V(<span class="number">3</span>).Info(<span class="string">"LEVEL 3 message"</span>) <span class="comment">// 使用日志级别 3</span></span><br><span class="line">glog.V(<span class="number">4</span>).Info(<span class="string">"LEVEL 4 message"</span>) <span class="comment">// 使用日志级别 4</span></span><br><span class="line">glog.V(<span class="number">5</span>).Info(<span class="string">"LEVEL 5 message"</span>) <span class="comment">// 使用日志级别 5</span></span><br><span class="line">glog.V(<span class="number">8</span>).Info(<span class="string">"LEVEL 8 message"</span>) <span class="comment">// 使用日志级别 8</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"flag"</span></span><br><span class="line">	<span class="string">"github.com/golang/glog"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ConfigData <span class="keyword">struct</span> &#123;</span><br><span class="line">	ServerID                    <span class="keyword">uint8</span></span><br><span class="line">	ServerPort                  <span class="keyword">int32</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(conf *ConfigData)</span> <span class="title">LoadFromFile</span><span class="params">(file <span class="keyword">string</span>)</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	configJSON, err := ioutil.ReadFile(file)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	err = json.Unmarshal(configJSON, conf)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//程序退出时确保写入文件中</span></span><br><span class="line">	<span class="keyword">defer</span> glog.Flush()</span><br><span class="line"></span><br><span class="line">	configFilePath := flag.String(<span class="string">"config"</span>, <span class="string">"./config.json"</span>, <span class="string">"Path of config file"</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> flag.NFlag() &lt; <span class="number">1</span> &#123; <span class="comment">//NFlag返回解析时进行了设置的flag的数量。</span></span><br><span class="line">		flag.Usage() <span class="comment">//当参数小于1个打印flag的默认提示</span></span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">		<span class="comment">// 读取配置文件</span></span><br><span class="line">	<span class="keyword">var</span> configData ConfigData</span><br><span class="line">	err := configData.LoadFromFile(*configFilePath)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		glog.Fatal(<span class="string">"加载配置文件失败: "</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	glog.Info(<span class="string">"配置加载正确"</span>)</span><br><span class="line">	glog.Info(<span class="string">"程序开始启动&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span>)</span><br><span class="line">	fmt.Println(configData.ServerID,configData.ServerPort)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>会在log文件下生成</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GoLogMain.exe -config=<span class="string">"./config.json"</span> -log_dir=<span class="string">"./log"</span> -alsologtostderr</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/21/django-Admin%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/21/django-Admin%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">django Admin常用命令</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-21 17:13:24 / 修改时间：18:59:06" itemprop="dateCreated datePublished" datetime="2020-05-21T17:13:24+08:00">2020-05-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/django/" itemprop="url" rel="index"><span itemprop="name">django</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/05/21/django-Admin%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-meta-item leancloud_visitors" data-flag-title="django Admin常用命令" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/05/21/django-Admin%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/21/django-Admin%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Django-Admin"><a href="#Django-Admin" class="headerlink" title="Django Admin"></a>Django Admin</h3><p>django-admin 是Django的命令行工具集，用于处理系统相关操作，比如创建管理员账户，忘记密码，应用数据库等等。如果某工程安装了相关app，那么在使用工程命令时只有django默认的命令行。</p>
-<h3 id="help"><a href="#help" class="headerlink" title="help"></a>help</h3><p>help命令主要用户获取帮助信息，显示django可用的命令，如果要显示某个命令使用python manage.py help  shell </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py help</span><br><span class="line"></span><br><span class="line">Type 'manage.py help &lt;subcommand&gt;' for help on a specific subcommand.</span><br><span class="line"></span><br><span class="line">Available subcommands:</span><br><span class="line"></span><br><span class="line">[auth]                         #安装了auth app</span><br><span class="line">    changepassword</span><br><span class="line">    createsuperuser</span><br><span class="line"></span><br><span class="line">[captcha]                      #captcha app</span><br><span class="line">    captcha_clean</span><br><span class="line">    captcha_create_pool</span><br><span class="line"></span><br><span class="line">[contenttypes]</span><br><span class="line">    remove_stale_contenttypes</span><br><span class="line"></span><br><span class="line">[django]</span><br><span class="line">    check</span><br><span class="line">    compilemessages</span><br><span class="line">    createcachetable</span><br><span class="line">    dbshell</span><br><span class="line">    diffsettings</span><br><span class="line">    dumpdata</span><br><span class="line">    flush</span><br><span class="line">    inspectdb</span><br><span class="line">    loaddata</span><br><span class="line">    makemessages</span><br><span class="line">    makemigrations</span><br><span class="line">    migrate</span><br><span class="line">    sendtestemail</span><br><span class="line">    shell</span><br><span class="line">    showmigrations</span><br><span class="line">    sqlflush</span><br><span class="line">    sqlmigrate</span><br><span class="line">    sqlsequencereset</span><br><span class="line">    squashmigrations</span><br><span class="line">    startapp</span><br><span class="line">    startproject</span><br><span class="line">    test</span><br><span class="line">    testserver</span><br><span class="line"></span><br><span class="line">[sessions]     </span><br><span class="line">    clearsessions</span><br><span class="line"></span><br><span class="line">[staticfiles]</span><br><span class="line">    collectstatic</span><br><span class="line">    findstatic</span><br><span class="line">    runserver</span><br></pre></td></tr></table></figure>
-
-
-<p>显示单个命令用法</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py help shell</span><br><span class="line">usage: manage.py shell [-h] [--no-startup] [-i &#123;ipython,bpython,python&#125;]</span><br><span class="line">                       [-c COMMAND] [--version] [-v &#123;0,1,2,3&#125;]</span><br><span class="line">                       [--settings SETTINGS] [--pythonpath PYTHONPATH]</span><br><span class="line">                       [--traceback] [--no-color]</span><br><span class="line"></span><br><span class="line">Runs a Python interactive interpreter. Tries to use IPython or bpython, if one</span><br><span class="line">of them is available. Any standard input is executed as code.</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help            show this help message and exit</span><br><span class="line">  --no-startup          When using plain Python, ignore the PYTHONSTARTUP</span><br><span class="line">                        environment variable and ~/.pythonrc.py script.</span><br><span class="line">  -i &#123;ipython,bpython,python&#125;, --interface &#123;ipython,bpython,python&#125;</span><br><span class="line">                        Specify an interactive interpreter interface.</span><br><span class="line">                        Available options: "ipython", "bpython", and "python"</span><br><span class="line">  -c COMMAND, --command COMMAND</span><br><span class="line">                        Instead of opening an interactive shell, run a command</span><br><span class="line">                        as Django and exit.</span><br><span class="line">  --version             show program's version number and exit</span><br><span class="line">  -v &#123;0,1,2,3&#125;, --verbosity &#123;0,1,2,3&#125;</span><br><span class="line">                        Verbosity level; 0=minimal output, 1=normal output,</span><br><span class="line">                        2=verbose output, 3=very verbose output</span><br><span class="line">  --settings SETTINGS   The Python path to a settings module, e.g.</span><br><span class="line">                        "myproject.settings.main". If this isn't provided, the</span><br><span class="line">                        DJANGO_SETTINGS_MODULE environment variable will be</span><br><span class="line">                        used.</span><br><span class="line">  --pythonpath PYTHONPATH</span><br><span class="line">                        A directory to add to the Python path, e.g.</span><br><span class="line">                        "/home/djangoprojects/myproject".</span><br><span class="line">  --traceback           Raise on CommandError exceptions</span><br><span class="line">  --no-color            Don't colorize the command output.</span><br></pre></td></tr></table></figure>
-
-<h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3><p>显示当前django版本</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@localhost</span><span class="symbol">:/data/djangosite</span><span class="comment"># python manage.py version</span></span><br><span class="line"><span class="number">2.1</span>.<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="changepassword"><a href="#changepassword" class="headerlink" title="changepassword"></a>changepassword</h3><p>修改项目中的用户名和密码，前提需要安装auth库并且正确配置用户信息。 输入两次密码即可修改admin用户的密码</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py changepassword admin</span><br><span class="line">Changing password for user 'admin'</span><br><span class="line">Password:</span><br><span class="line">Password (again):</span><br></pre></td></tr></table></figure>
-
-<h3 id="createsuperuser"><a href="#createsuperuser" class="headerlink" title="createsuperuser"></a>createsuperuser</h3><p>创建项目中的管理员账户，前提需要安装auth库并且正确配置数据库。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py createsuperuser</span><br><span class="line">username:admin</span><br><span class="line">email:admin@qq.com</span><br><span class="line">password:xxxxxxxx</span><br></pre></td></tr></table></figure>
-
-<h3 id="check"><a href="#check" class="headerlink" title="check"></a>check</h3><p>用于检查工程中是否存在错误，用法：python manage.py check  [app_lable….]</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite#python manage.py check</span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">root@localhost:/data/djangosite#</span><br></pre></td></tr></table></figure>
-
-<p>此时修改一下将url.py改成错误的配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite#python manage.py check</span><br><span class="line">.........</span><br><span class="line">  File "/data/djangosite/apps/users/urls.py", line 24</span><br><span class="line">    path('logout/', users_view.LogoutView.as_view(), name="logout"),</span><br><span class="line">       ^</span><br><span class="line">SyntaxError: invalid syntax</span><br></pre></td></tr></table></figure>
-
-<h3 id="dbshell"><a href="#dbshell" class="headerlink" title="dbshell"></a>dbshell</h3><p>Django 会自动进入在settings.py中设置的数据库,这个就和sql终端是一样的<br>manage.py dbshell  or manage.py dbshell  –database db1  如果配置多数据库的情况下，可以指定进入哪个数据库</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py dbshell </span><br><span class="line">mysql: [<span class="builtin-name">Warning</span>] Using a password on the command line<span class="built_in"> interface </span>can be insecure.</span><br><span class="line">Reading table information <span class="keyword">for</span> completion of table <span class="keyword">and</span> column names</span><br><span class="line">You can turn off this feature <span class="keyword">to</span> <span class="builtin-name">get</span> a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Welcome <span class="keyword">to</span> the MySQL monitor.  Commands end with ; <span class="keyword">or</span> \g.</span><br><span class="line">Your MySQL<span class="built_in"> connection </span>id is 10365662</span><br><span class="line">Server version: 5.7.26-log Source distribution</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2019, Oracle <span class="keyword">and</span>/<span class="keyword">or</span> its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation <span class="keyword">and</span>/<span class="keyword">or</span> its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> <span class="keyword">or</span> <span class="string">'\h'</span> <span class="keyword">for</span> help.<span class="built_in"> Type </span><span class="string">'\c'</span> <span class="keyword">to</span> clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="migrate"><a href="#migrate" class="headerlink" title="migrate"></a>migrate</h3><p>将修改应用到数据库，如果不加任何参数默认会将所有应用程序的models.py更新到数据库，可以单独指定app更新到数据库。默认应用到数据库后会记录到django_migrations数据表中。</p>
-<p>手动指定撤销到指定的migration文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py migrate users 0002_account_user</span><br></pre></td></tr></table></figure>
-
-<p>如果手动更新了数据库可以什么–fake参数</p>
-<p>解决migrate命令报错的解决方法：</p>
-<ol>
-<li>终极解决方案原理：就是将之前的那些迁移脚本都不用了。重新来过。要将出问题的app下的所有模型和数据库中表保持一致，重新映射。</li>
-<li>将出问题的app下的所有模型，都和数据库中的表保持一致。</li>
-<li>将出问题的app下的所有迁移脚本文件都删掉。再在django_migrations表中将出问题的app相关的迁移记录都删掉。</li>
-<li>使用makemigrations，重新将模型生成一个迁移脚本。</li>
-<li>使用migrate –fake-initial参数，将刚刚生成的迁移脚本，标记为已经完成（因为这些模型相对应的表，其实都已经在数据库中存在了，不需要重复执行了。）</li>
-<li>可以做其他的映射了。</li>
-</ol>
-<h3 id="makemigrations"><a href="#makemigrations" class="headerlink" title="makemigrations"></a>makemigrations</h3><p>根据model的变化生成对应的python代码，该代码用于更新数据库。代码会存放于每个工程目录下的migrations 目录下。该目录默认包含<strong>init</strong>.py文件。</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">migrations/</span><br><span class="line">├── <span class="number">0001</span>_initial.py</span><br><span class="line">├── <span class="number">0002</span>_account_user.py</span><br><span class="line">├── <span class="number">0003</span>_auto_20181129_1941.py</span><br></pre></td></tr></table></figure>
-
-<h3 id="sqlmigrate"><a href="#sqlmigrate" class="headerlink" title="sqlmigrate"></a>sqlmigrate</h3><p>输出某一migrate所对应的SQL语句。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py sqlmigrate users 0001_initial</span><br><span class="line">2018-12-01 10:00:00</span><br><span class="line">2018-12-01 10:00:00</span><br><span class="line">BEGIN;</span><br><span class="line">--</span><br><span class="line">-- Create model User</span><br><span class="line">--</span><br><span class="line">CREATE TABLE `users_user` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `password` varchar(128) NOT NULL, `last_login` datetime(6) NULL, `is_superuser` bool NOT NULL, `username` varchar(150) NOT NULL UNIQUE, `first_name` varchar(30) NOT NULL, `last_name` varchar(150) NOT NULL, `email` varchar(254) NOT NULL, `is_staff` bool NOT NULL, `is_active` bool NOT NULL, `date_joined` datetime(6) NOT NULL, `mobile` varchar(20) NOT NULL, `PIN` varchar(20) NOT NULL);</span><br><span class="line">CREATE TABLE `users_user_groups` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `user_id` integer NOT NULL, `group_id` integer NOT NULL);</span><br><span class="line">CREATE TABLE `users_user_user_permissions` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `user_id` integer NOT NULL, `permission_id` integer NOT NULL);</span><br><span class="line">--</span><br><span class="line">-- Create model History</span><br><span class="line">--</span><br><span class="line">CREATE TABLE `users_history` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `user` varchar(50) NULL, `login_time` datetime(6) NOT NULL, `logout_time` datetime(6) NOT NULL, `login_status` varchar(11) NULL, `user_ip` char(39) NOT NULL, `create_time` datetime(6) NOT NULL, `update_time` datetime(6) NOT NULL);</span><br><span class="line">ALTER TABLE `users_user_groups` ADD CONSTRAINT `users_user_groups_user_id_5f6f5a90_fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users_user` (`id`);</span><br><span class="line">ALTER TABLE `users_user_groups` ADD CONSTRAINT `users_user_groups_group_id_9afc8d0e_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);</span><br><span class="line">ALTER TABLE `users_user_groups` ADD CONSTRAINT users_user_groups_user_id_group_id_b88eab82_uniq UNIQUE (`user_id`, `group_id`);</span><br><span class="line">ALTER TABLE `users_user_user_permissions` ADD CONSTRAINT `users_user_user_permissions_user_id_20aca447_fk_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users_user` (`id`);</span><br><span class="line">ALTER TABLE `users_user_user_permissions` ADD CONSTRAINT `users_user_user_perm_permission_id_0b93982e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);</span><br><span class="line">ALTER TABLE `users_user_user_permissions` ADD CONSTRAINT users_user_user_permissions_user_id_permission_id_43338c45_uniq UNIQUE (`user_id`, `permission_id`);</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
-
-<h3 id="showmigrations"><a href="#showmigrations" class="headerlink" title="showmigrations"></a>showmigrations</h3><p>显示migrations记录<br>如果已经应用到数据库中前面[]后显示[X],否则为[] 使用-p显示所有记录  -l 按应用程序显示记录。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/data/djangosite# python manage.py showmigrations<span class="built_in"> users </span></span><br><span class="line"></span><br><span class="line">users</span><br><span class="line"> [X] 0001_initial</span><br><span class="line"> [X] 0002_auto_20181223_1302</span><br><span class="line"> [X] 0003_auto_20181223_1316</span><br><span class="line"> [X] 0004_verifycode</span><br><span class="line"> [X] 0005_auto_20190104_1141</span><br><span class="line"> [X] 0006_auto_20190216_1647</span><br><span class="line"> [X] 0007_user_region</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="startproject"><a href="#startproject" class="headerlink" title="startproject"></a>startproject</h3><p>创建django工程，会在当前目录创建一个文件夹，文件夹下包含manage.py文件以及工程文件夹，同时在工程文件夹下包含settings.py文件及其它文件夹</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@localhost</span><span class="symbol">:/djangodir</span><span class="comment"># django-admin startproject djangosite</span></span><br><span class="line">root<span class="variable">@localhost</span><span class="symbol">:/djangodir</span><span class="comment"># ls</span></span><br><span class="line">djangosite</span><br><span class="line">root<span class="variable">@localhost</span><span class="symbol">:/djangodir</span><span class="comment"># tree djangosite</span></span><br><span class="line">djangosite</span><br><span class="line">├── djangosite</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── settings.py</span><br><span class="line">│   ├── urls.py</span><br><span class="line">│   └── wsgi.py</span><br><span class="line">└── manage.py</span><br><span class="line"></span><br><span class="line"><span class="number">1</span> directory, <span class="number">5</span> files</span><br></pre></td></tr></table></figure>
-
-<h3 id="startapp"><a href="#startapp" class="headerlink" title="startapp"></a>startapp</h3><p>创建django app应用</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/djangodir/djangosite# python manage.py startapp users</span><br><span class="line">root@localhost:/djangodir/djangosite# dir</span><br><span class="line">djangosite  manage.py  users</span><br><span class="line">root@localhost:/djangodir/djangosite# tree</span><br><span class="line">.</span><br><span class="line">├── djangosite</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── __pycache__</span><br><span class="line">│   │   ├── __init__.cpython-36.pyc</span><br><span class="line">│   │   └── settings.cpython-36.pyc</span><br><span class="line">│   ├── settings.py</span><br><span class="line">│   ├── urls.py</span><br><span class="line">│   └── wsgi.py</span><br><span class="line">├── manage.py</span><br><span class="line">└── users</span><br><span class="line">    ├── admin.py</span><br><span class="line">    ├── apps.py</span><br><span class="line">    ├── __init__.py</span><br><span class="line">    ├── migrations</span><br><span class="line">    │   └── __init__.py</span><br><span class="line">    ├── models.py</span><br><span class="line">    ├── tests.py</span><br><span class="line">    └── views.py</span><br><span class="line"></span><br><span class="line">4 directories, 14 files</span><br></pre></td></tr></table></figure>
-<h3 id="collectstatic"><a href="#collectstatic" class="headerlink" title="collectstatic"></a>collectstatic</h3><p>python manage.py collectstatic在执行时，django默认会去查看定义在STATICFILES_DIRS里的目录，以及在INSTALLED_APPS里定义了的app的static目录。如果这些目录下有文件，则把文件全部收集起来，拷贝到STATIC_ROOT目录下。当使用django的runserver时，如果请求的是一个静态文件，django也是会默认查看上述的ROOT、DIRS和static目录。但是，在部署到服务器上时，此规则就不使用了。</p>
-<p>配置setting.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">STATICFILES_DIRS = [ </span><br><span class="line">            os.path.join(BASE_DIR, <span class="string">"static/"</span>),</span><br><span class="line">			]</span><br><span class="line">STATIC_URL = <span class="string">'/static/'</span>   </span><br><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, <span class="string">"staticfiles/"</span>)</span><br></pre></td></tr></table></figure>
-<p>执行命令后会去收集静态资源文件放于STATIC_ROOT文件夹下</p>
-<p>STATIC_ROOT 是在部署的时候才发挥作用, 而实际情况下,静态文件的一般安放位置有两种:</p>
-<p>1.一种就是在每个app里面新建一个static文件夹,将静态文件放到里面,在加载静态文件时,比如要在模板中用到静态文件,django会自动在每个app里面搜索static文件夹(所以,不要把文件夹的名字写错哦, 否则django就找不到你的文件夹了)</p>
-<p>2.另一种,就是在所有的app文件外面,建立一个公共的文件夹, 因为有些静态文件不是某个app独有的,那么就可以把它放到一个公共文件夹里面,方便管理(注意,建立一个公共的静态文件的文件夹只是一种易于管理的做法,但是不是必须的,app是可以跨app应用静态文件的,因为最后所有的静态文件都会在STATIC_ROOT里面存在)<br>那现在的问题是如何让django知道你把一些静态文件放到app以外的公共文件夹中呢,那就需要配置STATICFILES_DIRS了</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/djangodir/djangosite# python manage.py collectstatic</span><br></pre></td></tr></table></figure>
-
-<h3 id="runserver"><a href="#runserver" class="headerlink" title="runserver"></a>runserver</h3><p>在当前机器上启动工程，默认是一个轻量的web服务器，只作为测试用，默认端口为8000，默认监听127.0.0.1:8000<br>修改默认监听和端口</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/djangodir/djangosite# python manage.py runserver 0.0.0.0:8001  #修改默认监听</span><br><span class="line">Performing system checks...</span><br><span class="line"></span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line">Django version 2.1.1, using settings 'djangosite.settings'</span><br><span class="line">Starting development server at http://0.0.0.0:8001/</span><br><span class="line">Quit the server with CONTROL-C.</span><br></pre></td></tr></table></figure>
-
-<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><p>启动django工程交互，默认情况下使用ipython启动的交互默认，可以自动补全，需要提前安装。在交互窗口下可import 测试相关语法等</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:/djangodir/djangosite# python manage.py shell</span><br><span class="line">Python 3.6.7 (default, Oct 25 2018, 09:16:13) </span><br><span class="line">[GCC 5.4.0 20160609] on linux</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> <span class="keyword">or</span> <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">(InteractiveConsole)</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1566,20 +1528,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-count">76</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

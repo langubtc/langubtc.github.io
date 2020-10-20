@@ -191,6 +191,329 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/" class="post-title-link" itemprop="url">Kubernetes 1.19 集群安装 for Centos 7.8</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-20 17:00:00 / 修改时间：20:56:48" itemprop="dateCreated datePublished" datetime="2020-10-20T17:00:00+08:00">2020-10-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes 1.19 集群安装 for Centos 7.8" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h2><p>kubeadm 搭建kubernetes集群环境</p>
+<h2 id="集群节点规划"><a href="#集群节点规划" class="headerlink" title="集群节点规划"></a>集群节点规划</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">k8s-master     172.19.153.97      Centos 7.8       2核4G</span><br><span class="line">k8s-node1      172.19.153.98      Centos 7.8       2核4G</span><br><span class="line">k8s-node2      172.19.153.99      Centos 7.8       2核4G</span><br></pre></td></tr></table></figure>
+
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-修改hostname"><a href="#1-修改hostname" class="headerlink" title="1.修改hostname"></a>1.修改hostname</h3><p>分别设置各台主机设备的hostname<br>master 节点执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zefbuojpotsgnr3i6weZ ~]<span class="comment"># hostnamectl set-hostname k8s-master</span></span><br><span class="line">[root@iZ2zefbuojpotsgnr3i6weZ ~]<span class="comment"># hostname</span></span><br><span class="line">k8s-master</span><br><span class="line">[root@iZ2zefbuojpotsgnr3i6weZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>在node1节点执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zefbuojpotsgnr3i6wfZ ~]<span class="comment"># hostnamectl set-hostname k8s-node1</span></span><br><span class="line">[root@iZ2zefbuojpotsgnr3i6wfZ ~]<span class="comment"># hostname</span></span><br><span class="line">k8s-node1</span><br><span class="line">[root@iZ2zefbuojpotsgnr3i6wfZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>在node2节点执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zefbuojpotsgnr3i6wfZ ~]<span class="comment"># hostnamectl set-hostname k8s-node2</span></span><br><span class="line">[root@iZ2zefbuojpotsgnr3i6wfZ ~]<span class="comment"># hostname</span></span><br><span class="line">k8s-node2</span><br><span class="line">[root@iZ2zefbuojpotsgnr3i6wfZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-添加hosts解析"><a href="#2-添加hosts解析" class="headerlink" title="2.添加hosts解析"></a>2.添加hosts解析</h3><p>操作节点：所以节点执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;&gt;/etc/hosts&lt;&lt;EOF</span><br><span class="line">172.19.153.97 k8s-master</span><br><span class="line">172.19.153.98 k8s-node1</span><br><span class="line">172.19.153.99 k8s-node2</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>ping测试下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># </span></span><br><span class="line">[root@k8s-master ~]<span class="comment"># ping k8s-node1</span></span><br><span class="line">PING k8s-node1 (172.19.153.98) 56(84) bytes of data.</span><br><span class="line">64 bytes from k8s-node1 (172.19.153.98): icmp_seq=1 ttl=64 time=0.342 ms</span><br><span class="line">64 bytes from k8s-node1 (172.19.153.98): icmp_seq=2 ttl=64 time=0.221 ms</span><br><span class="line">^C</span><br><span class="line">--- k8s-node1 ping statistics ---</span><br><span class="line">2 packets transmitted, 2 received, 0% packet loss, time 999ms</span><br><span class="line">rtt min/avg/max/mdev = 0.221/0.281/0.342/0.062 ms</span><br><span class="line">[root@k8s-master ~]<span class="comment"># ping k8s-node2</span></span><br><span class="line">PING k8s-node2 (172.19.153.99) 56(84) bytes of data.</span><br><span class="line">64 bytes from k8s-node2 (172.19.153.99): icmp_seq=1 ttl=64 time=0.357 ms</span><br><span class="line">64 bytes from k8s-node2 (172.19.153.99): icmp_seq=2 ttl=64 time=0.205 ms</span><br><span class="line">^C</span><br><span class="line">--- k8s-node2 ping statistics ---</span><br><span class="line">2 packets transmitted, 2 received, 0% packet loss, time 1000ms</span><br><span class="line">rtt min/avg/max/mdev = 0.205/0.281/0.357/0.076 ms</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-系统优化配置"><a href="#3-系统优化配置" class="headerlink" title="3.系统优化配置"></a>3.系统优化配置</h3><p>操作节点：所以节点执行</p>
+<p>防火墙配置<br>如果节点间无安全组限制，可以忽略。否则需要打开如下端口<br>k8s-master：tcp:6443,2379,2380,60080,60081,udp全部打开<br>k8s-node节点：udp协议开放</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -P FORWARD ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p><strong>关闭selinux和防火墙</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">'s/enforcing/disabled/'</span> /etc/selinux/config <span class="comment"># 永久关闭</span></span><br><span class="line">setenforce 0    <span class="comment">#临时关闭</span></span><br><span class="line">systemctl stop firewalld &amp;&amp; systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
+
+<p>检查所以节点是否为disabled状态，阿里云默认关闭了selinux</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># getenforce  #查看selinux状态</span></span><br><span class="line">Disabled</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>关闭swap分区</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a</span><br><span class="line">sed -i <span class="string">'s/.\\*swap.\\*/#&amp;/'</span> /etc/fstab <span class="comment">#防止开机自动挂载</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>修改内核参数</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">net.ipv4.ip_forward=1</span><br><span class="line">vm.max_map_count=262144</span><br><span class="line">EOF</span><br><span class="line">modprobe br_netfilter</span><br><span class="line">sysctl -p /etc/sysctl.d/k8s.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置yum源"><a href="#4-配置yum源" class="headerlink" title="4.配置yum源"></a>4.配置yum源</h3><p>配置docker、linux、kubernetes默认的yum源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl -o /etc/yum.repos.d/CentOS-7.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">curl -o /etc/yum.repos.d/docker-ce.repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br><span class="line">yum clean all &amp;&amp; yum makecache</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="5-安装Docker"><a href="#5-安装Docker" class="headerlink" title="5.安装Docker"></a>5.安装Docker</h3><p>操作节点：所以节点执行</p>
+<p>获取阿里的加速器地址<br><img src="/img/1603187904462.jpg"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装最新版本</span></span><br><span class="line">yum install docker-ce</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改docker daemon配置文件</span></span><br><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://rsgc4jk0.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动docker</span></span><br><span class="line">systemctl <span class="built_in">enable</span> docker &amp;&amp; systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<p>启动状态检查</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># systemctl  status docker-ce</span></span><br><span class="line">Unit docker-ce.service could not be found.</span><br><span class="line">[root@k8s-master ~]<span class="comment"># systemctl  status docker</span></span><br><span class="line">● docker.service - Docker Application Container Engine</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Tue 2020-10-20 18:01:20 CST; 1min 13s ago</span><br><span class="line">     Docs: https://docs.docker.com</span><br><span class="line"> Main PID: 11667 (dockerd)</span><br><span class="line">    Tasks: 10</span><br><span class="line">   Memory: 38.2M</span><br><span class="line">   CGroup: /system.slice/docker.service</span><br><span class="line">           └─11667 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line"></span><br><span class="line">Oct 20 18:01:20 k8s-master dockerd[11667]: time=<span class="string">"2020-10-20T18:01:20.767736680+08:00"</span> level=info msg=<span class="string">"scheme \"unix\" not registered, fallback to default scheme"</span> module=grpc</span><br><span class="line">Oct 20 18:01:20 k8s-master dockerd[11667]: time=<span class="string">"2020-10-20T18:01:20.767752808+08:00"</span> level=info msg=<span class="string">"ccResolverWrapper: sending update to cc: &#123;[&#123;unix:///run/co...odule=grpc</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.767764079+08:00<span class="string">" level=info msg="</span>ClientConn switching balancer to \"pick_first\"<span class="string">" module=grpc</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.796876109+08:00<span class="string">" level=info msg="</span>Loading containers: start.<span class="string">"</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.885563057+08:00<span class="string">" level=info msg="</span>Default bridge (docker0) is assigned with an IP address 17...P address<span class="string">"</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.928135025+08:00<span class="string">" level=info msg="</span>Loading containers: <span class="keyword">done</span>.<span class="string">"</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.943819098+08:00<span class="string">" level=info msg="</span>Docker daemon<span class="string">" commit=4484c46d9d graphdriver(s)=overlay2 v...n=19.03.13</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.943914032+08:00<span class="string">" level=info msg="</span>Daemon has completed initialization<span class="string">"</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master dockerd[11667]: time="</span>2020-10-20T18:01:20.968326432+08:00<span class="string">" level=info msg="</span>API listen on /var/run/docker.sock<span class="string">"</span></span><br><span class="line"><span class="string">Oct 20 18:01:20 k8s-master systemd[1]: Started Docker Application Container Engine.</span></span><br><span class="line"><span class="string">Hint: Some lines were ellipsized, use -l to show in full.</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装部署Kubernetes"><a href="#安装部署Kubernetes" class="headerlink" title="安装部署Kubernetes"></a>安装部署Kubernetes</h2><p>参看可以安装的版本,目前最新版本为1.19.3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># yum list kubelet --showduplicates | tail </span></span><br><span class="line">Repository base is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">Repository updates is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">Repository extras is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">kubelet.x86_64                       1.18.4-1                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.18.5-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.18.6-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.18.8-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.18.9-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.18.10-0                        kubernetes</span><br><span class="line">kubelet.x86_64                       1.19.0-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.19.1-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.19.2-0                         kubernetes</span><br><span class="line">kubelet.x86_64                       1.19.3-0                         kubernetes</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-安装kubeadm-kubelet-kubectl"><a href="#1-安装kubeadm-kubelet-kubectl" class="headerlink" title="1.安装kubeadm,kubelet,kubectl"></a>1.安装kubeadm,kubelet,kubectl</h3><p>操作节点：所以节点执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">yum install kubelet-1.19.3 kubeadm-1.19.3 kubectl-1.19.3 -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查版本</span></span><br><span class="line">bueadm version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> kubelet</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-初始化kubeadm配置"><a href="#2-初始化kubeadm配置" class="headerlink" title="2.初始化kubeadm配置"></a>2.初始化kubeadm配置</h3><p>操作节点：只在master</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubeadm config print init-defaults &gt; kubeadm.yaml</span></span><br></pre></td></tr></table></figure>
+
+<p>修改三处配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># vim kubeadm.yaml</span></span><br><span class="line"></span><br><span class="line">apiVersion: kubeadm.k8s.io/v1beta2</span><br><span class="line">bootstrapTokens:</span><br><span class="line">- groups:</span><br><span class="line">  - system:bootstrappers:kubeadm:default-node-token</span><br><span class="line">  token: abcdef.0123456789abcdef</span><br><span class="line">  ttl: 24h0m0s</span><br><span class="line">  usages:</span><br><span class="line">  - signing</span><br><span class="line">  - authentication</span><br><span class="line">kind: InitConfiguration</span><br><span class="line">localAPIEndpoint:</span><br><span class="line">  advertiseAddress: 172.19.153.97 <span class="comment"># master ip</span></span><br><span class="line">  bindPort: 6443</span><br><span class="line">nodeRegistration:</span><br><span class="line">  criSocket: /var/run/dockershim.sock</span><br><span class="line">  name: k8s-master</span><br><span class="line">  taints:</span><br><span class="line">  - effect: NoSchedule</span><br><span class="line">    key: node-role.kubernetes.io/master</span><br><span class="line">---</span><br><span class="line">apiServer:</span><br><span class="line">  timeoutForControlPlane: 4m0s</span><br><span class="line">apiVersion: kubeadm.k8s.io/v1beta2</span><br><span class="line">certificatesDir: /etc/kubernetes/pki</span><br><span class="line">clusterName: kubernetes</span><br><span class="line">controllerManager: &#123;&#125;</span><br><span class="line">dns:</span><br><span class="line">  <span class="built_in">type</span>: CoreDNS</span><br><span class="line">etcd:</span><br><span class="line">  <span class="built_in">local</span>:</span><br><span class="line">    dataDir: /var/lib/etcd</span><br><span class="line">imageRepository: registry.aliyuncs.com/google_containers <span class="comment"># aliyun镜像地址</span></span><br><span class="line">kind: ClusterConfiguration</span><br><span class="line">kubernetesVersion: v1.19.0</span><br><span class="line">networking:</span><br><span class="line">  dnsDomain: cluster.local</span><br><span class="line">  podSubnet: 10.244.0.0/16 <span class="comment"># pod 网段</span></span><br><span class="line">  serviceSubnet: 10.96.0.0/12</span><br><span class="line">scheduler: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<h3 id="3-下载镜像"><a href="#3-下载镜像" class="headerlink" title="3.下载镜像"></a>3.下载镜像</h3><p>参看需要使用的镜像列表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubeadm config images list --config kubeadm.yaml </span></span><br><span class="line">W1020 18:41:31.595354   12031 configset.go:348] WARNING: kubeadm cannot validate component configs <span class="keyword">for</span> API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]</span><br><span class="line">registry.aliyuncs.com/google_containers/kube-apiserver:v1.19.0</span><br><span class="line">registry.aliyuncs.com/google_containers/kube-controller-manager:v1.19.0</span><br><span class="line">registry.aliyuncs.com/google_containers/kube-scheduler:v1.19.0</span><br><span class="line">registry.aliyuncs.com/google_containers/kube-proxy:v1.19.0</span><br><span class="line">registry.aliyuncs.com/google_containers/pause:3.2</span><br><span class="line">registry.aliyuncs.com/google_containers/etcd:3.4.13-0</span><br><span class="line">registry.aliyuncs.com/google_containers/coredns:1.7.0</span><br></pre></td></tr></table></figure>
+
+
+<p>使用pull下载镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubeadm config images pull --config kubeadm.yaml     </span></span><br><span class="line">W1020 18:47:17.290279   12065 configset.go:348] WARNING: kubeadm cannot validate component configs <span class="keyword">for</span> API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/kube-apiserver:v1.19.0</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/kube-controller-manager:v1.19.0</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/kube-scheduler:v1.19.0</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/kube-proxy:v1.19.0</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/pause:3.2</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/etcd:3.4.13-0</span><br><span class="line">[config/images] Pulled registry.aliyuncs.com/google_containers/coredns:1.7.0</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-初始化kubeadm"><a href="#4-初始化kubeadm" class="headerlink" title="4.初始化kubeadm"></a>4.初始化kubeadm</h3><p>操作节点：只在master</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubeadm init --config </span></span><br><span class="line">flag needs an argument: --config</span><br><span class="line">To see the stack trace of this error execute with --v=5 or higher</span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubeadm init --config kubeadm.yaml </span></span><br><span class="line">W1020 18:55:45.497737   12312 configset.go:348] WARNING: kubeadm cannot validate component configs <span class="keyword">for</span> API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]</span><br><span class="line">[init] Using Kubernetes version: v1.19.0</span><br><span class="line">[preflight] Running pre-flight checks</span><br><span class="line">        [WARNING IsDockerSystemdCheck]: detected <span class="string">"cgroupfs"</span> as the Docker cgroup driver. The recommended driver is <span class="string">"systemd"</span>. Please follow the guide at https://kubernetes.io/docs/setup/cri/</span><br><span class="line">[preflight] Pulling images required <span class="keyword">for</span> setting up a Kubernetes cluster</span><br><span class="line"></span><br><span class="line">.......</span><br><span class="line"></span><br><span class="line">Your Kubernetes control-plane has initialized successfully!</span><br><span class="line"></span><br><span class="line">To start using your cluster, you need to run the following as a regular user:</span><br><span class="line"></span><br><span class="line">  mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">  sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">  sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br><span class="line"></span><br><span class="line">You should now deploy a pod network to the cluster.</span><br><span class="line">Run <span class="string">"kubectl apply -f [podnetwork].yaml"</span> with one of the options listed at:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">Then you can join any number of worker nodes by running the following on each as root:</span><br><span class="line"><span class="comment"># 使用以前命令加入到集群</span></span><br><span class="line">kubeadm join 172.19.153.97:6443 --token abcdef.0123456789abcdef \</span><br><span class="line">    --discovery-token-ca-cert-hash sha256:31a4ae4022fed0410031c099424152ff3bf7a91d95a7e67f66b17fe3e1372e02 </span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>执行上面提示的操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment">#  mkdir -p $HOME/.kube</span></span><br><span class="line">[root@k8s-master ~]<span class="comment">#  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span></span><br><span class="line">[root@k8s-master ~]<span class="comment">#  sudo chown $(id -u):$(id -g) $HOME/.kube/config</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-添加node节点到集群"><a href="#5-添加node节点到集群" class="headerlink" title="5.添加node节点到集群"></a>5.添加node节点到集群</h3><p>操作节点：node节点</p>
+<p>node1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-node1 ~]<span class="comment"># kubeadm join 172.19.153.97:6443 --token abcdef.0123456789abcdef \</span></span><br><span class="line">&gt;     --discovery-token-ca-cert-hash sha256:31a4ae4022fed0410031c099424152ff3bf7a91d95a7e67f66b17fe3e1372e02 </span><br><span class="line">[preflight] Running pre-flight checks</span><br><span class="line">        [WARNING IsDockerSystemdCheck]: detected <span class="string">"cgroupfs"</span> as the Docker cgroup driver. The recommended driver is <span class="string">"systemd"</span>. Please follow the guide at https://kubernetes.io/docs/setup/cri/</span><br><span class="line">[preflight] Reading configuration from the cluster...</span><br><span class="line">[preflight] FYI: You can look at this config file with <span class="string">'kubectl -n kube-system get cm kubeadm-config -oyaml'</span></span><br><span class="line">[kubelet-start] Writing kubelet configuration to file <span class="string">"/var/lib/kubelet/config.yaml"</span></span><br><span class="line">[kubelet-start] Writing kubelet environment file with flags to file <span class="string">"/var/lib/kubelet/kubeadm-flags.env"</span></span><br><span class="line">[kubelet-start] Starting the kubelet</span><br><span class="line">[kubelet-start] Waiting <span class="keyword">for</span> the kubelet to perform the TLS Bootstrap...</span><br><span class="line"></span><br><span class="line">This node has joined the cluster:</span><br><span class="line">* Certificate signing request was sent to apiserver and a response was received.</span><br><span class="line">* The Kubelet was informed of the new secure connection details.</span><br><span class="line"></span><br><span class="line">Run <span class="string">'kubectl get nodes'</span> on the control-plane to see this node join the cluster.</span><br><span class="line"></span><br><span class="line">[root@k8s-node1 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>node2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-node2 ~]<span class="comment"># kubeadm join 172.19.153.97:6443 --token abcdef.0123456789abcdef \</span></span><br><span class="line">&gt;     --discovery-token-ca-cert-hash sha256:31a4ae4022fed0410031c099424152ff3bf7a91d95a7e67f66b17fe3e1372e02 </span><br><span class="line">[preflight] Running pre-flight checks</span><br><span class="line">        [WARNING IsDockerSystemdCheck]: detected <span class="string">"cgroupfs"</span> as the Docker cgroup driver. The recommended driver is <span class="string">"systemd"</span>. Please follow the guide at https://kubernetes.io/docs/setup/cri/</span><br><span class="line">[preflight] Reading configuration from the cluster...</span><br><span class="line">[preflight] FYI: You can look at this config file with <span class="string">'kubectl -n kube-system get cm kubeadm-config -oyaml'</span></span><br><span class="line">[kubelet-start] Writing kubelet configuration to file <span class="string">"/var/lib/kubelet/config.yaml"</span></span><br><span class="line">[kubelet-start] Writing kubelet environment file with flags to file <span class="string">"/var/lib/kubelet/kubeadm-flags.env"</span></span><br><span class="line">[kubelet-start] Starting the kubelet</span><br><span class="line">[kubelet-start] Waiting <span class="keyword">for</span> the kubelet to perform the TLS Bootstrap...</span><br><span class="line"></span><br><span class="line">This node has joined the cluster:</span><br><span class="line">* Certificate signing request was sent to apiserver and a response was received.</span><br><span class="line">* The Kubelet was informed of the new secure connection details.</span><br><span class="line"></span><br><span class="line">Run <span class="string">'kubectl get nodes'</span> on the control-plane to see this node join the cluster.</span><br><span class="line"></span><br><span class="line">[root@k8s-node2 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>检查-在master节点上，可以看到有两个node加入进来了，但是处于NotReady状态。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get nodes</span></span><br><span class="line">NAME         STATUS     ROLES    AGE    VERSION</span><br><span class="line">k8s-master   NotReady   master   19m    v1.19.3</span><br><span class="line">k8s-node1    NotReady   &lt;none&gt;   2m7s   v1.19.3</span><br><span class="line">k8s-node2    NotReady   &lt;none&gt;   2m     v1.19.3</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="6-安装flannel"><a href="#6-安装flannel" class="headerlink" title="6.安装flannel"></a>6.安装flannel</h3><p>下载flannel的yaml文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span><br></pre></td></tr></table></figure>
+
+<p>应用配置文件，创建flannel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl apply -f kube-flannel.yml </span></span><br><span class="line">podsecuritypolicy.policy/psp.flannel.unprivileged created</span><br><span class="line">clusterrole.rbac.authorization.k8s.io/flannel created</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/flannel created</span><br><span class="line">serviceaccount/flannel created</span><br><span class="line">configmap/kube-flannel-cfg created</span><br><span class="line">daemonset.apps/kube-flannel-ds created</span><br></pre></td></tr></table></figure>
+
+<p>检查flannel是否创建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># docker ps -a | grep flannel</span></span><br><span class="line">b3a28fe53910        e708f4bb69e3                                        <span class="string">"/opt/bin/flanneld -…"</span>   3 minutes ago       Up 3 minutes                                   k8s_kubeflannel_kube-flannel-ds-nvrdd_kube-system_d4d504b3-b579-4e90-94cf-3584da4395ec_0</span><br><span class="line">f6e5f8546895        quay.io/coreos/flannel                              <span class="string">"cp -f /etc/kube-fla…"</span>   3 minutes ago       Exited (0) 3 minutes ago                       k8s_install-cni_kube-flannel-ds-nvrdd_kube-system_d4d504b3-b579-4e90-94cf-3584da4395ec_0</span><br><span class="line">6a3fb130f7b3        registry.aliyuncs.com/google_containers/pause:3.2   <span class="string">"/pause"</span>                 3 minutes ago       Up 3 minutes                                   k8s_POD_kube-flannel-ds-nvrdd_kube-system_d4d504b3-b579-4e90-94cf-3584da4395ec_0</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-验证集群状态"><a href="#7-验证集群状态" class="headerlink" title="7.验证集群状态"></a>7.验证集群状态</h3><p>等待1-2分钟后再次查看结果</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get nodes</span></span><br><span class="line">NAME         STATUS   ROLES    AGE   VERSION</span><br><span class="line">k8s-master   Ready    master   52m   v1.19.3</span><br><span class="line">k8s-node1    Ready    &lt;none&gt;   35m   v1.19.3</span><br><span class="line">k8s-node2    Ready    &lt;none&gt;   35m   v1.19.3</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="8-部署Dashboard"><a href="#8-部署Dashboard" class="headerlink" title="8.部署Dashboard"></a>8.部署Dashboard</h3><p>下载yaml配置文件，最新版本的dashboard参考<a href="https://github.com/kubernetes/dashboard/releases" target="_blank" rel="noopener">https://github.com/kubernetes/dashboard/releases</a></p>
+<p>注意兼容性：<br><img src="/img/1603196694975.jpg"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml</span></span><br><span class="line">--2020-10-20 20:16:00--  https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml</span><br><span class="line">Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.108.133</span><br><span class="line">Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.108.133|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 7552 (7.4K) [text/plain]</span><br><span class="line">Saving to: ‘recommended.yaml’</span><br><span class="line"></span><br><span class="line">100%[===================================================================================================================================&gt;] 7,552       --.-K/s   <span class="keyword">in</span> 0.1s    </span><br><span class="line"></span><br><span class="line">2020-10-20 20:16:02 (53.8 KB/s) - ‘recommended.yaml’ saved [7552/7552]</span><br></pre></td></tr></table></figure>
+
+<p>修改yaml文件,添加NodePort</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">39 spec:</span><br><span class="line">40   ports:</span><br><span class="line">41     - port: 443</span><br><span class="line">42       targetPort: 8443</span><br><span class="line">43   selector:</span><br><span class="line">44     k8s-app: kubernetes-dashboard</span><br><span class="line">45   <span class="built_in">type</span>: NodePort <span class="comment"># 变成nodeport 类型服务</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以固定成某一个port端口，不设置默认会动态生成一个端口。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span>: NodePort</span><br><span class="line">ports:</span><br><span class="line">  - port: 443</span><br><span class="line">    targetPort: 8443</span><br><span class="line">    nodePort: 30443     <span class="comment">#对外暴露的端口</span></span><br></pre></td></tr></table></figure>
+
+<p>应用配置并检查</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl  apply -f recommended.yaml</span></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl -n kubernetes-dashboard get svc</span></span><br><span class="line">NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE</span><br><span class="line">dashboard-metrics-scraper   ClusterIP   10.97.20.216     &lt;none&gt;        8000/TCP        32m</span><br><span class="line">kubernetes-dashboard        NodePort    10.107.133.135   &lt;none&gt;        443:30078/TCP   32m</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>访问:<a href="https://x.x.x.x:30078" target="_blank" rel="noopener">https://x.x.x.x:30078</a></p>
+<img src="/img/1603196584305.jpg">
+
+<p>提示两种验证方式</p>
+<img src="/img/1603197466610.jpg">
+
+
+
+<h3 id="9-创建token令牌"><a href="#9-创建token令牌" class="headerlink" title="9.创建token令牌"></a>9.创建token令牌</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl create serviceaccount  dashboard-admin -n kube-system</span></span><br><span class="line">serviceaccount/dashboard-admin created</span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl create clusterrolebinding  dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin</span></span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/dashboard-admin created</span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk '/dashboard-admin/&#123;print $1&#125;')</span></span><br><span class="line">Name:         dashboard-admin-token-cpmgn</span><br><span class="line">Namespace:    kube-system</span><br><span class="line">Labels:       &lt;none&gt;</span><br><span class="line">Annotations:  kubernetes.io/service-account.name: dashboard-admin</span><br><span class="line">              kubernetes.io/service-account.uid: 1d68fc57-c316-4e5a-96bf-e2524053c2b6</span><br><span class="line"></span><br><span class="line">Type:  kubernetes.io/service-account-token</span><br><span class="line"></span><br><span class="line">Data</span><br><span class="line">====</span><br><span class="line">ca.crt:     1066 bytes</span><br><span class="line">namespace:  11 bytes</span><br><span class="line">token:      eyJhbGciOiJSUzI1NiIsImtpZCI6Im5obDkxOVVRVWRqWUY1dDFEa3lTZVIzV3hzeW1tYUlQVXYwendUQmZ5TGcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tY3BtZ24iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiMWQ2OGZjNTctYzMxNi00ZTVhLTk2YmYtZTI1MjQwNTNjMmI2Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZC1hZG1pbiJ9.P69MkC8E4nQbnJg_7B0iI-ml3lDcyHLUdQqDqSzhXzeBtMF39PaO5Qp4WjPH4XhYrRS8oVr1SazoJFMGlk1Qpg7r5o5M8TPbm6biljg4clRWylKBWl2_e7znXHPOU-EMD58Gz551Qf1w_a0O6uMt7BC3W54OevKQL0Oq4iSrqvCBJo8RFa5E8ZaYtV413X5gHIAFbleuwQO-4fYIK-ImVaKhD1P7RJSD4ZykPcCDhlPvtbnT8kDfPRTxkVcPG7WukXwSHpXIwFENhWuLL3TiuJ-FvWkf8Zm7pcVjxWjjqNdwcnqnIjNBKP7ZCk_ipr07ssJyDc1xFGJAN5evcIUgjg</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>在token处输入上面生成的令牌<br><img src="/img/1603198173908.jpg"></p>
+<p>登录成功<br><img src="/img/1603198230738.jpg"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/</a></li>
+<li><a href="https://kubernetes.io/zh/docs/setup/independent/create-cluster-kubeadm" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/setup/independent/create-cluster-kubeadm</a></li>
+<li><a href="https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm/</a></li>
+<li><a href="https://docs.projectcalico.org/getting-started/kubernetes/quickstart" target="_blank" rel="noopener">https://docs.projectcalico.org/getting-started/kubernetes/quickstart</a></li>
+<li><a href="https://my.oschina.net/u/4275654/blog/4665479" target="_blank" rel="noopener">https://my.oschina.net/u/4275654/blog/4665479</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/19/Chrome-%E6%82%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/19/Chrome-%E6%82%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="post-title-link" itemprop="url">Chrome 您的连接不是私密连接解决办法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-19 20:38:49" itemprop="dateCreated datePublished" datetime="2020-10-19T20:38:49+08:00">2020-10-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-20 20:43:01" itemprop="dateModified" datetime="2020-10-20T20:43:01+08:00">2020-10-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Other/" itemprop="url" rel="index"><span itemprop="name">Other</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/19/Chrome-%E6%82%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="Chrome 您的连接不是私密连接解决办法" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/19/Chrome-%E6%82%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/19/Chrome-%E6%82%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>谷歌浏览器隐私设置错误 NET::ERR_CERT_AUTHORITY_INVALID 攻击者可能会试图从 xx 窃取您的信息（例如：密码、通讯内容或信用卡信息）。</p>
+<p>谷歌浏览器访问 https 提示您的连接不是私密连接 - 隐私设置错误</p>
+<p>例如：</p>
+<img src="/img/1603196584305.jpg">
+
+<p>解决：在当前页面用键盘输入  <code>thisisunsafe</code>  不是在地址栏输入，直接敲键盘页面即会自动刷新进入网页。</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://blog.csdn.net/qq_34629352/article/details/109023000" target="_blank" rel="noopener">https://blog.csdn.net/qq_34629352/article/details/109023000</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/10/influxdb-for-centos-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1320,274 +1643,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/22/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E9%82%AE%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/22/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E9%82%AE%E4%BB%B6/" class="post-title-link" itemprop="url">zabbix 监控报警(邮件)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-22 14:24:39 / 修改时间：16:13:54" itemprop="dateCreated datePublished" datetime="2020-09-22T14:24:39+08:00">2020-09-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/22/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E9%82%AE%E4%BB%B6/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 监控报警(邮件)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/22/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E9%82%AE%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/22/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E9%82%AE%E4%BB%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="邮件报警"><a href="#邮件报警" class="headerlink" title="邮件报警"></a>邮件报警</h2><p>邮件报警对于运维来说还是比较实用的，免费且方便配置，只是如果报警邮件过多可能会导致报警信息遗漏。这点需要运维知悉！</p>
-<p>1.登录qq邮箱-账户-获取独立密码</p>
-<img src="/img/1600758765796.jpg">
-
-<p>2.添加报警媒介 QQemail</p>
-<img src="/img/1600759822428.jpg">
-
-<p>3.设置用户报警媒介并且指定消息接收人</p>
-<img src="/img/1600758960610.jpg">
-
-<p>4.启用trigger actions<br><img src="/img/1600758995623.jpg"></p>
-<p>新版本把actions的分类移动到了上面进行选择</p>
-<img src="/img/1600761785640.jpg">
-
-
-<h2 id="测试报警结果"><a href="#测试报警结果" class="headerlink" title="测试报警结果"></a>测试报警结果</h2><p>手动测试我们的报警规则</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 601 -vv</span></span><br><span class="line">zabbix_sender [23894]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000029"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000029"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 603 -vv</span></span><br><span class="line">zabbix_sender [23899]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000078"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000078"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># zabbix_sender -s "webserver.roddypy.com" -z 47.93.184.140 -p 10051 -k "UsersCount" -o 604 -vv</span></span><br><span class="line">zabbix_sender [23901]: DEBUG: answer [&#123;<span class="string">"response"</span>:<span class="string">"success"</span>,<span class="string">"info"</span>:<span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000087"</span>&#125;]</span><br><span class="line">Response from <span class="string">"47.93.184.140:10051"</span>: <span class="string">"processed: 1; failed: 0; total: 1; seconds spent: 0.000087"</span></span><br><span class="line">sent: 1; skipped: 0; total: 1</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>仪表盘已经提示出问题</p>
-<img src="/img/1600759212718.jpg">
-
-
-<p>打开邮箱确认下报警信息</p>
-<img src="/img/1600760029926.jpg">
-
-<p>发现邮件为啥是html的文本格式呢，貌似我们在报警媒介那个地方选择过。现在调整成html看看。</p>
-<img src="/img/1600760134231.jpg">
-
-<p>修改后的结果</p>
-<img src="/img/1600760238959.jpg">
-
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Problem started at 15:36:56 on 2020.09.22</span><br><span class="line">Problem name: UsersCount</span><br><span class="line">Host: webserver.roddypy.com</span><br><span class="line">Severity: Average</span><br><span class="line">Operational data: 608 个</span><br><span class="line">Original problem ID: 74</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改报警模版"><a href="#修改报警模版" class="headerlink" title="修改报警模版"></a>修改报警模版</h2><p>默认模版为以上英文信息，同时主题和内容我们详细信息不多。我们是否可以设置一个新的模版呢，答案可以。</p>
-<p>在报警媒介-模版中可以设置-记着点<code>更新</code><br><img src="/img/1600760523771.jpg"></p>
-<p>注意：如果以下信息作为模版请选择Message format为 ”文本”，如果以html格式请选择html模版</p>
-<h3 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h3><p>报警通知模版</p>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">主题：</span></span><br><span class="line"><span class="xml">Problem: </span><span class="template-variable">&#123;EVENT.NAME&#125;</span><span class="xml">故障</span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">,服务器:</span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml">发生: </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span><span class="xml">故障!</span></span><br><span class="line"><span class="xml">内容：</span></span><br><span class="line"></span><br><span class="line"><span class="xml">告警主机:</span><span class="template-variable">&#123;HOSTNAME1&#125;</span></span><br><span class="line"><span class="xml">告警时间:</span><span class="template-variable">&#123;EVENT.DATE&#125;</span><span class="xml"> </span><span class="template-variable">&#123;EVENT.TIME&#125;</span></span><br><span class="line"><span class="xml">告警等级:</span><span class="template-variable">&#123;TRIGGER.SEVERITY&#125;</span></span><br><span class="line"><span class="xml">告警信息: </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span></span><br><span class="line"><span class="xml">告警项目:</span><span class="template-variable">&#123;TRIGGER.KEY1&#125;</span></span><br><span class="line"><span class="xml">问题详情:</span><span class="template-variable">&#123;ITEM.NAME&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE&#125;</span></span><br><span class="line"><span class="xml">当前状态:</span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE1&#125;</span></span><br><span class="line"><span class="xml">事件ID:</span><span class="template-variable">&#123;EVENT.ID&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>报警恢复模版</p>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">主题：</span></span><br><span class="line"><span class="xml">恢复</span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">, 服务器:</span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml">: </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span><span class="xml">已恢复!</span></span><br><span class="line"><span class="xml">内容：</span></span><br><span class="line"><span class="xml">告警主机:</span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>故障问题已恢复<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span></span><br><span class="line"><span class="xml">告警时间:</span><span class="template-variable">&#123;EVENT.DATE&#125;</span><span class="xml"> </span><span class="template-variable">&#123;EVENT.TIME&#125;</span></span><br><span class="line"><span class="xml">告警等级:</span><span class="template-variable">&#123;TRIGGER.SEVERITY&#125;</span></span><br><span class="line"><span class="xml">告警信息: </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span></span><br><span class="line"><span class="xml">告警项目:</span><span class="template-variable">&#123;TRIGGER.KEY1&#125;</span></span><br><span class="line"><span class="xml">问题详情:</span><span class="template-variable">&#123;ITEM.NAME&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE&#125;</span></span><br><span class="line"><span class="xml">当前状态:</span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE1&#125;</span></span><br><span class="line"><span class="xml">事件ID:</span><span class="template-variable">&#123;EVENT.ID&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>报警通知模版</p>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">主题：</span></span><br><span class="line"><span class="xml">Problem: </span><span class="template-variable">&#123;EVENT.NAME&#125;</span><span class="xml">故障</span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">,服务器:</span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml">发生: </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span><span class="xml">故障!</span></span><br><span class="line"><span class="xml">内容：</span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警主机:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警时间:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;EVENT.DATE&#125;</span><span class="xml"> </span><span class="template-variable">&#123;EVENT.TIME&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警等级:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.SEVERITY&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警信息: <span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警项目:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.KEY1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>问题详情:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;ITEM.NAME&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>当前状态:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>事件ID:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;EVENT.ID&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<p>报警恢复模版</p>
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">主题：</span></span><br><span class="line"><span class="xml">恢复</span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">, 服务器:</span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml">: </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span><span class="xml">已恢复!</span></span><br><span class="line"></span><br><span class="line"><span class="xml">内容：</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>故障问题已恢复<span class="tag">&lt;/<span class="name">b</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警主机:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;HOSTNAME1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警时间:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;EVENT.DATE&#125;</span><span class="xml"> </span><span class="template-variable">&#123;EVENT.TIME&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警等级:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.SEVERITY&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警信息:<span class="tag">&lt;/<span class="name">b</span>&gt;</span> </span><span class="template-variable">&#123;TRIGGER.NAME&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>告警项目:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.KEY1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>问题详情:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;ITEM.NAME&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>当前状态:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;TRIGGER.STATUS&#125;</span><span class="xml">:</span><span class="template-variable">&#123;ITEM.VALUE1&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">b</span>&gt;</span>事件ID:<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><span class="template-variable">&#123;EVENT.ID&#125;</span><span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<p>结果：<br><img src="/img/1600761265204.jpg"></p>
-<h2 id="故障日志排查"><a href="#故障日志排查" class="headerlink" title="故障日志排查"></a>故障日志排查</h2><p>如果配置了报警仪表盘有提示，但是没有收到报警，这个时候就要去查看zabbix_server.log日志</p>
-<p>最开始我就是配置端口错误</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]<span class="comment"># tailf /var/log/zabbix/zabbix_server.log</span></span><br><span class="line"> 28695:20200922:135040.315 housekeeper [deleted 0 hist/trends, 0 items/triggers, 0 events, 0 problems, 0 sessions, 0 alarms, 0 audit, 0 records <span class="keyword">in</span> 0.002269 sec, idle <span class="keyword">for</span> 1 hour(s)]</span><br><span class="line"> 28695:20200922:145040.534 executing housekeeper</span><br><span class="line"> 28695:20200922:145040.537 housekeeper [deleted 0 hist/trends, 0 items/triggers, 0 events, 0 problems, 0 sessions, 0 alarms, 0 audit, 0 records <span class="keyword">in</span> 0.002225 sec, idle <span class="keyword">for</span> 1 hour(s)]</span><br><span class="line"> 28719:20200922:151620.874 watchdog: 1 recipient(s) found <span class="keyword">for</span> database down messages</span><br><span class="line"> 28722:20200922:151922.945 failed to send email: Couldn<span class="string">'t connect to server: Failed connect to mail.qq.com:25; Operation now in progress</span></span><br><span class="line"><span class="string"> 28720:20200922:152007.968 failed to send email: Couldn'</span>t connect to server: Failed connect to mail.qq.com:25; Operation now <span class="keyword">in</span> progress</span><br><span class="line"> 28721:20200922:152052.989 failed to send email: Couldn<span class="string">'t connect to server: Failed connect to mail.qq.com:25; Operation now in progress</span></span><br><span class="line"><span class="string">[root@iZ2ze7k1pc9lk7pay5rcawZ ~]#</span></span><br></pre></td></tr></table></figure>
-
-<p>以上方式由平台提供的email配置，还有一种方法是通过py脚本来发邮件，两种方式都可以。哪个方便用哪个即可，目前邮件报警还是业内比较常用的报警方式之一</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.cnblogs.com/itzhao/p/11298301.html" target="_blank" rel="noopener">https://www.cnblogs.com/itzhao/p/11298301.html</a></li>
-<li><a href="https://www.zabbix.com/documentation/current/manual/config/notifications/media/email" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manual/config/notifications/media/email</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/22/zabbix-%E8%A7%A6%E5%8F%91%E5%99%A8%E5%92%8C%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/22/zabbix-%E8%A7%A6%E5%8F%91%E5%99%A8%E5%92%8C%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/" class="post-title-link" itemprop="url">zabbix 触发器和报警媒介</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-22 14:22:01 / 修改时间：14:58:52" itemprop="dateCreated datePublished" datetime="2020-09-22T14:22:01+08:00">2020-09-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/22/zabbix-%E8%A7%A6%E5%8F%91%E5%99%A8%E5%92%8C%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 触发器和报警媒介" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/22/zabbix-%E8%A7%A6%E5%8F%91%E5%99%A8%E5%92%8C%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/22/zabbix-%E8%A7%A6%E5%8F%91%E5%99%A8%E5%92%8C%E6%8A%A5%E8%AD%A6%E5%AA%92%E4%BB%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><p>所谓触发器就是根据监控项指标的返回值来判断属于什么状态。触发器用于给监控项定义具体的阈值，每一个触发器管理一个监控项，但是可以为一个监控项目定义多个触发器。定义的条件不同，就可以实现不同级别的报警。比如cpu使用率 达到40% 什么状态，70%是什么状态 90%又是什么状态。触发器由表达式构成，定义监控项的采集数据的一个阈值，根据触发器表达式的判断决定触发器状态。</p>
-<p>设置触发器，可以关联模版，也可以单独对一个主机定义触发器</p>
-<h3 id="触发器状态"><a href="#触发器状态" class="headerlink" title="触发器状态"></a>触发器状态</h3><ul>
-<li>未分类 (Not classified)</li>
-<li>信息(Infomation)</li>
-<li>警告(Warning)</li>
-<li>一般严重(Average)</li>
-<li>严重(High)</li>
-<li>灾难(Disaster)</li>
-</ul>
-<h3 id="表达式常见用法"><a href="#表达式常见用法" class="headerlink" title="表达式常见用法"></a>表达式常见用法</h3><p>官网参考：<a href="https://www.zabbix.com/documentation/current/manual/config/triggers/expression" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manual/config/triggers/expression</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;www.roddypy.com:system.cpu.load[all,avg1].last()&#125;&gt;5</span><br><span class="line"></span><br><span class="line">表示：获取到roddypy.com服务器负载system.cpu.load[all,avg1] 最新数据，如果大于5就表示有问题</span><br></pre></td></tr></table></figure>
-
-<p>判断语法</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">last</span><span class="params">( )</span></span>  获取到的最新信息(数值) </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">max</span><span class="params">( )</span></span>   在一定周期内,收集到的最大值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">min</span><span class="params">( )</span></span>   在一定周期内,收集到的最小值</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">diff</span><span class="params">()</span></span>   在一定时间内,判断收集到的信息是否不同</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">change</span><span class="params">()</span></span>  在一定时间内,判断收集到的信息是否不同</span><br><span class="line"><span class="function"><span class="title">avg</span><span class="params">()</span></span>   取一段时间的平均值</span><br></pre></td></tr></table></figure>
-
-
-<img src="/img/1600756889235.jpg">
-
-<p>创建触发器样例</p>
-<p>如果UsersCount最后3次获取的数据都&gt;600进行触发<br><img src="/img/1600757144366.jpg"></p>
-<h2 id="报警媒介"><a href="#报警媒介" class="headerlink" title="报警媒介"></a>报警媒介</h2><p>报警媒介就是触发报警后需要将信息通过短信、邮箱、微信、或者第三方应用告知管理员，这个时候短信这种方式就是报警媒介。监控系统最主要的功能就是两个：1.数据采集做监控 2.通过设定的规则进行报警通知</p>
-<p>zabbix 5.0默认支持以下报警媒介</p>
-<img src="/img/1600756055991.jpg">
-
-<p>对于国内运维常用的报警媒介主要有以下几种</p>
-<ul>
-<li><strong><em>SMS 短信报警</em></strong> 需要短信付费</li>
-<li><strong><em>Email 邮件报警</em></strong></li>
-<li><strong><em>wechat 微信报警</em></strong></li>
-<li><strong><em>telegram 电报</em></strong>  等等</li>
-<li>集成第三方平台</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1657,20 +1712,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">74</span>
+          <span class="site-state-item-count">76</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
