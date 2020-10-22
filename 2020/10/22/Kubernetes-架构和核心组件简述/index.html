@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.roddypy.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述Kubernetes 简称K8s,是一个可移植的，可扩展的开源平台，用于管理容器化的工作负载和服务，可促进声明式配置和自动化。它拥有一个庞大且快速增长的生态系统。Kubernetes的服务，支持和工具广泛可用。Kubernetes这个名字起源于希腊语，意思是舵手或飞行员。Google在2014年开源了Kubernetes项目。Kubernetes将超过15年的Google在大规模生产工作负载方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 架构和核心组件简述">
+<meta property="og:url" content="http://www.roddypy.com/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/index.html">
+<meta property="og:site_name" content="普拉多VX">
+<meta property="og:description" content="概述Kubernetes 简称K8s,是一个可移植的，可扩展的开源平台，用于管理容器化的工作负载和服务，可促进声明式配置和自动化。它拥有一个庞大且快速增长的生态系统。Kubernetes的服务，支持和工具广泛可用。Kubernetes这个名字起源于希腊语，意思是舵手或飞行员。Google在2014年开源了Kubernetes项目。Kubernetes将超过15年的Google在大规模生产工作负载方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.roddypy.com/img/1603354615160.jpg">
+<meta property="og:image" content="http://www.roddypy.com/img/1603354835071.jpg">
+<meta property="og:image" content="http://www.roddypy.com/img/1603363629432.jpg">
+<meta property="article:published_time" content="2020-10-22T03:31:50.000Z">
+<meta property="article:modified_time" content="2020-10-22T11:15:15.195Z">
+<meta property="article:author" content="Roddy">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.roddypy.com/img/1603354615160.jpg">
+
+<link rel="canonical" href="http://www.roddypy.com/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Kubernetes 架构和核心组件简述 | 普拉多VX</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">普拉多VX</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生一路，不问来时，不知归期</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes 架构和核心组件简述
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-22 11:31:50 / 修改时间：19:15:15" itemprop="dateCreated datePublished" datetime="2020-10-22T11:31:50+08:00">2020-10-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes 架构和核心组件简述" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Kubernetes 简称K8s,是一个可移植的，可扩展的开源平台，用于管理容器化的工作负载和服务，可促进声明式配置和自动化。它拥有一个庞大且快速增长的生态系统。<br>Kubernetes的服务，支持和工具广泛可用。<br>Kubernetes这个名字起源于希腊语，意思是舵手或飞行员。Google在2014年开源了Kubernetes项目。Kubernetes将超过15年的Google在大规模生产工作负载方面的经验与社区中最好的想法和实践相结合。</p>
+<p><em>Logo:</em></p>
+<img src="/img/1603354615160.jpg">
+
+
+<h2 id="Kubernetes-特点"><a href="#Kubernetes-特点" class="headerlink" title="Kubernetes 特点"></a>Kubernetes 特点</h2><ul>
+<li>可移植: 支持公有云，私有云，混合云，多重云（multi-cloud）</li>
+<li>可扩展: 模块化，插件化，可挂载，可组合</li>
+<li>自动化: 自动部署，自动重启，自动复制，自动伸缩/扩展</li>
+</ul>
+<h2 id="官方网站"><a href="#官方网站" class="headerlink" title="官方网站"></a>官方网站</h2><ul>
+<li><a href="https://kubernetes.io" target="_blank" rel="noopener">https://kubernetes.io</a></li>
+<li><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes</a></li>
+</ul>
+<h2 id="设计架构"><a href="#设计架构" class="headerlink" title="设计架构"></a>设计架构</h2><p>在Kubernetes中分为两种角色即：Master（主管理节点）、Node（工作节点）<br>其中Master管理Node，主要负责整个集群的管理控制，相当于集群首脑。Node管理容器并且提供容器所需要的各种环境，由Master分配工作负载。</p>
+<img src="/img/1603354835071.jpg">
+
+
+<h2 id="Master（主节点）"><a href="#Master（主节点）" class="headerlink" title="Master（主节点）"></a>Master（主节点）</h2><p>master包含以下组件,其中master需要做高可用的话可以为多台。</p>
+<h3 id="1-kube-apiserver"><a href="#1-kube-apiserver" class="headerlink" title="1.kube-apiserver"></a>1.kube-apiserver</h3><p>kube-apiserver用于暴露Kubernetes API，提供了资源操作的唯一入口。对于资源的任何操作都需要经过API Server进程来处理。同时 API Server进程还提供了一系列认证授权机制。</p>
+<p>API Server通过运行在master上的kube-apiserver进程提供服务,默认使用本机的8080端口提供REST服务，可以同时启动HTTPS安全端口(–secure-port=6443)来启动安全机制，加强REST API访问的安全性。</p>
+<h3 id="2-etcd"><a href="#2-etcd" class="headerlink" title="2.etcd"></a>2.etcd</h3><p>etcd是一个轻量的分布式键值存储，他是整个Kubernetes集群中非常重要的组件之一。它主要用于保存集群所有的网络配置和对象的状态信息。它也是Kubernetes的默认存储系统，只有Api Server进程才可以访问。</p>
+<h3 id="3-kube-scheduler"><a href="#3-kube-scheduler" class="headerlink" title="3.kube-scheduler"></a>3.kube-scheduler</h3><p>scheduler(调度器)是pod资源的调度器，主要监听最近创建但还未分配node的Pod资源，会根据调度算法自动分配到相应的node节点上。可以理解为pod找一个合适的家。</p>
+<p>调度器考虑的因数</p>
+<ul>
+<li>资源需求</li>
+<li>硬件/软件等条件</li>
+<li>负载情况等</li>
+</ul>
+<h3 id="4-kube-controller-manager"><a href="#4-kube-controller-manager" class="headerlink" title="4.kube-controller-manager"></a>4.kube-controller-manager</h3><p>kube-controller-manager运行管理控制器，它们是集群中处理常规任务的后台线程。逻辑上，每个控制器是一个单独的进程，但为了降低复杂性，它们都被编译成单个二进制文件，并在单个进程中运行。</p>
+<p>这些控制器包括：</p>
+<ul>
+<li><p>节点（Node）控制器：负责在节点出现故障时警示和响应。</p>
+</li>
+<li><p>副本（Replication）控制器：负责为系统中的每个副本控制器（ReplicationController）对象维护正确的pod数量。</p>
+</li>
+<li><p>端点（Endpoints）控制器：负责生成和维护所有的Endpoint对象的控制器。用于监听service和对应的pod副本变化。</p>
+</li>
+<li><p>Service Account和Token控制器：为新的Namespace创建默认帐户访问API 访问Token。</p>
+</li>
+</ul>
+<h2 id="Node（工作节点）"><a href="#Node（工作节点）" class="headerlink" title="Node（工作节点）"></a>Node（工作节点）</h2><h3 id="1-kubelet"><a href="#1-kubelet" class="headerlink" title="1.kubelet"></a>1.kubelet</h3><p>kubelet 在每个node上运行的节点代理。每个node上的kubelet会定期调用master节点上的api server接口报告状态。它负责管理pods和它们上面的容器，images镜像、volumes、etc，确保容器在pod中运行</p>
+<h3 id="2-kube-proxy"><a href="#2-kube-proxy" class="headerlink" title="2.kube-proxy"></a>2.kube-proxy</h3><p>proxy 顾名思义为代理，在这里为节点网络代理。负责请求转发。可以执行简单的 TCP、UDP 和 SCTP 流转发，或者在一组后端进行循环TCP、UDP和SCTP转发。当前可通过 Docker-links-compatible 环境变量找到服务集群 IP 和端口，这些环境变量指定了服务代理打开的端口。有一个可选的插件可以为这些集群IP 提供集群 DNS。用户必须使用 apiserver API 创建服务才能配置代理。</p>
+<h3 id="3-Container-Runtime"><a href="#3-Container-Runtime" class="headerlink" title="3.Container Runtime"></a>3.Container Runtime</h3><p>容器运行时是负责运行容器的软件。它支持多种运行时，最常见的容器运行时就是Docker,也是目前最佳的组合。以后也许会出现更好的容器运行时。</p>
+<p>支持的容器运行时：</p>
+<ul>
+<li>Docker</li>
+<li>cri-io</li>
+<li>rktlet</li>
+<li>containerd</li>
+<li>Kubernetes CRI(容器接口实现)</li>
+</ul>
+<h2 id="交互流程"><a href="#交互流程" class="headerlink" title="交互流程"></a>交互流程</h2><img src="/img/1603363629432.jpg">
+
+
+<p>交互流程：</p>
+<ul>
+<li>1.用户通过REST API创建一个Pod</li>
+<li>2.API Server验证请求并保存到etcd当中</li>
+<li>3.etcd通知Api server</li>
+<li>4.scheduler检测到未绑定的pod,开始调度、绑定并将结果写入etcd</li>
+<li>5.kubelet检测到新的pod调度，然后创建容器</li>
+<li>6.kubelet将pod状态更新到api server</li>
+<li>7.api server 把最新的状态保存到etcd中</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://kubernetes.io/zh/docs/home/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/home/</a></li>
+<li><a href="https://kubernetes.io/zh/docs/reference/command-line-tools-reference" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/reference/command-line-tools-reference</a></li>
+<li><a href="https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84" target="_blank" rel="noopener">https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84</a></li>
+<li>《kubernets 入门到实践》</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kubernetes/" rel="tag"># Kubernetes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/" rel="prev" title="Kubernetes 1.19 集群安装 for Centos 7.8">
+      <i class="fa fa-chevron-left"></i> Kubernetes 1.19 集群安装 for Centos 7.8
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-特点"><span class="nav-number">2.</span> <span class="nav-text">Kubernetes 特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官方网站"><span class="nav-number">3.</span> <span class="nav-text">官方网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计架构"><span class="nav-number">4.</span> <span class="nav-text">设计架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Master（主节点）"><span class="nav-number">5.</span> <span class="nav-text">Master（主节点）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-kube-apiserver"><span class="nav-number">5.1.</span> <span class="nav-text">1.kube-apiserver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-etcd"><span class="nav-number">5.2.</span> <span class="nav-text">2.etcd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-kube-scheduler"><span class="nav-number">5.3.</span> <span class="nav-text">3.kube-scheduler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-kube-controller-manager"><span class="nav-number">5.4.</span> <span class="nav-text">4.kube-controller-manager</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node（工作节点）"><span class="nav-number">6.</span> <span class="nav-text">Node（工作节点）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-kubelet"><span class="nav-number">6.1.</span> <span class="nav-text">1.kubelet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-kube-proxy"><span class="nav-number">6.2.</span> <span class="nav-text">2.kube-proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Container-Runtime"><span class="nav-number">6.3.</span> <span class="nav-text">3.Container Runtime</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交互流程"><span class="nav-number">7.</span> <span class="nav-text">交互流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Roddy</p>
+  <div class="site-description" itemprop="description">认认真真做事，踏踏实实做人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/langubtc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;langubtc" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:923401910@qq.com" title="E-Mail → mailto:923401910@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.liwenzhou.com/" title="https:&#x2F;&#x2F;www.liwenzhou.com" rel="noopener" target="_blank">李文周</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.rainbowei.com/" title="http:&#x2F;&#x2F;www.rainbowei.com" rel="noopener" target="_blank">孙科伟</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://xiaorui.cc/" title="http:&#x2F;&#x2F;xiaorui.cc" rel="noopener" target="_blank">丙峰云</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.simlinux.com/" title="http:&#x2F;&#x2F;www.simlinux.com" rel="noopener" target="_blank">Geekwolf</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ttxsgoto.github.io/" title="https:&#x2F;&#x2F;ttxsgoto.github.io" rel="noopener" target="_blank">钟强博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roddy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?547d989a7055abbbc8faf5fc9e5fb90a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'OkYu0hJfOxyBXYDjgnYWA3m2-gzGzoHsz',
+      appKey     : 'z3bkXuLWL3R5uos7A5zbBsUV',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

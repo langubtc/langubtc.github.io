@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Kubernetes 架构和核心组件简述</title>
+      <link href="2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/"/>
+      <url>2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/</url>
+      
+        <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Kubernetes 简称K8s,是一个可移植的，可扩展的开源平台，用于管理容器化的工作负载和服务，可促进声明式配置和自动化。它拥有一个庞大且快速增长的生态系统。<br>Kubernetes的服务，支持和工具广泛可用。<br>Kubernetes这个名字起源于希腊语，意思是舵手或飞行员。Google在2014年开源了Kubernetes项目。Kubernetes将超过15年的Google在大规模生产工作负载方面的经验与社区中最好的想法和实践相结合。</p><p><em>Logo:</em></p><img src="/img/1603354615160.jpg"><h2 id="Kubernetes-特点"><a href="#Kubernetes-特点" class="headerlink" title="Kubernetes 特点"></a>Kubernetes 特点</h2><ul><li>可移植: 支持公有云，私有云，混合云，多重云（multi-cloud）</li><li>可扩展: 模块化，插件化，可挂载，可组合</li><li>自动化: 自动部署，自动重启，自动复制，自动伸缩/扩展</li></ul><h2 id="官方网站"><a href="#官方网站" class="headerlink" title="官方网站"></a>官方网站</h2><ul><li><a href="https://kubernetes.io" target="_blank" rel="noopener">https://kubernetes.io</a></li><li><a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes</a></li></ul><h2 id="设计架构"><a href="#设计架构" class="headerlink" title="设计架构"></a>设计架构</h2><p>在Kubernetes中分为两种角色即：Master（主管理节点）、Node（工作节点）<br>其中Master管理Node，主要负责整个集群的管理控制，相当于集群首脑。Node管理容器并且提供容器所需要的各种环境，由Master分配工作负载。</p><img src="/img/1603354835071.jpg"><h2 id="Master（主节点）"><a href="#Master（主节点）" class="headerlink" title="Master（主节点）"></a>Master（主节点）</h2><p>master包含以下组件,其中master需要做高可用的话可以为多台。</p><h3 id="1-kube-apiserver"><a href="#1-kube-apiserver" class="headerlink" title="1.kube-apiserver"></a>1.kube-apiserver</h3><p>kube-apiserver用于暴露Kubernetes API，提供了资源操作的唯一入口。对于资源的任何操作都需要经过API Server进程来处理。同时 API Server进程还提供了一系列认证授权机制。</p><p>API Server通过运行在master上的kube-apiserver进程提供服务,默认使用本机的8080端口提供REST服务，可以同时启动HTTPS安全端口(–secure-port=6443)来启动安全机制，加强REST API访问的安全性。</p><h3 id="2-etcd"><a href="#2-etcd" class="headerlink" title="2.etcd"></a>2.etcd</h3><p>etcd是一个轻量的分布式键值存储，他是整个Kubernetes集群中非常重要的组件之一。它主要用于保存集群所有的网络配置和对象的状态信息。它也是Kubernetes的默认存储系统，只有Api Server进程才可以访问。</p><h3 id="3-kube-scheduler"><a href="#3-kube-scheduler" class="headerlink" title="3.kube-scheduler"></a>3.kube-scheduler</h3><p>scheduler(调度器)是pod资源的调度器，主要监听最近创建但还未分配node的Pod资源，会根据调度算法自动分配到相应的node节点上。可以理解为pod找一个合适的家。</p><p>调度器考虑的因数</p><ul><li>资源需求</li><li>硬件/软件等条件</li><li>负载情况等</li></ul><h3 id="4-kube-controller-manager"><a href="#4-kube-controller-manager" class="headerlink" title="4.kube-controller-manager"></a>4.kube-controller-manager</h3><p>kube-controller-manager运行管理控制器，它们是集群中处理常规任务的后台线程。逻辑上，每个控制器是一个单独的进程，但为了降低复杂性，它们都被编译成单个二进制文件，并在单个进程中运行。</p><p>这些控制器包括：</p><ul><li><p>节点（Node）控制器：负责在节点出现故障时警示和响应。</p></li><li><p>副本（Replication）控制器：负责为系统中的每个副本控制器（ReplicationController）对象维护正确的pod数量。</p></li><li><p>端点（Endpoints）控制器：负责生成和维护所有的Endpoint对象的控制器。用于监听service和对应的pod副本变化。</p></li><li><p>Service Account和Token控制器：为新的Namespace创建默认帐户访问API 访问Token。</p></li></ul><h2 id="Node（工作节点）"><a href="#Node（工作节点）" class="headerlink" title="Node（工作节点）"></a>Node（工作节点）</h2><h3 id="1-kubelet"><a href="#1-kubelet" class="headerlink" title="1.kubelet"></a>1.kubelet</h3><p>kubelet 在每个node上运行的节点代理。每个node上的kubelet会定期调用master节点上的api server接口报告状态。它负责管理pods和它们上面的容器，images镜像、volumes、etc，确保容器在pod中运行</p><h3 id="2-kube-proxy"><a href="#2-kube-proxy" class="headerlink" title="2.kube-proxy"></a>2.kube-proxy</h3><p>proxy 顾名思义为代理，在这里为节点网络代理。负责请求转发。可以执行简单的 TCP、UDP 和 SCTP 流转发，或者在一组后端进行循环TCP、UDP和SCTP转发。当前可通过 Docker-links-compatible 环境变量找到服务集群 IP 和端口，这些环境变量指定了服务代理打开的端口。有一个可选的插件可以为这些集群IP 提供集群 DNS。用户必须使用 apiserver API 创建服务才能配置代理。</p><h3 id="3-Container-Runtime"><a href="#3-Container-Runtime" class="headerlink" title="3.Container Runtime"></a>3.Container Runtime</h3><p>容器运行时是负责运行容器的软件。它支持多种运行时，最常见的容器运行时就是Docker,也是目前最佳的组合。以后也许会出现更好的容器运行时。</p><p>支持的容器运行时：</p><ul><li>Docker</li><li>cri-io</li><li>rktlet</li><li>containerd</li><li>Kubernetes CRI(容器接口实现)</li></ul><h2 id="交互流程"><a href="#交互流程" class="headerlink" title="交互流程"></a>交互流程</h2><img src="/img/1603363629432.jpg"><p>交互流程：</p><ul><li>1.用户通过REST API创建一个Pod</li><li>2.API Server验证请求并保存到etcd当中</li><li>3.etcd通知Api server</li><li>4.scheduler检测到未绑定的pod,开始调度、绑定并将结果写入etcd</li><li>5.kubelet检测到新的pod调度，然后创建容器</li><li>6.kubelet将pod状态更新到api server</li><li>7.api server 把最新的状态保存到etcd中</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://kubernetes.io/zh/docs/home/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/home/</a></li><li><a href="https://kubernetes.io/zh/docs/reference/command-line-tools-reference" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/reference/command-line-tools-reference</a></li><li><a href="https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84" target="_blank" rel="noopener">https://www.kubernetes.org.cn/kubernetes%e8%ae%be%e8%ae%a1%e6%9e%b6%e6%9e%84</a></li><li>《kubernets 入门到实践》</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Kubernetes 1.19 集群安装 for Centos 7.8</title>
       <link href="2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/"/>
       <url>2020/10/20/Kubernetes-%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85-for-Centos-7/</url>
