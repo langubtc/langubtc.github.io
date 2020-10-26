@@ -191,6 +191,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/26/django-psycopg2-Reason-image-not-found/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/26/django-psycopg2-Reason-image-not-found/" class="post-title-link" itemprop="url">django psycopg2 Reason: image not found for mac</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-26 13:42:43 / 修改时间：14:14:35" itemprop="dateCreated datePublished" datetime="2020-10-26T13:42:43+08:00">2020-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/django/" itemprop="url" rel="index"><span itemprop="name">django</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/26/django-psycopg2-Reason-image-not-found/" class="post-meta-item leancloud_visitors" data-flag-title="django psycopg2 Reason: image not found for mac" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/26/django-psycopg2-Reason-image-not-found/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/26/django-psycopg2-Reason-image-not-found/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="问题一-Image-not-found-提示报错"><a href="#问题一-Image-not-found-提示报错" class="headerlink" title="问题一 Image not found 提示报错"></a>问题一 Image not found 提示报错</h2><p>找了半天google,此问题真的非常少，估计使用postgresql的人不多吧。终于在以下参考链接找到了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/backends/postgresql/base.py"</span>, line 20, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    import psycopg2 as Database</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/__init__.py"</span>, line 51, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from psycopg2._psycopg import (                     <span class="comment"># noqa</span></span><br><span class="line">ImportError: dlopen(/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so, 2): Library not loaded: libssl.1.1.dylib</span><br><span class="line">  Referenced from: /Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so</span><br><span class="line">  Reason: image not found</span><br><span class="line"></span><br><span class="line">During handling of the above exception, another exception occurred:</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/Applications/PyCharm.app/Contents/helpers/pycharm/django_manage.py"</span>, line 43, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    run_module(manage_file, None, <span class="string">'__main__'</span>, True)</span><br><span class="line">  File <span class="string">"/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py"</span>, line 205, <span class="keyword">in</span> run_module</span><br><span class="line">    <span class="built_in">return</span> _run_module_code(code, init_globals, run_name, mod_spec)</span><br><span class="line">  File <span class="string">"/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py"</span>, line 96, <span class="keyword">in</span> _run_module_code</span><br><span class="line">    mod_name, mod_spec, pkg_name, script_name)</span><br><span class="line">  File <span class="string">"/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py"</span>, line 85, <span class="keyword">in</span> _run_code</span><br><span class="line">    <span class="built_in">exec</span>(code, run_globals)</span><br><span class="line">  File <span class="string">"/Users/luodi/PycharmProjects/Twebpool/manage.py"</span>, line 21, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    main()</span><br><span class="line">  File <span class="string">"/Users/luodi/PycharmProjects/Twebpool/manage.py"</span>, line 17, <span class="keyword">in</span> main</span><br><span class="line">    execute_from_command_line(sys.argv)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/__init__.py"</span>, line 381, <span class="keyword">in</span> execute_from_command_line</span><br><span class="line">    utility.execute()</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/__init__.py"</span>, line 375, <span class="keyword">in</span> execute</span><br><span class="line">    self.fetch_command(subcommand).run_from_argv(self.argv)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/base.py"</span>, line 323, <span class="keyword">in</span> run_from_argv</span><br><span class="line">    self.execute(*args, **cmd_options)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/base.py"</span>, line 364, <span class="keyword">in</span> execute</span><br><span class="line">    output = self.handle(*args, **options)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/commands/inspectdb.py"</span>, line 34, <span class="keyword">in</span> handle</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> self.handle_inspection(options):</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/commands/inspectdb.py"</span>, line 40, <span class="keyword">in</span> handle_inspection</span><br><span class="line">    connection = connections[options[<span class="string">'database'</span>]]</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/utils.py"</span>, line 201, <span class="keyword">in</span> __getitem__</span><br><span class="line">    backend = load_backend(db[<span class="string">'ENGINE'</span>])</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/utils.py"</span>, line 110, <span class="keyword">in</span> load_backend</span><br><span class="line">    <span class="built_in">return</span> import_module(<span class="string">'%s.base'</span> % backend_name)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/importlib/__init__.py"</span>, line 126, <span class="keyword">in</span> import_module</span><br><span class="line">    <span class="built_in">return</span> _bootstrap._gcd_import(name[level:], package, level)</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 986, <span class="keyword">in</span> _gcd_import</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 969, <span class="keyword">in</span> _find_and_load</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 958, <span class="keyword">in</span> _find_and_load_unlocked</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 673, <span class="keyword">in</span> _load_unlocked</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap_external&gt;"</span>, line 673, <span class="keyword">in</span> exec_module</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 222, <span class="keyword">in</span> _call_with_frames_removed</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/backends/postgresql/base.py"</span>, line 24, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    raise ImproperlyConfigured(<span class="string">"Error loading psycopg2 module: %s"</span> % e)</span><br><span class="line">django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: dlopen(/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so, 2): Library not loaded: libssl.1.1.dylib</span><br><span class="line">  Referenced from: /Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so</span><br><span class="line">  Reason: image not found</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>1.关闭Mac sip保护</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1、重启mac，按住Command+R，等到系统进入安全模式。</span><br><span class="line"></span><br><span class="line">2、选择一个账户，然后点击屏幕上方的工具栏找到命令行工具。</span><br><span class="line"></span><br><span class="line">3、执行，命令 csrutil <span class="built_in">disable</span></span><br><span class="line"></span><br><span class="line">4、重启电脑后，不要进入安全模式，执行命令sudo mount -uw /</span><br></pre></td></tr></table></figure>
+
+<p>2.复制库文件到/usr/lib/</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ sudo cp /Library/PostgreSQL/10/lib/libcrypto.1.1.dylib /usr/lib/libcrypto.1.1.dylib</span><br><span class="line"></span><br><span class="line">luodi@roddydeMacBook-Pro:~$ sudo cp /Library/PostgreSQL/10/lib/libssl.1.1.dylib /usr/lib/libssl.1.1.dylib</span><br></pre></td></tr></table></figure>
+
+<h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><p>导入 psycopg2报错</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expected <span class="symbol">in:</span> /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">libpq</span>.5.<span class="title">dylib</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old  </span><br><span class="line">Password:</span><br><span class="line">luodi@roddydeMacBook-Pro:~$ sudo cp /Library/PostgreSQL/10/lib/libpq.5.dylib  /usr/lib/libpq.5.dylib</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://stackoverflow.com/questions/28515972/problems-using-psycopg2-on-mac-os-yosemite?rq=1" target="_blank" rel="noopener">https://stackoverflow.com/questions/28515972/problems-using-psycopg2-on-mac-os-yosemite?rq=1</a></li>
+<li><a href="https://www.codenong.com/16407995/" target="_blank" rel="noopener">https://www.codenong.com/16407995/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1551,180 +1659,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/" class="post-title-link" itemprop="url">zabbix 5.0 自动发现和自动注册</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-26 22:56:59" itemprop="dateCreated datePublished" datetime="2020-09-26T22:56:59+08:00">2020-09-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 12:40:06" itemprop="dateModified" datetime="2020-09-27T12:40:06+08:00">2020-09-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 5.0 自动发现和自动注册" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="自动发现"><a href="#自动发现" class="headerlink" title="自动发现"></a>自动发现</h2><p>zabbix监控系统提供了有效且灵活的自动发现功能,该功能在大规模部署监控时非常有用。主要由server端发起发现进程，定时扫描。主要有以下优点:</p>
-<ul>
-<li>加快Zabbix部署</li>
-<li>简化管理</li>
-<li>在快速变化的环境中使用Zabbix，无需过多管理</li>
-</ul>
-<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>自动发现基于以下信息</p>
-<ul>
-<li>可用的外部服务（FTP、SSH、WEB、POP3、IMAP、TCP 等）</li>
-<li>来自 Zabbix 客户端的信息（仅支持未加密模式）</li>
-<li>来自 SNMP 客户端的信息</li>
-</ul>
-<p><strong>自动发现包含两个阶段 1.发现  2.动作</strong>，也就是说发现过后接下来是干什么</p>
-<h3 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h3><ul>
-<li>发送通知</li>
-<li>添加/删除主机</li>
-<li>启用/禁用主机</li>
-<li>将主机添加到组</li>
-<li>从组中删除主机</li>
-<li>将主机链接到模板/从模板取消链接</li>
-<li>执行远程脚本</li>
-</ul>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>1.当前只有一个server<br><img src="/img/1601175498384.jpg"></p>
-<p>2.创建自动发现规则</p>
-<img src="/img/1601178520143.jpg">
-
-<img src="/img/1601181268292.jpg">
-
-
-<p>3.客户端配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=172.19.153.95</span><br><span class="line">StartAgents=3</span><br><span class="line">ServerActive=172.19.153.95</span><br><span class="line">Hostname=web</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure>
-
-<p>4.添加动作<br>关联自动发现规则<br><img src="/img/1601181361657.jpg"></p>
-<p>5.在自动发现中查看是否已发现新的主机<br><img src="/img/1601180787163.jpg"></p>
-<p>6.开始监控<br><img src="/img/1601181541082.jpg"></p>
-<h2 id="自动注册"><a href="#自动注册" class="headerlink" title="自动注册"></a>自动注册</h2><p>Zabbix Active agent可以实现自动注册，进而服务器对其进行监控。通过这种方式，无需在服务器上进行手动配置便可直接启动对新host的监控。主要由客户端发起，并且需要安装agent服务。<br>在当前我们自己的云应用环境中，我更加倾向于使用自动注册。</p>
-<h3 id="自动重新注册规则"><a href="#自动重新注册规则" class="headerlink" title="自动重新注册规则"></a>自动重新注册规则</h3><ul>
-<li>如果主机元数据信息更改：</li>
-</ul>
-<ul>
-<li>由于HostMetadata已更改并且代理已重新启动</li>
-<li>由于HostMetadataItem返回的值已更改</li>
-</ul>
-<ul>
-<li>用于缺少元数据的手动创建的主机</li>
-<li>如果手动将主机更改为由另一个Zabbix代理监视</li>
-<li>如果同一主机的自动注册来自新的Zabbix代理</li>
-</ul>
-<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><p>1.当前只有一个server<br><img src="/img/1601175498384.jpg"><br>2.配置客户端</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># vim /etc/zabbix/zabbix_agentd.conf</span></span><br><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=47.93.184.140</span><br><span class="line">StartAgents=3</span><br><span class="line">ServerActive=47.93.184.140</span><br><span class="line">Hostname=webserver-01</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl restart zabbix-agent.service</span></span><br></pre></td></tr></table></figure>
-<p>3.配置规则<br>动作-左上角选择类型（autoregistration actions）<br><img src="/img/1601175880627.jpg"></p>
-<p>创建动作（可以选择主机名，主机源数据，agent数据等）</p>
-<p>主机名包含<code>webserver</code><br><img src="/img/1601175941018.jpg"></p>
-<p>选择操作选项卡<br>关联以下操作<br><img src="/img/1601176104621.jpg"></p>
-<p>解释</p>
-<ul>
-<li>发送消息给administrators组</li>
-<li>添加主机</li>
-<li>关联到linux servers组</li>
-<li>关联zabbix agent模版</li>
-</ul>
-<p>以上如果匹配成功，即按上面流程完成自动注册操作</p>
-<p>创建完成后确保状态为<code>已启用</code><br><img src="/img/1601176137428.jpg"></p>
-<p>等待1-2分钟检查，查看已经添加成功<br><img src="/img/1601176269130.jpg"></p>
-<p>检查是否自动注册通知，我们使用的微信报警，参考前面文章<br><a href="http://roddypy.com/2020/09/23/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E5%BE%AE%E4%BF%A1/" target="_blank" rel="noopener">http://roddypy.com/2020/09/23/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E5%BE%AE%E4%BF%A1/</a></p>
-<img src="/img/WechatIMG72.jpeg">
-
-<p>需要在报警媒介关联自动注册通知</p>
-<img src="/img/1601176495624.jpg">
-
-
-<h2 id="两者对比"><a href="#两者对比" class="headerlink" title="两者对比"></a>两者对比</h2><ul>
-<li>自动发现和自动注册都可以添加主机、监控主机</li>
-<li>自动发现规则较多</li>
-<li>自动注册，注册方式少，需要安装agent由客户端主动上报数据，前提是需要能连通服务器</li>
-<li>自动发现由于规则多，网段大的情况下会导致压力大，时间消耗多。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.zabbix.com/documentation/current/manual/discovery/auto_registration" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manual/discovery/auto_registration</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1794,7 +1728,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1807,7 +1741,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

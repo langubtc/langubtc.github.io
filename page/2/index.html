@@ -191,6 +191,180 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/" class="post-title-link" itemprop="url">zabbix 5.0 自动发现和自动注册</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-26 22:56:59" itemprop="dateCreated datePublished" datetime="2020-09-26T22:56:59+08:00">2020-09-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-27 12:40:06" itemprop="dateModified" datetime="2020-09-27T12:40:06+08:00">2020-09-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 5.0 自动发现和自动注册" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/26/zabbix-%E8%87%AA%E5%8A%A8%E5%8F%91%E7%8E%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="自动发现"><a href="#自动发现" class="headerlink" title="自动发现"></a>自动发现</h2><p>zabbix监控系统提供了有效且灵活的自动发现功能,该功能在大规模部署监控时非常有用。主要由server端发起发现进程，定时扫描。主要有以下优点:</p>
+<ul>
+<li>加快Zabbix部署</li>
+<li>简化管理</li>
+<li>在快速变化的环境中使用Zabbix，无需过多管理</li>
+</ul>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><p>自动发现基于以下信息</p>
+<ul>
+<li>可用的外部服务（FTP、SSH、WEB、POP3、IMAP、TCP 等）</li>
+<li>来自 Zabbix 客户端的信息（仅支持未加密模式）</li>
+<li>来自 SNMP 客户端的信息</li>
+</ul>
+<p><strong>自动发现包含两个阶段 1.发现  2.动作</strong>，也就是说发现过后接下来是干什么</p>
+<h3 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h3><ul>
+<li>发送通知</li>
+<li>添加/删除主机</li>
+<li>启用/禁用主机</li>
+<li>将主机添加到组</li>
+<li>从组中删除主机</li>
+<li>将主机链接到模板/从模板取消链接</li>
+<li>执行远程脚本</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>1.当前只有一个server<br><img src="/img/1601175498384.jpg"></p>
+<p>2.创建自动发现规则</p>
+<img src="/img/1601178520143.jpg">
+
+<img src="/img/1601181268292.jpg">
+
+
+<p>3.客户端配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=172.19.153.95</span><br><span class="line">StartAgents=3</span><br><span class="line">ServerActive=172.19.153.95</span><br><span class="line">Hostname=web</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure>
+
+<p>4.添加动作<br>关联自动发现规则<br><img src="/img/1601181361657.jpg"></p>
+<p>5.在自动发现中查看是否已发现新的主机<br><img src="/img/1601180787163.jpg"></p>
+<p>6.开始监控<br><img src="/img/1601181541082.jpg"></p>
+<h2 id="自动注册"><a href="#自动注册" class="headerlink" title="自动注册"></a>自动注册</h2><p>Zabbix Active agent可以实现自动注册，进而服务器对其进行监控。通过这种方式，无需在服务器上进行手动配置便可直接启动对新host的监控。主要由客户端发起，并且需要安装agent服务。<br>在当前我们自己的云应用环境中，我更加倾向于使用自动注册。</p>
+<h3 id="自动重新注册规则"><a href="#自动重新注册规则" class="headerlink" title="自动重新注册规则"></a>自动重新注册规则</h3><ul>
+<li>如果主机元数据信息更改：</li>
+</ul>
+<ul>
+<li>由于HostMetadata已更改并且代理已重新启动</li>
+<li>由于HostMetadataItem返回的值已更改</li>
+</ul>
+<ul>
+<li>用于缺少元数据的手动创建的主机</li>
+<li>如果手动将主机更改为由另一个Zabbix代理监视</li>
+<li>如果同一主机的自动注册来自新的Zabbix代理</li>
+</ul>
+<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><p>1.当前只有一个server<br><img src="/img/1601175498384.jpg"><br>2.配置客户端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># vim /etc/zabbix/zabbix_agentd.conf</span></span><br><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=47.93.184.140</span><br><span class="line">StartAgents=3</span><br><span class="line">ServerActive=47.93.184.140</span><br><span class="line">Hostname=webserver-01</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br><span class="line"></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl restart zabbix-agent.service</span></span><br></pre></td></tr></table></figure>
+<p>3.配置规则<br>动作-左上角选择类型（autoregistration actions）<br><img src="/img/1601175880627.jpg"></p>
+<p>创建动作（可以选择主机名，主机源数据，agent数据等）</p>
+<p>主机名包含<code>webserver</code><br><img src="/img/1601175941018.jpg"></p>
+<p>选择操作选项卡<br>关联以下操作<br><img src="/img/1601176104621.jpg"></p>
+<p>解释</p>
+<ul>
+<li>发送消息给administrators组</li>
+<li>添加主机</li>
+<li>关联到linux servers组</li>
+<li>关联zabbix agent模版</li>
+</ul>
+<p>以上如果匹配成功，即按上面流程完成自动注册操作</p>
+<p>创建完成后确保状态为<code>已启用</code><br><img src="/img/1601176137428.jpg"></p>
+<p>等待1-2分钟检查，查看已经添加成功<br><img src="/img/1601176269130.jpg"></p>
+<p>检查是否自动注册通知，我们使用的微信报警，参考前面文章<br><a href="http://roddypy.com/2020/09/23/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E5%BE%AE%E4%BF%A1/" target="_blank" rel="noopener">http://roddypy.com/2020/09/23/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E5%BE%AE%E4%BF%A1/</a></p>
+<img src="/img/WechatIMG72.jpeg">
+
+<p>需要在报警媒介关联自动注册通知</p>
+<img src="/img/1601176495624.jpg">
+
+
+<h2 id="两者对比"><a href="#两者对比" class="headerlink" title="两者对比"></a>两者对比</h2><ul>
+<li>自动发现和自动注册都可以添加主机、监控主机</li>
+<li>自动发现规则较多</li>
+<li>自动注册，注册方式少，需要安装agent由客户端主动上报数据，前提是需要能连通服务器</li>
+<li>自动发现由于规则多，网段大的情况下会导致压力大，时间消耗多。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.zabbix.com/documentation/current/manual/discovery/auto_registration" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manual/discovery/auto_registration</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1366,103 +1540,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/14/vim%E7%BC%96%E8%BE%91%E5%99%A8-wq%E5%92%8C-x%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/14/vim%E7%BC%96%E8%BE%91%E5%99%A8-wq%E5%92%8C-x%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">vim编辑器:wq和:x区别</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-14 15:20:20 / 修改时间：15:40:42" itemprop="dateCreated datePublished" datetime="2020-09-14T15:20:20+08:00">2020-09-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/14/vim%E7%BC%96%E8%BE%91%E5%99%A8-wq%E5%92%8C-x%E5%8C%BA%E5%88%AB/" class="post-meta-item leancloud_visitors" data-flag-title="vim编辑器:wq和:x区别" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/14/vim%E7%BC%96%E8%BE%91%E5%99%A8-wq%E5%92%8C-x%E5%8C%BA%E5%88%AB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/14/vim%E7%BC%96%E8%BE%91%E5%99%A8-wq%E5%92%8C-x%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="两者区别"><a href="#两者区别" class="headerlink" title="两者区别"></a>两者区别</h2><p><code>&quot;:x&quot;</code> 和 <code>&quot;:wq&quot;</code> 的区别如下：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>) :wq 强制性写入文件并退出（存盘并退出 write <span class="keyword">and</span> quite）。即使文件没有被修改也强制写入，并更新文件的修改时间。</span><br><span class="line">(<span class="number">2</span>) :x 写入文件并退出。仅当文件被修改时才写入，并更新文件修改时间；否则不会更新文件修改时间。</span><br></pre></td></tr></table></figure>
-
-
-<p>尽量习惯性用<code>:x</code> 避免在没有修改时也更新文件</p>
-<p>参考：</p>
-<ul>
-<li><a href="https://www.cnblogs.com/andreking/p/5793782.html" target="_blank" rel="noopener">https://www.cnblogs.com/andreking/p/5793782.html</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1532,7 +1609,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1545,7 +1622,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
