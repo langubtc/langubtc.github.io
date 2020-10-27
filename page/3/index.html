@@ -191,6 +191,174 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/18/zabbix-5-0-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/18/zabbix-5-0-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4/" class="post-title-link" itemprop="url">zabbix 5.0 详细安装步骤</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-18 15:50:55 / 修改时间：17:44:09" itemprop="dateCreated datePublished" datetime="2020-09-18T15:50:55+08:00">2020-09-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/18/zabbix-5-0-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 5.0 详细安装步骤" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/18/zabbix-5-0-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/18/zabbix-5-0-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="zabbix"><a href="#zabbix" class="headerlink" title="zabbix"></a>zabbix</h2><p>老牌监控系统，自我运维生涯开始用过nagios、icinga、cacti(仙人掌)、zabbix。唯有zabbix在中小规模监控环境中值得推荐，无论是安装，配置，还是报警、绘图。结合第三方报警也好，适配性都特别好。<br>目前还可以集合grafana作图形可视化，中小型企业运维监控软件首选zabbix。如果有能力二次开发或者有兴趣也可以研究下小米开源的open-falcon、滴滴改进的Nightingale、Talkingdata开源的OWL等</p>
+<p>5.0版本貌似最近才更新没多久，我们部署起来看看有啥变化没，话说回来。从2.0到3.0确实好看了不少，今天看看5.0长啥样，话不多说，开干！</p>
+<p>5.0新功能参考 <code>https://www.zabbix.com/cn/whats_new_5_0</code></p>
+<h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><p>准备环境</p>
+<ul>
+<li>Centos 7.8</li>
+<li>PHP 7.2 +</li>
+<li>Apache 1.3.12 +</li>
+<li>Mysql or MariaDB 5.7+</li>
+</ul>
+<p>具体要求参考一下链接 <a href="https://www.zabbix.com/documentation/current/manual/installation/requirements" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manual/installation/requirements</a></p>
+<p>硬件条件参考下表<br><img src="/img/1600416626703.jpg"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config</span></span><br><span class="line">[root@localhost ~]<span class="comment"># systemctl disable --now firewalld</span></span><br><span class="line">[root@localhost ~]<span class="comment"># iptables -L -n</span></span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination         </span><br><span class="line">[root@localhost ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装zabbix源"><a href="#安装zabbix源" class="headerlink" title="安装zabbix源"></a>安装zabbix源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm</span></span><br><span class="line">Retrieving https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm</span><br><span class="line">warning: /var/tmp/rpm-tmp.vw5pXe: Header V4 RSA/SHA512 Signature, key ID a14fe591: NOKEY</span><br><span class="line">Preparing...                          <span class="comment">################################# [100%]</span></span><br><span class="line">Updating / installing...</span><br><span class="line">   1:zabbix-release-5.0-1.el7         <span class="comment">################################# [100%]</span></span><br><span class="line">[root@localhost ~]<span class="comment"># yum clean all</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Cleaning repos: base epel extras updates zabbix zabbix-non-supported</span><br><span class="line">Cleaning up list of fastest mirrors</span><br><span class="line">[root@localhost ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装server和agnet"><a href="#安装server和agnet" class="headerlink" title="安装server和agnet"></a>安装server和agnet</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># yum -y install zabbix-server-mysql zabbix-agent</span></span><br></pre></td></tr></table></figure>
+
+<p>因某些不能说的原因安装可能会出现如下情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-server-mysql-5.0.3-1.el7.x86_64.rpm: [Errno 14] curl<span class="comment">#18 - "transfer closed with 1461988 bytes remaining to read"</span></span><br><span class="line">Trying other mirror.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Error downloading packages:</span><br><span class="line">  zabbix-server-mysql-5.0.3-1.el7.x86_64: [Errno 256] No more mirrors to try.</span><br></pre></td></tr></table></figure>
+
+<p>换成阿里源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># sed -i 's#http://repo.zabbix.com#https://mirrors.aliyun.com/zabbix#' /etc/yum.repos.d/zabbix.repo</span></span><br><span class="line">[root@localhost ~]<span class="comment"># yum clean all</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Cleaning repos: base epel extras updates zabbix zabbix-non-supported</span><br><span class="line">Cleaning up list of fastest mirrors</span><br></pre></td></tr></table></figure>
+
+<p><strong>再次执行安装</strong></p>
+<h3 id="安装前端组建"><a href="#安装前端组建" class="headerlink" title="安装前端组建"></a>安装前端组建</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># yum install centos-release-scl -y</span></span><br></pre></td></tr></table></figure>
+
+<p>启用zabbix前端源,编辑配置文件 /etc/yum.repos.d/zabbix.repo 修改enabled为1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[zabbix-frontend]</span><br><span class="line">name=Zabbix Official Repository frontend - <span class="variable">$basearch</span></span><br><span class="line">baseurl=https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/<span class="variable">$basearch</span>/frontend</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX-A14FE591</span><br></pre></td></tr></table></figure>
+
+
+<p>软件包安装，包括httpd  php web组件等</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># yum install zabbix-web-mysql-scl zabbix-apache-conf-scl -y </span></span><br><span class="line">...</span><br><span class="line">Installing:</span><br><span class="line"> zabbix-apache-conf-scl                        noarch                       5.0.3-1.el7                                  zabbix-frontend                        13 k</span><br><span class="line"> zabbix-web-mysql-scl                          noarch                       5.0.3-1.el7                                  zabbix-frontend                        12 k</span><br><span class="line">Installing <span class="keyword">for</span> dependencies:</span><br><span class="line"> apr                                           x86_64                       1.4.8-5.el7                                  base                                  103 k</span><br><span class="line"> apr-util                                      x86_64                       1.5.2-6.el7                                  base                                   92 k</span><br><span class="line"> audit-libs-python                             x86_64                       2.8.5-4.el7                                  base                                   76 k</span><br><span class="line"> checkpolicy                                   x86_64                       2.5-8.el7                                    base                                  295 k</span><br><span class="line"> dejavu-fonts-common                           noarch                       2.33-6.el7                                   base                                   64 k</span><br><span class="line"> dejavu-sans-fonts                             noarch                       2.33-6.el7                                   base                                  1.4 M</span><br><span class="line"> fontpackages-filesystem                       noarch                       1.44-8.el7                                   base                                  9.9 k</span><br><span class="line"> httpd                                         x86_64                       2.4.6-93.el7.centos                          base                                  2.7 M</span><br><span class="line"> httpd-tools                                   x86_64                       2.4.6-93.el7.centos                          base                                   92 k</span><br><span class="line"> libX11                                        x86_64                       1.6.7-2.el7                                  base                                  607 k</span><br><span class="line"> libX11-common                                 noarch                       1.6.7-2.el7                                  base                                  164 k</span><br><span class="line"> libXau                                        x86_64                       1.0.8-2.1.el7                                base                                   29 k</span><br><span class="line"> libXpm                                        x86_64                       3.5.12-1.el7                                 base                                   55 k</span><br><span class="line"> libcgroup                                     x86_64                       0.41-21.el7                                  base                                   66 k</span><br><span class="line"> libjpeg-turbo                                 x86_64                       1.2.90-8.el7                                 base                                  135 k</span><br><span class="line"> libsemanage-python                            x86_64                       2.5-14.el7                                   base                                  113 k</span><br><span class="line"> libwebp                                       x86_64                       0.3.0-7.el7                                  base                                  170 k</span><br><span class="line"> libxcb                                        x86_64                       1.13-1.el7                                   base                                  214 k</span><br><span class="line"> libxslt                                       x86_64                       1.1.28-5.el7                                 base                                  242 k</span><br><span class="line"> mailcap                                       noarch                       2.1.41-2.el7                                 base                                   31 k</span><br><span class="line"> policycoreutils-python                        x86_64                       2.5-34.el7                                   base                                  457 k</span><br><span class="line"> python-IPy                                    noarch                       0.75-6.el7                                   base                                   32 k</span><br><span class="line"> rh-php72                                      x86_64                       1-2.el7                                      centos-sclo-rh                        4.3 k</span><br><span class="line"> rh-php72-php-bcmath                           x86_64                       7.2.24-1.el7                                 centos-sclo-rh                         60 k</span><br><span class="line"> rh-php72-php-cli                              x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        2.9 M</span><br><span class="line"> rh-php72-php-common                           x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        680 k</span><br><span class="line"> rh-php72-php-fpm                              x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        1.5 M</span><br><span class="line"> rh-php72-php-gd                               x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        151 k</span><br><span class="line"> rh-php72-php-json                             x86_64                       7.2.24-1.el7                                 centos-sclo-rh                         54 k</span><br><span class="line"> rh-php72-php-ldap                             x86_64                       7.2.24-1.el7                                 centos-sclo-rh                         59 k</span><br><span class="line"> rh-php72-php-mbstring                         x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        553 k</span><br><span class="line"> rh-php72-php-mysqlnd                          x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        166 k</span><br><span class="line"> rh-php72-php-pdo                              x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        101 k</span><br><span class="line"> rh-php72-php-pear                             noarch                       1:1.10.5-1.el7                               centos-sclo-rh                        357 k</span><br><span class="line"> rh-php72-php-process                          x86_64                       7.2.24-1.el7                                 centos-sclo-rh                         62 k</span><br><span class="line"> rh-php72-php-xml                              x86_64                       7.2.24-1.el7                                 centos-sclo-rh                        160 k</span><br><span class="line"> rh-php72-php-zip                              x86_64                       7.2.24-1.el7                                 centos-sclo-rh                         90 k</span><br><span class="line"> rh-php72-runtime                              x86_64                       1-2.el7                                      centos-sclo-rh                        1.1 M</span><br><span class="line"> scl-utils                                     x86_64                       20130529-19.el7                              base                                   24 k</span><br><span class="line"> setools-libs                                  x86_64                       3.3.8-4.el7                                  base                                  620 k</span><br><span class="line"> zabbix-web                                    noarch                       5.0.3-1.el7                                  zabbix-frontend                       3.1 M</span><br><span class="line"> zabbix-web-deps-scl                           noarch                       5.0.3-1.el7                                  zabbix-frontend                        13 k</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装数据库"><a href="#安装数据库" class="headerlink" title="安装数据库"></a>安装数据库</h2><p>安装并设置开机启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># yum install mariadb-server -y</span></span><br><span class="line">[root@localhost ~]<span class="comment"># systemctl enable --now mariadb</span></span><br></pre></td></tr></table></figure>
+
+<p>初始化数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># mysql_secure_installation</span></span><br><span class="line"></span><br><span class="line">NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB</span><br><span class="line">      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!</span><br><span class="line"></span><br><span class="line">In order to <span class="built_in">log</span> into MariaDB to secure it, we<span class="string">'ll need the current</span></span><br><span class="line"><span class="string">password for the root user.  If you'</span>ve just installed MariaDB, and</span><br><span class="line">you haven<span class="string">'t set the root password yet, the password will be blank,</span></span><br><span class="line"><span class="string">so you should just press enter here.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Enter current password for root (enter for none):   #回车，默认没有密码</span></span><br><span class="line"><span class="string">OK, successfully used password, moving on...</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Setting the root password ensures that nobody can log into the MariaDB</span></span><br><span class="line"><span class="string">root user without the proper authorisation.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Set root password? [Y/n] y。#是否设置密码</span></span><br><span class="line"><span class="string">New password:               #新密码</span></span><br><span class="line"><span class="string">Re-enter new password:      #新密码确认</span></span><br><span class="line"><span class="string">Password updated successfully!</span></span><br><span class="line"><span class="string">Reloading privilege tables..</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">By default, a MariaDB installation has an anonymous user, allowing anyone</span></span><br><span class="line"><span class="string">to log into MariaDB without having to have a user account created for</span></span><br><span class="line"><span class="string">them.  This is intended only for testing, and to make the installation</span></span><br><span class="line"><span class="string">go a bit smoother.  You should remove them before moving into a</span></span><br><span class="line"><span class="string">production environment.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Remove anonymous users? [Y/n]   #移除匿名用户</span></span><br><span class="line"><span class="string"> ... skipping.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Normally, root should only be allowed to connect from '</span>localhost<span class="string">'.  This</span></span><br><span class="line"><span class="string">ensures that someone cannot guess at the root password from the network.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Disallow root login remotely? [Y/n] n    #使用禁用root远程连接</span></span><br><span class="line"><span class="string"> ... skipping.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">By default, MariaDB comes with a database named '</span><span class="built_in">test</span><span class="string">' that anyone can</span></span><br><span class="line"><span class="string">access.  This is also intended only for testing, and should be removed</span></span><br><span class="line"><span class="string">before moving into a production environment.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Remove test database and access to it? [Y/n] y #删除测试数据库</span></span><br><span class="line"><span class="string"> - Dropping test database...</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"> - Removing privileges on test database...</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Reloading the privilege tables will ensure that all changes made so far</span></span><br><span class="line"><span class="string">will take effect immediately.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Reload privilege tables now? [Y/n] y  #刷新权限</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Cleaning up...</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">All done!  If you'</span>ve completed all of the above steps, your MariaDB</span><br><span class="line">installation should now be secure.</span><br><span class="line"></span><br><span class="line">Thanks <span class="keyword">for</span> using MariaDB!</span><br></pre></td></tr></table></figure>
+
+<p>创建zabbix所需要的数据库及用户并设置密码 zabbix123</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># mysql -u root -p</span></span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 9</span><br><span class="line">Server version: 5.5.65-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; </span><br><span class="line">MariaDB [(none)]&gt; </span><br><span class="line">MariaDB [(none)]&gt; </span><br><span class="line">MariaDB [(none)]&gt; create database zabbix character <span class="built_in">set</span> utf8 collate utf8_bin;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; create user zabbix@localhost identified by <span class="string">'zabbix123'</span>;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; grant all privileges on zabbix.* to zabbix@localhost;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+<p>导入初始数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p zabbix</span></span><br><span class="line">Enter password: </span><br><span class="line">[root@localhost ~]<span class="comment"># mysql -u root -p  #检查是否导入成功</span></span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 12</span><br><span class="line">Server version: 5.5.65-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; use zabbix</span><br><span class="line">Reading table information <span class="keyword">for</span> completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">MariaDB [zabbix]&gt; show tables;</span><br><span class="line">+----------------------------+</span><br><span class="line">| Tables_in_zabbix           |</span><br><span class="line">+----------------------------+</span><br><span class="line">| acknowledges               |</span><br><span class="line">| actions                    |</span><br><span class="line">| alerts                     |</span><br><span class="line">| application_discovery      |</span><br><span class="line">| application_prototype      |</span><br><span class="line">| application_template       |</span><br><span class="line">| applications               |</span><br><span class="line">| auditlog                   |</span><br><span class="line">.......</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>配置数据库密码 /etc/zabbix/zabbix_server.conf </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBPassword=zabbix123</span><br></pre></td></tr></table></figure>
+
+
+<p>修改php时区  /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf,修改成Asia/Shanghai 并且去掉前面的注释</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">php_value[date.timezone]</span> = Asia/Shanghai</span><br></pre></td></tr></table></figure>
+
+<p>设置开机启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># systemctl enable zabbix-server zabbix-agent httpd rh-php72-php-fpm</span></span><br><span class="line">[root@localhost ~]<span class="comment"># systemctl restart zabbix-server zabbix-agent httpd rh-php72-php-fpm</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>登录系统<a href="http://x.x.x.x/zabbix" target="_blank" rel="noopener">http://x.x.x.x/zabbix</a></p>
+<p>开始初始化<br><img src="/img/1600419038695.jpg"><br>检查环境<br><img src="/img/1600419068929.jpg"><br>配置数据库<br><img src="/img/1600419133833.jpg"><br>确认server详情<br><img src="/img/1600419153092.jpg"><br>安装确认<br><img src="/img/1600419182133.jpg"><br>安装完成<br><img src="/img/1600419201537.jpg"><br>登录系统账户密码 Admin ,默认密码zabbix<br><img src="/img/1600419231022.jpg"></p>
+<p>系统页面，默认是英文，可以在个人中心切换语言<br><img src="/img/1600419266571.jpg"></p>
+<img src="/img/1600419566546.jpg">
+
+<img src="/img/1600419641529.jpg">
+
+<h2 id="zabbix-乱码问题"><a href="#zabbix-乱码问题" class="headerlink" title="zabbix 乱码问题"></a>zabbix 乱码问题</h2><p>将Win10操作系统C:\Windows\Fonts目录下的任意字体 上传字体文件到fonts目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost fonts]<span class="comment"># pwd</span></span><br><span class="line">/usr/share/zabbix/assets/fonts</span><br><span class="line">[root@localhost fonts]<span class="comment"># ll</span></span><br><span class="line">total 11512</span><br><span class="line">lrwxrwxrwx 1 root root       33 Sep 18 16:34 graphfont.ttf -&gt; /etc/alternatives/zabbix-web-font</span><br><span class="line">-r-xr-xr-x 1 root root 11787328 Sep 18 17:05 simkai.ttf</span><br><span class="line">[root@localhost fonts]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>编辑配置文件 /usr/share/zabbix/include/defines.inc.php </p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">81</span> <span class="class"><span class="keyword">define</span></span>(<span class="string">'ZBX_GRAPH_FONT_NAME'</span>,           <span class="string">'simkai'</span>); <span class="comment">// font file name</span></span><br><span class="line"> <span class="number">122</span> <span class="class"><span class="keyword">define</span></span>(<span class="string">'ZBX_FONT_NAME'</span>, <span class="string">'simkai'</span>);</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">重启</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>bash</span><br><span class="line"><span class="meta">[</span>root@localhost fonts<span class="meta">]</span># systemctl restart zabbix-server</span><br></pre></td></tr></table></figure>
+
+<img src="/img/1600420851802.jpg">
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.zabbix.com/cn/download?zabbix=5.0&amp;os_distribution=centos&amp;os_version=7&amp;db=mysql&amp;ws=apache" target="_blank" rel="noopener">https://www.zabbix.com/cn/download?zabbix=5.0&amp;os_distribution=centos&amp;os_version=7&amp;db=mysql&amp;ws=apache</a></li>
+<li><a href="https://www.zabbix.com/documentation/current/manual/quickstart/login" target="_blank" rel="noopener">https://www.zabbix.com/documentation/current/manual/quickstart/login</a></li>
+<li><a href="https://www.cnblogs.com/wei-lu/p/10220025.html" target="_blank" rel="noopener">https://www.cnblogs.com/wei-lu/p/10220025.html</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/14/vim%E7%BC%96%E8%BE%91%E5%99%A8-wq%E5%92%8C-x%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1450,114 +1618,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" class="post-title-link" itemprop="url">docker 镜像导入导出</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-08-12 15:31:26 / 修改时间：15:50:11" itemprop="dateCreated datePublished" datetime="2020-08-12T15:31:26+08:00">2020-08-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" class="post-meta-item leancloud_visitors" data-flag-title="docker 镜像导入导出" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/12/docker-%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="导出本地镜像"><a href="#导出本地镜像" class="headerlink" title="导出本地镜像"></a>导出本地镜像</h2><p>导出busybox镜像,也可以导出多个image到一个压缩文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker images</span><br><span class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx                latest              08393e824c32        7 days ago          132MB</span><br><span class="line">busybox              latest              018c9d7b792b        2 weeks ago         1.22MB</span><br><span class="line">cfcontorl            1.0.0               1a1b058798ce        4 weeks ago         97.6MB</span><br><span class="line">&lt;none&gt;               &lt;none&gt;              252cf95e99e7        4 weeks ago         97.6MB</span><br><span class="line">ubuntu               latest              adafef2e596e        5 weeks ago         73.9MB</span><br><span class="line">zookeeper            latest              6982b35ff928        6 weeks ago         252MB</span><br><span class="line">mysql                5.7.30              9cfcce23593a        2 months ago        448MB</span><br><span class="line">mysql                latest              be0dbf01a0f3        2 months ago        541MB</span><br><span class="line">wurstmeister/kafka   latest              f1905dce9659        3 months ago        431MB</span><br><span class="line">mysql                8.0.19              0c27e8e5fcfa        3 months ago        546MB</span><br><span class="line">luodi@roddydeMacBook-Pro:~$</span><br></pre></td></tr></table></figure>
-
-<p>使用docker save -o 导出镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker save -o  ./busybox_image.gz  busybox:latest</span><br></pre></td></tr></table></figure>
-
-<h2 id="导出多个image"><a href="#导出多个image" class="headerlink" title="导出多个image"></a>导出多个image</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ docker save -o  ./all_image.gz  busybox:latest  nginx:latest</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="导入镜像到其他宿主机"><a href="#导入镜像到其他宿主机" class="headerlink" title="导入镜像到其他宿主机"></a>导入镜像到其他宿主机</h2><p>上传busybox_imge.gz到其他宿主机</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx               latest              08393e824c32        7 days ago          132MB</span><br><span class="line">mysql               5.7                 8679ced16d20        2 weeks ago         448MB</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># ls busybox_image.gz </span></span><br><span class="line">busybox_image.gz</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>使用docker load命令导入镜像压缩包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker load &lt; busybox_image.gz </span></span><br><span class="line">514c3a3e64d4: Loading layer [==================================================&gt;]  1.442MB/1.442MB</span><br><span class="line">Loaded image: busybox:latest</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker image ls</span></span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx               latest              08393e824c32        7 days ago          132MB</span><br><span class="line">busybox             latest              018c9d7b792b        2 weeks ago         1.22MB</span><br><span class="line">mysql               5.7                 8679ced16d20        2 weeks ago         448MB</span><br></pre></td></tr></table></figure>
-
-<p>或者使用以下命令</p>
-<p>docker load -i busybox_image.gz<br>docker load –input busybox_image.gz </p>
-<h2 id="使用镜像启动容器"><a href="#使用镜像启动容器" class="headerlink" title="使用镜像启动容器"></a>使用镜像启动容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker run --name=test4 -itd busybox  </span></span><br><span class="line">b66d72fd79dc0940dc2c259bd38bcb5447bfd099405dea692a39ff6b9f6ce0ad</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">b66d72fd79dc        busybox             <span class="string">"sh"</span>                4 seconds ago       Up 2 seconds                            test4</span><br><span class="line">root@iZm5e7rjmq1tkuwoy8h8vuZ:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1627,7 +1687,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>django drf 获取最新数据并按升序返回</title>
+      <link href="2020/10/27/django-drf-%E8%8E%B7%E5%8F%96%E6%9C%80%E6%96%B0%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%8C%89%E5%8D%87%E5%BA%8F%E8%BF%94%E5%9B%9E/"/>
+      <url>2020/10/27/django-drf-%E8%8E%B7%E5%8F%96%E6%9C%80%E6%96%B0%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%8C%89%E5%8D%87%E5%BA%8F%E8%BF%94%E5%9B%9E/</url>
+      
+        <content type="html"><![CDATA[<h2 id="按drf排序"><a href="#按drf排序" class="headerlink" title="按drf排序"></a>按drf排序</h2><p>目前使用drf默认的排序只能是升序，降序。如果获取最近的数据，获取的结果是倒序方式。特记录下改问题的解决方法</p><p><font color=#FF0000> <strong>需求：我需要获取最近100条数据（指定返回的数据量），并按升序方式排列返回。</strong></font></p><p>参考了self.list的写法</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListModelMixin</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    List a queryset.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">list</span><span class="params">(self, request, *args, **kwargs)</span>:</span></span><br><span class="line">        queryset = self.filter_queryset(self.get_queryset())</span><br><span class="line"></span><br><span class="line">        page = self.paginate_queryset(queryset)</span><br><span class="line">        <span class="keyword">if</span> page <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            serializer = self.get_serializer(page, many=<span class="literal">True</span>)</span><br><span class="line">            <span class="keyword">return</span> self.get_paginated_response(serializer.data)</span><br><span class="line"></span><br><span class="line">        serializer = self.get_serializer(queryset, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure><p>直接在返回数据时做一次列表倒序排列 [::-1],修改代码如下</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlocksDiffView</span><span class="params">(generics.ListAPIView)</span>:</span></span><br><span class="line">    serializer_class = block_s.BlocksDiffSerializer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_queryset</span><span class="params">(self)</span>:</span></span><br><span class="line">        queryset = block_m.NetworkStats.objects.order_by(<span class="string">'-height'</span>)</span><br><span class="line">        <span class="keyword">return</span> queryset</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取最近多少条数据，然后再升序排列返回</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, *args, **kwargs)</span>:</span></span><br><span class="line">        queryset = self.filter_queryset(self.get_queryset())</span><br><span class="line"></span><br><span class="line">        page = self.paginate_queryset(queryset)</span><br><span class="line">        <span class="keyword">if</span> page <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            serializer = self.get_serializer(page, many=<span class="literal">True</span>)</span><br><span class="line">            <span class="keyword">return</span> self.get_paginated_response(serializer.data[::<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">        serializer = self.get_serializer(queryset, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> django </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> drf </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>django psycopg2 Reason: image not found for mac</title>
       <link href="2020/10/26/django-psycopg2-Reason-image-not-found/"/>
       <url>2020/10/26/django-psycopg2-Reason-image-not-found/</url>
