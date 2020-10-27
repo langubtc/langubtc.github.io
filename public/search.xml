@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>django drf 在浏览器中默认为json格式输出</title>
+      <link href="2020/10/27/django-drf-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E9%BB%98%E8%AE%A4%E4%B8%BAjson%E8%BE%93%E5%87%BA/"/>
+      <url>2020/10/27/django-drf-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E9%BB%98%E8%AE%A4%E4%B8%BAjson%E8%BE%93%E5%87%BA/</url>
+      
+        <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在浏览器中访问drf 的url，默认打开是html格式的页面。因没有获取静态资源，现在部署后是这样的格式。<br><img src="/img/1603808205660.jpg"></p><p>那么如何才能默认展示为json呢？</p><h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>在<code>settings.py</code>文件中添加如下配置即可</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span><br><span class="line">    <span class="string">'DEFAULT_PARSER_CLASSES'</span>: (</span><br><span class="line">        <span class="string">'rest_framework.parsers.JSONParser'</span>,</span><br><span class="line">    ),</span><br><span class="line">    <span class="string">'DEFAULT_RENDERER_CLASSES'</span>: (</span><br><span class="line">        <span class="string">'rest_framework.renderers.JSONRenderer'</span>,</span><br><span class="line">      </span><br><span class="line">    ),</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure><p>重启项目</p><img src="/img/1603808718567.jpg"><p>是我想要的结果</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://stackoverflow.com/questions/45498989/django-rest-framework-output-in-json-to-the-browser-by-default" target="_blank" rel="noopener">https://stackoverflow.com/questions/45498989/django-rest-framework-output-in-json-to-the-browser-by-default</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> django </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> drf </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>django drf 获取最新数据并按升序返回</title>
       <link href="2020/10/27/django-drf-%E8%8E%B7%E5%8F%96%E6%9C%80%E6%96%B0%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%8C%89%E5%8D%87%E5%BA%8F%E8%BF%94%E5%9B%9E/"/>
       <url>2020/10/27/django-drf-%E8%8E%B7%E5%8F%96%E6%9C%80%E6%96%B0%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%8C%89%E5%8D%87%E5%BA%8F%E8%BF%94%E5%9B%9E/</url>
