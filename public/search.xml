@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Linux crontab 实现程序秒级定时执行</title>
+      <link href="2020/10/27/Linux-crontab-%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E7%A7%92%E7%BA%A7%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C/"/>
+      <url>2020/10/27/Linux-crontab-%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E7%A7%92%E7%BA%A7%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C/</url>
+      
+        <content type="html"><![CDATA[<h2 id="crontab-秒级执行"><a href="#crontab-秒级执行" class="headerlink" title="crontab 秒级执行"></a>crontab 秒级执行</h2><p>1.将执行命令写入脚本中</p><p>run.sh</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash  </span></span><br><span class="line">step=10 <span class="comment">#间隔的秒数，不能大于60  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">for</span> (( i = 0; i &lt; 60; i=(i+step) )); <span class="keyword">do</span>  </span><br><span class="line">                <span class="built_in">cd</span> /data/Twebpool/script &amp;&amp; /root/tweb_env/bin/python  blocks_all.py &gt;&gt;/tmp/blocks.txt <span class="comment"># 执行命令</span></span><br><span class="line">            sleep <span class="variable">$step</span>   <span class="comment">#间隔秒数</span></span><br><span class="line"><span class="keyword">done</span>  </span><br><span class="line">          </span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure><p>3.设置可执行权限</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@Thortest:/data/Twebpool/script<span class="comment"># chmod +x run.sh</span></span><br></pre></td></tr></table></figure><p>2.设置crontab</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*  *  *  *  *   /data/Twebpool/script/run.sh</span><br></pre></td></tr></table></figure><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><font color="read"><strong>每秒钟执行一次脚本程序，脚本中设置间隔多少秒重复执行，即可实现秒级别效果</strong></font></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> crontab </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>django drf 在浏览器中默认为json格式输出</title>
       <link href="2020/10/27/django-drf-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E9%BB%98%E8%AE%A4%E4%B8%BAjson%E8%BE%93%E5%87%BA/"/>
       <url>2020/10/27/django-drf-%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E9%BB%98%E8%AE%A4%E4%B8%BAjson%E8%BE%93%E5%87%BA/</url>
