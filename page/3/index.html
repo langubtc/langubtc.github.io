@@ -191,6 +191,125 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/21/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Centos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/21/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Centos/" class="post-title-link" itemprop="url">zabbix 5.0 Agent安装 for Centos</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-21 14:03:17 / 修改时间：14:35:57" itemprop="dateCreated datePublished" datetime="2020-09-21T14:03:17+08:00">2020-09-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/21/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Centos/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 5.0 Agent安装 for Centos" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/21/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Centos/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/21/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Centos/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>CentOS Linux release 7.8.2003 (Core)</p>
+<h2 id="安装agent"><a href="#安装agent" class="headerlink" title="安装agent"></a>安装agent</h2><p>采用rpm包安装方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm</span></span><br><span class="line">Retrieving https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm</span><br><span class="line">warning: /var/tmp/rpm-tmp.GUTI2l: Header V4 RSA/SHA512 Signature, key ID a14fe591: NOKEY</span><br><span class="line">Preparing...                          <span class="comment">################################# [100%]</span></span><br><span class="line">Updating / installing...</span><br><span class="line">   1:zabbix-release-5.0-1.el7         <span class="comment">################################# [100%]</span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># yum clean all</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Cleaning repos: base epel extras updates zabbix zabbix-non-supported</span><br><span class="line">Cleaning up list of fastest mirrors</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># yum install zabbix-agent -y</span></span><br></pre></td></tr></table></figure>
+
+<p>安装完成查看下软件包生成的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># rpm -ql zabbix-agent</span></span><br><span class="line">/etc/logrotate.d/zabbix-agent</span><br><span class="line">/etc/zabbix/zabbix_agentd.conf</span><br><span class="line">/etc/zabbix/zabbix_agentd.d</span><br><span class="line">/usr/lib/systemd/system/zabbix-agent.service</span><br><span class="line">/usr/lib/tmpfiles.d/zabbix-agent.conf</span><br><span class="line">/usr/sbin/zabbix_agentd</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3/AUTHORS</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3/COPYING</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3/ChangeLog</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3/NEWS</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3/README</span><br><span class="line">/usr/share/doc/zabbix-agent-5.0.3/userparameter_mysql.conf</span><br><span class="line">/usr/share/man/man8/zabbix_agentd.8.gz</span><br><span class="line">/var/<span class="built_in">log</span>/zabbix</span><br><span class="line">/var/run/zabbix</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>/etc/zabbix/zabbix_agentd.conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid   <span class="comment">#pid文件</span></span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log。 <span class="comment">#log文件</span></span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=x.x.x.x                        <span class="comment">#zabbix server ip 地址</span></span><br><span class="line">ServerActive=x.x.x.x                  <span class="comment">#主动监控 server ip 地址</span></span><br><span class="line">Hostname=webserver.roddypy.com        <span class="comment">#自己能被server端识别的地址</span></span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf  <span class="comment"># 扩展配置文件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动agentd"><a href="#启动agentd" class="headerlink" title="启动agentd"></a>启动agentd</h2><p>启动agent并开启自启</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl  start zabbix-agent             </span></span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># systemctl  enable zabbix-agent </span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/zabbix-agent.service to /usr/lib/systemd/system/zabbix-agent.service.</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="添加主机并关联模版"><a href="#添加主机并关联模版" class="headerlink" title="添加主机并关联模版"></a>添加主机并关联模版</h2><img src="/img/1600669628015.jpg">
+
+<img src="/img/1600669637643.jpg">
+
+
+<p>等待1-5分钟即可正常监控</p>
+<img src="/img/1600669685470.jpg">
+
+<p>如果出现如下状态需要检查配置或者防火墙，确认是否是ip地址填写错误还是防火墙没有允许10050端口</p>
+<img src="/img/1600669970480.jpg">
+
+
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><ul>
+<li>客户端允许服务器来访问10050端口</li>
+<li>ip切记不要填写错误</li>
+<li>需要选择关联组及监控模版，模版里有默认的监控指标及报警规则，这个可以自己修改。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/18/zabbix-5-0-Agent%E5%AE%89%E8%A3%85-for-Ubuntu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1412,223 +1531,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">DockerFile 构建镜像(一)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-17 15:01:04" itemprop="dateCreated datePublished" datetime="2020-08-17T15:01:04+08:00">2020-08-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-18 12:35:04" itemprop="dateModified" datetime="2020-08-18T12:35:04+08:00">2020-08-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="DockerFile 构建镜像(一)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/17/DockerFile-%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>从docker 官方下载的基础镜像有时候无法满足我们自己本身的业务需求，特别是配置文件，环境变量。这个时候通常需要自制我们自己的镜像。</p>
-<h2 id="DockerFile"><a href="#DockerFile" class="headerlink" title="DockerFile"></a>DockerFile</h2><p>Dokerfile是用来制作docker镜像的一个文本文件，并包含了构建镜像所需要的的指令及其参数。dockerfile 第一个非注释行必须是from,必须指明基础镜像。<br>Dockerfile其内部包含了一条条的指令，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。    </p>
-<h2 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h2><p>两类：</p>
-<ul>
-<li>指令</li>
-<li>指令参数</li>
-</ul>
-<p>注意点：</p>
-<ul>
-<li>必须要有专用的工作目录</li>
-<li>首字母必须大写</li>
-<li>引用目录必须是在当前工作目录之下</li>
-</ul>
-<p>参考样例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#基于centos镜像</span></span><br><span class="line">FROM centos  <span class="comment">#可以跟版本，如果不加默认是latest。FROM centos:latest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#维护人的信息</span></span><br><span class="line">MAINTAINER The CentOS Project &lt;923401910@qq.com&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装httpd软件包</span></span><br><span class="line">RUN yum -y update</span><br><span class="line">RUN yum -y install httpd</span><br><span class="line"></span><br><span class="line"><span class="comment">#开启80端口</span></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制网站首页文件至镜像中web站点下 index.html 必须要在当前目录存在</span></span><br><span class="line">COPY index.html /var/www/html/</span><br><span class="line"></span><br><span class="line">COPY static /var/www/html/static/  <span class="comment"># 一定要以斜线结尾 static不存在将会创建</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#复制该脚本至镜像中，并修改其权限</span></span><br><span class="line">ADD run.sh /run.sh</span><br><span class="line">RUN chmod 775 /run.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#当启动容器时执行的脚本文件</span></span><br><span class="line">CMD [<span class="string">"/run.sh"</span>]</span><br></pre></td></tr></table></figure>
-
-<h2 id="制作镜像"><a href="#制作镜像" class="headerlink" title="制作镜像"></a>制作镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build  -t smhttpd:1.0.0 . </span><br><span class="line">docker build  -t smhttpd  .    <span class="comment">#默认是latest</span></span><br></pre></td></tr></table></figure>
-
-<p>制作过程：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker build -t smnginx .</span><br><span class="line">Sending build context to Docker daemon   7.68kB</span><br><span class="line">Step 1/10 : FROM centos</span><br><span class="line"> ---&gt; 0d120b6ccaa8</span><br><span class="line">Step 2/10 : MAINTAINER The CentOS Project &lt;923401910@qq.com&gt;</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 73711e378096</span><br><span class="line">Step 3/10 : RUN yum -y update</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 17e83a7625bc</span><br><span class="line">Step 4/10 : RUN yum -y install </span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; d65bbe61e58a</span><br><span class="line">Step 5/10 : EXPOSE 80</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 013883f8a333</span><br><span class="line">Step 6/10 : COPY index.html /var/www/html/</span><br><span class="line"> ---&gt; Using cache</span><br><span class="line"> ---&gt; 98a2d57e8bf1</span><br><span class="line">Step 7/10 : COPY static /var/www/html/static/</span><br><span class="line"> ---&gt; 6156265c2a76</span><br><span class="line">Step 8/10 : ADD run.sh /run.sh</span><br><span class="line"> ---&gt; 4832b8d59439</span><br><span class="line">Step 9/10 : RUN chmod 775 /run.sh</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> a60d60aa3e19</span><br><span class="line">Removing intermediate container a60d60aa3e19</span><br><span class="line"> ---&gt; a95e79794432</span><br><span class="line">Step 10/10 : CMD [<span class="string">"/run.sh"</span>]</span><br><span class="line"> ---&gt; Running <span class="keyword">in</span> 5f71bc6a29b1</span><br><span class="line">Removing intermediate container 5f71bc6a29b1</span><br><span class="line"> ---&gt; 97a35e3ef1b7</span><br><span class="line">Successfully built 97a35e3ef1b7</span><br><span class="line">Successfully tagged smnginx:latest</span><br></pre></td></tr></table></figure>
-
-<p>检查文件是否存在（不运行容器）</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker images</span><br><span class="line">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">smnginx              latest              <span class="number">97</span>a35e3ef1b7        <span class="number">2</span> minutes ago       <span class="number">278</span>MB</span><br></pre></td></tr></table></figure>
-
-<p><strong>rm选项运行后会自动删除容器，后面可以指定自定义命令，一般用于测试</strong></p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">luodi<span class="meta">@roddydeMacBook</span>-<span class="string">Pro:</span><span class="regexp">~/dockerfile_build/</span>nginx$ docker run --name smweb1 --rm smnginx ls -a <span class="regexp">/var/</span>www<span class="regexp">/html/</span></span><br><span class="line">.</span><br><span class="line">..</span><br><span class="line">index.html</span><br><span class="line"><span class="keyword">static</span></span><br><span class="line">luodi<span class="meta">@roddydeMacBook</span>-<span class="string">Pro:</span><span class="regexp">~/dockerfile_build/</span>nginx$ docker run --name smweb1 --rm smnginx ls -a <span class="regexp">/var/</span>www<span class="regexp">/html/</span><span class="keyword">static</span></span><br><span class="line">.</span><br><span class="line">..</span><br><span class="line">css</span><br><span class="line">img</span><br><span class="line">luodi<span class="meta">@roddydeMacBook</span>-<span class="string">Pro:</span><span class="regexp">~/dockerfile_build/</span>nginx$</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="指令介绍"><a href="#指令介绍" class="headerlink" title="指令介绍"></a>指令介绍</h2><h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><p>FROM是最重要的一个且必须是DockerFile文件中的第一个非注释行，用于指定基准镜像。</p>
-<p>语法:</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM   <span class="params">&lt;repository&gt;</span>[:<span class="params">&lt;tag&gt;</span>] </span><br><span class="line">FROM   <span class="params">&lt;repository&gt;</span>@<span class="params">&lt;digest&gt;</span>   <span class="meta">#hash码</span></span><br></pre></td></tr></table></figure>
-
-
-<h3 id="MAINTAINER-废弃"><a href="#MAINTAINER-废弃" class="headerlink" title="MAINTAINER(废弃)"></a>MAINTAINER(废弃)</h3><p>指定镜像的制作者，一般是名称加联系方式。不过目前已经被LABLE替代</p>
-<h3 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h3><p>LABEL 指令会添加元数据到镜像。LABEL是以键值对形式出现的。MAINTAINER可以是一个KEY,同时还可以指定多个元数据信息。</p>
-<p>语法：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">"luodi &lt;923401910@qq.com&gt;"</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> version=<span class="string">"1.0"</span></span></span><br></pre></td></tr></table></figure>
-
-<p>但是并不建议这样写，最好就写成一行，如太长需要换行的话则使用\符号</p>
-<p>如下：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LABEL multi.<span class="attribute">label1</span>=<span class="string">"value1"</span> \</span><br><span class="line">multi.<span class="attribute">label2</span>=<span class="string">"value2"</span> \</span><br><span class="line"><span class="attribute">other</span>=<span class="string">"value3"</span></span><br></pre></td></tr></table></figure>
-
-<p>说明：LABEL会继承基础镜像种的LABEL，如遇到key相同，则值覆盖</p>
-<h3 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h3><p>用于从Docker主机复制文件到创建的镜像文件中</p>
-<p>语法:</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="bash">  &lt;src&gt; &lt;dest&gt;</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash">  [<span class="string">"&lt;src&gt;"</span>,<span class="string">"dest"</span>]</span></span><br></pre></td></tr></table></figure>
-
-<p>注意:</p>
-<ul>
-<li>src 必须是build上下文件中的路径，不能是父目录中的文件</li>
-<li>如果src是目录，其内部文件或子目录会被递归复制，但src本身不会</li>
-<li>如果dest事先不存在，它将会被自动创建，这包括其父目录路径</li>
-<li>如果指定了多个src，或者在src使用通配符，dest必须是个目录，且必须是/结尾</li>
-</ul>
-<h3 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h3><p>功能和copy相似，但是ADD支持URL路径和TAR文件。如果是一个本地tar.gz包，会被执行tar -x命令被自动展开。但是URL上的tar包不会</p>
-<p>语法:</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="bash">  &lt;src&gt; &lt;dest&gt;</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">  [<span class="string">"&lt;src&gt;"</span>,<span class="string">"dest"</span>]</span></span><br></pre></td></tr></table></figure>
-
-<p>下载并解压文件</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ADD http:<span class="regexp">//</span>nginx.org<span class="regexp">/download/</span>nginx-<span class="number">1.19</span>.<span class="number">2</span>.tar.gz  <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>   <span class="comment">#下载到src但是并不会解压</span></span><br><span class="line">ADD nginx-<span class="number">1.19</span>.<span class="number">2</span>.tar.gz  <span class="regexp">/usr/</span>local<span class="regexp">/src/</span>      <span class="comment">#解压本地文件到/usr/local/src/下</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><p>设置工作目录，对RUN,CMD,ENTRYPOINT,COPY,ADD生效。如果不存在则会创建，也可以设置多次。</p>
-<p>语法：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /path/to/workdir</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><p>设置启动容器的用户，可以是用户名或UID，所以，只有下面的两种写法是正确的</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER daemo</span><br><span class="line">USER UID</span><br></pre></td></tr></table></figure>
-<p>注意：如果设置了容器以daemon用户去运行，那么RUN, CMD 和 ENTRYPOINT 都会以这个用户去运行</p>
-<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><p>可实现挂载功能，用于在镜像中创建一个挂载点目录，以挂载Docker Host上的卷和其他容器上的卷到容器中</p>
-<p>语法为：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/data"</span>]</span></span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<p>[“/data”]可以是一个JsonArray ，也可以是多个值。所以如下几种写法都是正确的</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/var/log/"</span>]</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /var/<span class="built_in">log</span></span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /var/<span class="built_in">log</span> /var/db</span></span><br></pre></td></tr></table></figure>
-<p>一般的使用场景为需要持久化存储数据时</p>
-<p>容器使用的是AUFS，这种文件系统不能持久化数据，当容器关闭后，所有的更改都会丢失。</p>
-<p>所以当数据需要持久化时用这个命令。</p>
-<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><p>用于为容器打开要监听的端口以实现外部通信，相当于暴露端口，会添加一条NAT规则。</p>
-<p>只是声明可以暴露的端口，但是不会真正暴露。如果要暴露端口需要启动容器时加上<strong>-P</strong>选项,会随机做端口映射，可以使用-p 指定映射关系</p>
-<p>语法：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE <span class="tag">&lt;<span class="name">port</span>&gt;</span></span><br><span class="line">EXPOSE <span class="tag">&lt;<span class="name">port</span>&gt;</span>[/protocol] <span class="tag">&lt;<span class="name">port</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>-P</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker run -dit  -P --rm --name webhttpd smhttpd</span><br><span class="line"><span class="number">1</span>d12e3386299        smhttpd             <span class="string">"/run.sh"</span>                <span class="number">2</span> minutes ago       Up <span class="number">2</span> minutes        <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">32771</span>-&gt;<span class="number">80</span>/tcp               webhttpd</span><br></pre></td></tr></table></figure>
-
-<p>指定端口</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker run -dit -p <span class="number">8044</span>:<span class="number">80</span> --name webhttp2 smhttpd</span><br><span class="line"><span class="symbol">luodi@</span>roddydeMacBook-Pro:~/dockerfile_build/nginx$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line"><span class="number">62f</span>afeb4aaa4        smhttpd             <span class="string">"/run.sh"</span>                <span class="number">3</span> seconds ago       Up <span class="number">2</span> seconds        <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8044</span>-&gt;<span class="number">80</span>/tcp                webhttp2</span><br><span class="line"><span class="number">1</span>d12e3386299        smhttpd             <span class="string">"/run.sh"</span>                <span class="number">2</span> minutes ago       Up <span class="number">2</span> minutes        <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">32771</span>-&gt;<span class="number">80</span>/tcp               webhttpd</span><br></pre></td></tr></table></figure>
-
-<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><p>功能为设置环境变量,可被Dockerfile文件中位于其后的其他指令调用</p>
-<p>语法有两种</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV <span class="tag">&lt;<span class="name">key</span>&gt;</span> <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">ENV <span class="tag">&lt;<span class="name">key</span>&gt;</span>=<span class="tag">&lt;<span class="name">value</span>&gt;</span> ...</span><br></pre></td></tr></table></figure>
-<p>两者的区别就是第一种是一次设置一个，第二种是一次设置多个</p>
-<p>样例：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> DOC_ROOT /var/www/html/</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制网站首页文件至镜像中web站点下 index.html 必须要在当前目录存在</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> index.html <span class="variable">$DOC_ROOT</span>  <span class="comment"># $&#123;DOC_ROOT:-/var/www/html/&#125;  如果没有值，赋默认值</span></span></span><br></pre></td></tr></table></figure>
-
-<p>可以在docker run 的时候设定变量值</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="builtin-name">run</span> --name testweb -e <span class="attribute">WEB_HOST</span>=<span class="string">"172.103.2.2"</span></span><br></pre></td></tr></table></figure>
-
-
-<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p>构建镜像时运行指定的命令,可以运行多次，如果有关联关系建议使用&amp;&amp;关联</p>
-<p>语法:</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> &lt;cmd&gt;</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> [<span class="string">"cmd"</span>,<span class="string">"参数1"</span>,<span class="string">"参数2"</span>]</span></span><br></pre></td></tr></table></figure>
-
-<p>样例：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：多行命令不要写多个RUN，原因是Dockerfile中每一个指令都会建立一层.</p>
-<p>多少个RUN就构建了多少层镜像，会造成镜像的臃肿、多层，不仅仅增加了构件部署的时间，还容易出错。</p>
-<p>RUN书写时的换行符是\</p>
-<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>容器启动时要运行的命令</p>
-<p>语法：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"executable"</span>,<span class="string">"param1"</span>,<span class="string">"param2"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"param1"</span>,<span class="string">"param2"</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> <span class="built_in">command</span> param1 param2</span></span><br></pre></td></tr></table></figure>
-
-<p>样例：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#当启动容器时执行的脚本文件</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"/run.sh"</span>]</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1698,7 +1600,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -191,6 +191,136 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/28/Ubuntu-18-4-%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2Django%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/28/Ubuntu-18-4-%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2Django%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">Ubuntu 18.4 使用 gunicorn 部署Django项目</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-28 13:11:14 / 修改时间：13:51:14" itemprop="dateCreated datePublished" datetime="2020-10-28T13:11:14+08:00">2020-10-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/django/" itemprop="url" rel="index"><span itemprop="name">django</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/28/Ubuntu-18-4-%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2Django%E9%A1%B9%E7%9B%AE/" class="post-meta-item leancloud_visitors" data-flag-title="Ubuntu 18.4 使用 gunicorn 部署Django项目" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/28/Ubuntu-18-4-%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2Django%E9%A1%B9%E7%9B%AE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/28/Ubuntu-18-4-%E7%BA%BF%E4%B8%8A%E9%83%A8%E7%BD%B2Django%E9%A1%B9%E7%9B%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="部署环境"><a href="#部署环境" class="headerlink" title="部署环境"></a>部署环境</h2><ul>
+<li>Ubuntu 18.04.5 LTS</li>
+<li>Python 3.6.9</li>
+<li>Django .2.14</li>
+<li>nginx 1.14.0</li>
+<li>gunicorn 20.0.4</li>
+</ul>
+<h2 id="1-创建虚拟环境"><a href="#1-创建虚拟环境" class="headerlink" title="1.创建虚拟环境"></a>1.创建虚拟环境</h2><p>在root目录下创建虚拟环境，在线上部署建议专门在/下建立一个虚拟环境的目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@Thortest:~<span class="comment"># pip3 install virtualenv</span></span><br><span class="line"></span><br><span class="line">root@Thortest:~<span class="comment"># virtualenv tweb_env</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@Thortest:~<span class="comment"># source tweb_env/bin/activate  # 进入虚拟环境 退出可以使用deactivate 指令</span></span><br><span class="line">(tweb_env) root@Thortest:~<span class="comment"># python</span></span><br><span class="line">Python 3.6.9 (default, Jul 17 2020, 12:50:27) </span><br><span class="line">[GCC 8.4.0] on linux</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; </span><br><span class="line">(tweb_env) root@Thortest:~<span class="comment">#  cd /data/Twebpool # 切换到项目路径</span></span><br><span class="line">(tweb_env) root@Thortest:/data/Twebpool<span class="comment"># pip install -r requirements.txt 在当前虚拟环境中安装依赖文件</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-编写gunicorn启动脚本"><a href="#2-编写gunicorn启动脚本" class="headerlink" title="2.编写gunicorn启动脚本"></a>2.编写gunicorn启动脚本</h2><p>在项目文件夹下创建gunicorn.sh,此脚本位置与manage.py同一目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├── db.sqlite3</span><br><span class="line">├── gunicorn.sh</span><br><span class="line">├── logs</span><br><span class="line">│   ├── gunicorn.info.log</span><br><span class="line">│   └── web.log</span><br><span class="line">├── manage.py</span><br><span class="line">├── pool</span><br></pre></td></tr></table></figure>
+
+
+<p>gunicorn.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line">TIMEOUT=300   <span class="comment">#to solve upload app package timeout issue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Twebpool为项目名，gunicorn路径必须是虚拟环境的绝对路径</span></span><br><span class="line"><span class="built_in">exec</span> /root/tweb_env/bin/gunicorn Twebpool.wsgi:application -w 6 \</span><br><span class="line">        -b 0.0.0.0:8000 \</span><br><span class="line">        --max-requests 10000 \</span><br><span class="line">        --timeout=300 \</span><br><span class="line">        --access-logfile=server.access.log \</span><br><span class="line">        --error-logfile=server.error.log</span><br></pre></td></tr></table></figure>
+
+<p>设置可执行权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@Thortest:/data/Twebpool<span class="comment"># chmod +x gunicorn.sh</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-创建supervisor配置"><a href="#3-创建supervisor配置" class="headerlink" title="3.创建supervisor配置"></a>3.创建supervisor配置</h2><p>安装supervisor并创建配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@Thortest:/data/Twebpool<span class="comment"># apt-get install supervisor</span></span><br><span class="line">root@Thortest:/data/Twebpool<span class="comment"># vim /etc/supervisor/conf.d/web.conf</span></span><br><span class="line">[program:web]</span><br><span class="line">directory=/data/Twebpool/</span><br><span class="line"><span class="built_in">command</span>=/bin/sh gunicorn.sh</span><br><span class="line">stopsignal=QUIT</span><br><span class="line">autostart=<span class="literal">true</span></span><br><span class="line">autorestart=<span class="literal">true</span></span><br><span class="line">stdout_logfile=/data/Twebpool/logs/gunicorn.info.log</span><br><span class="line">stderr_logfile=/data/Twebpool/logs/gunicorn.error.log</span><br><span class="line">redirect_stderr=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>启动项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@Thortest:/data/Twebpool<span class="comment"># supervisorctl </span></span><br><span class="line">supervisor&gt; reread</span><br><span class="line">supervisor&gt; update   <span class="comment"># 默认会直接启动，如果需要停止使用stop|start｜restart</span></span><br><span class="line">supervisor&gt; status</span><br><span class="line">web                              RUNNING   pid 305, uptime 0:0:47</span><br><span class="line">supervisor&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-配置nginx"><a href="#4-配置nginx" class="headerlink" title="4.配置nginx"></a>4.配置nginx</h2><p>x.x.x.x 为服务器域名或者外网ip</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">(tweb_env) root@Thortest:~<span class="comment"># vim /etc/nginx/conf.d/api.conf </span></span><br><span class="line">  server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  x.x.x.x;</span><br><span class="line">        keepalive_timeout  300;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            client_max_body_size 100m;</span><br><span class="line">            proxy_http_version 1.1;</span><br><span class="line">            proxy_pass http://127.0.0.1:8000;</span><br><span class="line">            proxy_connect_timeout 300s;</span><br><span class="line">            proxy_read_timeout 300s;</span><br><span class="line">            proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">            proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">            proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">            proxy_send_timeout 15000;</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line">            proxy_buffer_size 1024k;  </span><br><span class="line">            proxy_buffers   4 1024k;  </span><br><span class="line">            proxy_busy_buffers_size 1024k;  </span><br><span class="line">            proxy_temp_file_write_size 1024k;  </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试nginx配置</p>
+<p><font color="red"> ps:nginx -t 测试。习惯很重要，修改配置后一定要使用-t检查下有没有问题</font></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(tweb_env) root@Thortest:~<span class="comment"># nginx -t</span></span><br><span class="line">nginx: the configuration file /etc/nginx/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> is successful</span><br><span class="line">(tweb_env) root@Thortest:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>重启或者重新加载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tweb_env) root@Thortest:~<span class="comment"># systemctl  restart nginx.service # reload 不重启服务应用新配置｜ restart 重启</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-访问测试"><a href="#5-访问测试" class="headerlink" title="5.访问测试"></a>5.访问测试</h2> <img src="/img/1603864195171.jpg">
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/27/Linux-crontab-%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E7%A7%92%E7%BA%A7%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1417,106 +1547,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">Grafana 7.0 SMTP邮箱配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-28 15:19:15 / 修改时间：16:07:16" itemprop="dateCreated datePublished" datetime="2020-09-28T15:19:15+08:00">2020-09-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Grafana/" itemprop="url" rel="index"><span itemprop="name">Grafana</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/" class="post-meta-item leancloud_visitors" data-flag-title="Grafana 7.0 SMTP邮箱配置" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/28/Grafana-7-0-SMTP%E9%82%AE%E7%AE%B1%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h2><p>Grafana 以qq邮箱为例</p>
-<p>修改grafana.ini配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># vim  /etc/grafana/grafana.ini  # 找到smtp标签</span></span><br><span class="line"><span class="comment">#################################### SMTP / Emailing ##########################</span></span><br><span class="line">[smtp]</span><br><span class="line">enabled = <span class="literal">true</span>。            <span class="comment"># 启用，默认是false</span></span><br><span class="line">host = smtp.qq.com:465      <span class="comment"># 邮箱服务器及端口</span></span><br><span class="line">user = 923401910@qq.com</span><br><span class="line"><span class="comment"># If the password contains # or ; you have to wrap it with triple quotes. Ex """#password;"""</span></span><br><span class="line">password = xxxxxxxxxxx      <span class="comment"># 授权码/密码</span></span><br><span class="line">;cert_file =</span><br><span class="line">;key_file =</span><br><span class="line">;skip_verify = <span class="literal">false</span></span><br><span class="line">from_address = 923401910@qq.com <span class="comment"># 发件人账户，必须和user一致 </span></span><br><span class="line">from_name = Grafana   <span class="comment">#自定义的名字</span></span><br></pre></td></tr></table></figure>
-
-<p>重启</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment"># /etc/init.d/grafana-server restart</span></span><br><span class="line">Restarting grafana-server (via systemctl):                 [  OK  ]</span><br><span class="line">[root@iZ2zecgq3cou36re3sxh4bZ ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>测试结果</p>
-<img src="/img/1601280147621.jpg">
-
-<img src="/img/1601279929133.jpg">
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1586,7 +1616,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-count">83</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
