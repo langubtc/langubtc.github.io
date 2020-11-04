@@ -298,7 +298,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/10/29/django-drf-nginx-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">django drf nginx vue 跨域问题解决方法</a>
+            <a href="/2020/10/29/django-drf-nginx-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">django drf nginx vue 跨域问题彻底解决方法</a>
         </h2>
 
         <div class="post-meta">
@@ -315,7 +315,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-04 17:00:02" itemprop="dateModified" datetime="2020-11-04T17:00:02+08:00">2020-11-04</time>
+                <time title="修改时间：2020-11-04 17:06:29" itemprop="dateModified" datetime="2020-11-04T17:06:29+08:00">2020-11-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -328,7 +328,7 @@
             </span>
 
           
-            <span id="/2020/10/29/django-drf-nginx-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="django drf nginx vue 跨域问题解决方法" title="阅读次数">
+            <span id="/2020/10/29/django-drf-nginx-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="django drf nginx vue 跨域问题彻底解决方法" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -365,7 +365,7 @@
 
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>前期按照以前配置的django，直接使用<code>python manage.py runserver 0.0.0.0:80</code> 没问题。使用nginx代理后就会出现问题。</p>
 <p>崩溃中！！！！于是各种找问题。</p>
-<h3 id="1-django配置"><a href="#1-django配置" class="headerlink" title="1.django配置"></a>1.django配置</h3><p>安装cors模块,切记，切记，要安装2.x版本</p>
+<h3 id="1-django配置"><a href="#1-django配置" class="headerlink" title="1.django配置"></a>1.django配置</h3><p>安装cors模块,切记，切记，要安装2.x版本 <a href="https://github.com/adamchainz/django-cors-headers/issues/579" target="_blank" rel="noopener">https://github.com/adamchainz/django-cors-headers/issues/579</a></p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install django-cors-headers== <span class="number">2.5</span><span class="number">.3</span> # <span class="number">3.0</span>版本+nginx要踩坑</span><br></pre></td></tr></table></figure>
 
 <p>配置settings.py</p>
