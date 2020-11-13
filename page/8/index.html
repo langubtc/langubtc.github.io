@@ -191,6 +191,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E5%B5%8C%E5%A5%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E5%B5%8C%E5%A5%97/" class="post-title-link" itemprop="url">golang 结构体嵌套</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-18 16:12:25 / 修改时间：16:59:32" itemprop="dateCreated datePublished" datetime="2020-05-18T16:12:25+08:00">2020-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E5%B5%8C%E5%A5%97/" class="post-meta-item leancloud_visitors" data-flag-title="golang 结构体嵌套" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E5%B5%8C%E5%A5%97/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/18/golang-%E7%BB%93%E6%9E%84%E4%BD%93%E5%B5%8C%E5%A5%97/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="结构体匿名字段"><a href="#结构体匿名字段" class="headerlink" title="结构体匿名字段"></a>结构体匿名字段</h3><p>如果不给结构体声明字段名,那该字段为匿名字段</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//匿名字段类型不能重复</span></span><br><span class="line">	p1 := User&#123;</span><br><span class="line">		<span class="string">"roddy"</span>,</span><br><span class="line">		<span class="number">18</span>,</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//直接使用类型访问值即可</span></span><br><span class="line">	fmt.Println(p1,p1.<span class="keyword">string</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="结构体嵌套"><a href="#结构体嵌套" class="headerlink" title="结构体嵌套"></a>结构体嵌套</h3><p>结构体可以嵌套另一个结构体以作关联，下面以服务器和IDC为例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IDC <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	address <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CloudServer <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	ip <span class="keyword">string</span></span><br><span class="line">	cpu <span class="keyword">int8</span></span><br><span class="line">	disk <span class="keyword">int32</span></span><br><span class="line">	mem <span class="keyword">int8</span></span><br><span class="line">	net <span class="keyword">float32</span></span><br><span class="line">	idc IDC    <span class="comment">//嵌套另外的结构体</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	s1 := CloudServer&#123;</span><br><span class="line">		<span class="string">"webserver"</span>,</span><br><span class="line">		<span class="string">"10.10.1.1"</span>,</span><br><span class="line">		<span class="number">4</span>,</span><br><span class="line">		<span class="number">500</span>,</span><br><span class="line">		<span class="number">8</span>,</span><br><span class="line">		<span class="number">8</span>,</span><br><span class="line">		IDC&#123;</span><br><span class="line">			<span class="string">"北京1区"</span>,</span><br><span class="line">			<span class="string">"北京xxxxx路"</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(s1.idc.name,s1)</span><br><span class="line">	fmt.Println(s1.name)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>匿名嵌套结构体</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> IDC <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	address <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CloudServer <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	ip <span class="keyword">string</span></span><br><span class="line">	cpu <span class="keyword">int8</span></span><br><span class="line">	disk <span class="keyword">int32</span></span><br><span class="line">	mem <span class="keyword">int8</span></span><br><span class="line">	net <span class="keyword">float32</span></span><br><span class="line">	IDC    <span class="comment">//匿名嵌套另外的结构体   不声明字段名</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	s1 := CloudServer&#123;</span><br><span class="line">		<span class="string">"webserver"</span>,</span><br><span class="line">		<span class="string">"10.10.1.1"</span>,</span><br><span class="line">		<span class="number">4</span>,</span><br><span class="line">		<span class="number">500</span>,</span><br><span class="line">		<span class="number">8</span>,</span><br><span class="line">		<span class="number">8</span>,</span><br><span class="line">		IDC&#123;</span><br><span class="line">			<span class="string">"北京1区"</span>,</span><br><span class="line">			<span class="string">"北京xxxxx路"</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//fmt.Println(s1.idc.name,s1)</span></span><br><span class="line">	fmt.Println(s1.address)        <span class="comment">//直接可访问嵌套结构体里的字段 如果嵌套结构体中使用多个重名字段话需要声明访问哪个结构体</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/18/golang-%E6%96%B9%E6%B3%95%E5%92%8C%E6%8E%A5%E6%94%B6%E8%80%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1248,101 +1349,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/04/28/ubuntu%E5%88%A0%E9%99%A4apt%E6%BA%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/28/ubuntu%E5%88%A0%E9%99%A4apt%E6%BA%90/" class="post-title-link" itemprop="url">ubuntu删除apt源</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-04-28 17:57:28 / 修改时间：18:33:52" itemprop="dateCreated datePublished" datetime="2020-04-28T17:57:28+08:00">2020-04-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/04/28/ubuntu%E5%88%A0%E9%99%A4apt%E6%BA%90/" class="post-meta-item leancloud_visitors" data-flag-title="ubuntu删除apt源" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/04/28/ubuntu%E5%88%A0%E9%99%A4apt%E6%BA%90/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/28/ubuntu%E5%88%A0%E9%99%A4apt%E6%BA%90/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.进入到源列表文件目录</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:/</span><span class="comment"># cd  /etc/apt/sources.list.d/</span></span><br></pre></td></tr></table></figure>
-
-<p>2.编辑源列表文件</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@roddy</span><span class="symbol">:/etc/apt/sources</span>.list.d/<span class="comment"># vim  nginx.list</span></span><br></pre></td></tr></table></figure>
-
-<p>3.删除或者注释其中源即可</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1412,7 +1418,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1425,7 +1431,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
