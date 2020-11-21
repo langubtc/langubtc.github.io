@@ -191,6 +191,184 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">Kubernetes Pod YAML模版文件格式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-23 11:51:17 / 修改时间：15:15:19" itemprop="dateCreated datePublished" datetime="2020-10-23T11:51:17+08:00">2020-10-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes Pod YAML模版文件格式" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="YAML"><a href="#YAML" class="headerlink" title="YAML"></a>YAML</h2><p>YAML 是专门用来写配置文件的语言，非常简洁和强大，远比 JSON 格式方便。它实质上是一种通用的数据串行化格式。</p>
+<p>支持的三种数据结构：</p>
+<ul>
+<li>对象：键值对的集合，又称为映射（mapping）/ 哈希（hashes） / 字典（dictionary）</li>
+<li>数组：一组按次序排列的值，又称为序列（sequence） / 列表（list）</li>
+<li>纯量（scalars）：单个的、不可再分的值</li>
+</ul>
+<h2 id="YAML规则"><a href="#YAML规则" class="headerlink" title="YAML规则"></a>YAML规则</h2><ul>
+<li>大小写敏感</li>
+<li>使用缩进表示层级关系</li>
+<li>缩进时不允许使用Tab键，只允许使用空格。</li>
+<li>缩进的空格数目不重要，只要相同层级的元素左侧对齐即可</li>
+</ul>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><strong>对象</strong></p>
+<p>key:value的键值对，使用冒号表示</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">username:</span> roddy</span><br><span class="line"><span class="symbol">password:</span> <span class="string">"ccccccc"</span></span><br></pre></td></tr></table></figure>
+<p>转成json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"username"</span>: <span class="string">"roddy"</span>,</span><br><span class="line">  <span class="attr">"password"</span>: <span class="string">"ccccccc"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>数组</strong></p>
+<p>以横线“-”开头的行</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Python</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Golang</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">JAVA</span></span><br></pre></td></tr></table></figure>
+
+<p>转成json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="string">"Python"</span>,</span><br><span class="line">  <span class="string">"Golang"</span>,</span><br><span class="line">  <span class="string">"JAVA"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+<p>复合结构</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">username:</span> <span class="string">roddy</span></span><br><span class="line"><span class="attr">password:</span> <span class="string">"passwd"</span></span><br><span class="line"><span class="attr">server_ip:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.3</span></span><br><span class="line"><span class="attr">server_type:</span></span><br><span class="line">    <span class="attr">web:</span> <span class="string">"nginx"</span></span><br><span class="line">    <span class="attr">db:</span> <span class="string">"mysql"</span></span><br></pre></td></tr></table></figure>
+
+
+<p>转成json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"username"</span>: <span class="string">"roddy"</span>,</span><br><span class="line">  <span class="attr">"password"</span>: <span class="string">"passwd"</span>,</span><br><span class="line">  <span class="attr">"server_ip"</span>: [</span><br><span class="line">    <span class="string">"192.168.1.1"</span>,</span><br><span class="line">    <span class="string">"192.168.2.2"</span>,</span><br><span class="line">    <span class="string">"192.168.2.3"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"server_type"</span>: &#123;</span><br><span class="line">    <span class="attr">"web"</span>: <span class="string">"nginx"</span>,</span><br><span class="line">    <span class="attr">"db"</span>: <span class="string">"mysql"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参见yaml样例"><a href="#参见yaml样例" class="headerlink" title="参见yaml样例"></a>参见yaml样例</h2><p>推荐个在线yaml转json的网站：<a href="https://www.json2yaml.com/convert-yaml-to-json" target="_blank" rel="noopener">https://www.json2yaml.com/convert-yaml-to-json</a></p>
+<p>YAML格式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">xiaomi</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">huawei</span></span><br><span class="line"><span class="attr">yaml:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">slim</span> <span class="string">and</span> <span class="string">flexible</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">better</span> <span class="string">for</span> <span class="string">configuration</span></span><br><span class="line"><span class="attr">object:</span></span><br><span class="line">	<span class="attr">key:</span> <span class="string">value</span></span><br><span class="line">  <span class="attr">array:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">null_value:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">boolean:</span> <span class="literal">true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">integer:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>转成JSON格式</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: [</span><br><span class="line">    <span class="string">"xiaomi"</span>,</span><br><span class="line">    <span class="string">"huawei"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"yaml"</span>: [</span><br><span class="line">    <span class="string">"slim and flexible"</span>,</span><br><span class="line">    <span class="string">"better for configuration"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"object"</span>: &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"value"</span>,</span><br><span class="line">    <span class="attr">"array"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"null_value"</span>: <span class="literal">null</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"boolean"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"integer"</span>: <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="YAML创建Pod"><a href="#YAML创建Pod" class="headerlink" title="YAML创建Pod"></a>YAML创建Pod</h2><p>Kubernetes 资源是通过声明的方式创建的，因此可以使用 YAML 文件。Kubernetes 资源（比如 Pod、服务和部署）是使用 YAML 文件创建的。后期我们会经常编写yaml文件用于部署服务。</p>
+<p>样例:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># vim pod-busybox.yaml</span></span><br><span class="line">apiVersion: v1  <span class="comment"># api版本</span></span><br><span class="line">kind: Pod       <span class="comment"># 资源类型</span></span><br><span class="line">metadata:</span><br><span class="line">  name: myapp-pod <span class="comment">#名字</span></span><br><span class="line">  labels:</span><br><span class="line">    app: myapp <span class="comment"># 标签内容</span></span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: myapp-container <span class="comment"># 容器名</span></span><br><span class="line">    image: busybox <span class="comment"># 镜像名</span></span><br><span class="line">    <span class="built_in">command</span>: [<span class="string">'sh'</span>, <span class="string">'-c'</span>, <span class="string">'echo Hello Kubernetes! &amp;&amp; sleep 3600'</span>]</span><br><span class="line"></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl create -f pod-busybox.yaml </span></span><br><span class="line">pod/myapp-pod created</span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod</span></span><br><span class="line">NAME        READY   STATUS              RESTARTS   AGE</span><br><span class="line">myapp-pod   0/1     ContainerCreating   0          11s <span class="comment"># 正在创建pod</span></span><br><span class="line"></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          21s <span class="comment"># 状态为Running</span></span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>配置文件详解</p>
+<ul>
+<li>apiVersion: api版本，v1表示稳定版本，可以参考下面命令查看可用的版本</li>
+<li>kind: 表示要创建的资源对象,关键字Pod ，可选关键字：Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling</li>
+<li>metadata: 元数据，可以包含多个元数据</li>
+<li>spec:表示资源对象的具体设置,containers表示容器的集合，可以定义多个容器</li>
+</ul>
+<p>查看当前可用的API版本</p>
+<p>Kubernetes 1.19.3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl api-versions</span></span><br><span class="line">admissionregistration.k8s.io/v1</span><br><span class="line">admissionregistration.k8s.io/v1beta1</span><br><span class="line">apiextensions.k8s.io/v1</span><br><span class="line">apiextensions.k8s.io/v1beta1</span><br><span class="line">apiregistration.k8s.io/v1</span><br><span class="line">apiregistration.k8s.io/v1beta1</span><br><span class="line">apps/v1</span><br><span class="line">authentication.k8s.io/v1</span><br><span class="line">authentication.k8s.io/v1beta1</span><br><span class="line">authorization.k8s.io/v1</span><br><span class="line">authorization.k8s.io/v1beta1</span><br><span class="line">autoscaling/v1</span><br><span class="line">autoscaling/v2beta1</span><br><span class="line">autoscaling/v2beta2</span><br><span class="line">batch/v1</span><br><span class="line">batch/v1beta1</span><br><span class="line">certificates.k8s.io/v1</span><br><span class="line">certificates.k8s.io/v1beta1</span><br><span class="line">coordination.k8s.io/v1</span><br><span class="line">coordination.k8s.io/v1beta1</span><br><span class="line">discovery.k8s.io/v1beta1</span><br><span class="line">events.k8s.io/v1</span><br><span class="line">events.k8s.io/v1beta1</span><br><span class="line">extensions/v1beta1</span><br><span class="line">networking.k8s.io/v1</span><br><span class="line">networking.k8s.io/v1beta1</span><br><span class="line">node.k8s.io/v1beta1</span><br><span class="line">policy/v1beta1</span><br><span class="line">rbac.authorization.k8s.io/v1</span><br><span class="line">rbac.authorization.k8s.io/v1beta1</span><br><span class="line">scheduling.k8s.io/v1</span><br><span class="line">scheduling.k8s.io/v1beta1</span><br><span class="line">storage.k8s.io/v1</span><br><span class="line">storage.k8s.io/v1beta1</span><br><span class="line">v1</span><br></pre></td></tr></table></figure>
+
+
+<p>apiVersion该用哪一个，可以参考：<a href="https://www.jianshu.com/p/457cf0835f88" target="_blank" rel="noopener">https://www.jianshu.com/p/457cf0835f88</a></p>
+<p>Pod yaml格式参考</p>
+<p>使用 <code>kubectl explain pods.spec.containers</code> 命令获取参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl explain pods.spec.containers</span></span><br><span class="line">KIND:     Pod</span><br><span class="line">VERSION:  v1</span><br><span class="line"></span><br><span class="line">RESOURCE: containers &lt;[]Object&gt;</span><br><span class="line"></span><br><span class="line">DESCRIPTION:</span><br><span class="line">     List of containers belonging to the pod. Containers cannot currently be</span><br><span class="line">     added or removed. There must be at least one container <span class="keyword">in</span> a Pod. Cannot be</span><br><span class="line">     updated.</span><br><span class="line"></span><br><span class="line">     A single application container that you want to run within a pod.</span><br><span class="line"></span><br><span class="line">FIELDS:</span><br><span class="line">   args &lt;[]string&gt;</span><br><span class="line">     Arguments to the entrypoint. The docker image<span class="string">'s CMD is used if this is not</span></span><br><span class="line"><span class="string">     provided. Variable references $(VAR_NAME) are expanded using the</span></span><br><span class="line"><span class="string">     container'</span>s environment. If a variable cannot be resolved, the reference <span class="keyword">in</span></span><br><span class="line">     the input string will be unchanged. The $(VAR_NAME) syntax can be escaped</span><br><span class="line">     with a double $$, ie: $$(VAR_NAME). Escaped references will never be</span><br><span class="line">     expanded, regardless of whether the variable exists or not. Cannot be</span><br><span class="line">     updated. More info:</span><br><span class="line">     https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/<span class="comment">#running-a-command-in-a-shell</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">command</span>      &lt;[]string&gt;</span><br><span class="line">     Entrypoint array. Not executed within a shell. The docker image<span class="string">'s</span></span><br><span class="line"><span class="string">     ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME)</span></span><br><span class="line"><span class="string">     are expanded using the container'</span>s environment. If a variable cannot be</span><br><span class="line">     resolved, the reference <span class="keyword">in</span> the input string will be unchanged. The</span><br><span class="line">     $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME).</span><br><span class="line">     Escaped references will never be expanded, regardless of whether the</span><br><span class="line">     variable exists or not. Cannot be updated. More info:</span><br><span class="line">     https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/<span class="comment">#running-a-command-in-a-shell</span></span><br><span class="line"></span><br><span class="line">   env  &lt;[]Object&gt;</span><br><span class="line">     List of environment variables to <span class="built_in">set</span> <span class="keyword">in</span> the container. Cannot be updated.</span><br><span class="line"></span><br><span class="line">   envFrom      &lt;[]Object&gt;</span><br><span class="line">     List of sources to populate environment variables <span class="keyword">in</span> the container. The</span><br><span class="line">     keys defined within a <span class="built_in">source</span> must be a C_IDENTIFIER. All invalid keys will</span><br><span class="line">     be reported as an event when the container is starting. When a key exists</span><br><span class="line">     <span class="keyword">in</span> multiple sources, the value associated with the last <span class="built_in">source</span> will take</span><br><span class="line">     precedence. Values defined by an Env with a duplicate key will take</span><br><span class="line">     precedence. Cannot be updated.</span><br><span class="line"></span><br><span class="line">   image        &lt;string&gt;</span><br><span class="line">     Docker image name. More info:</span><br><span class="line">     https://kubernetes.io/docs/concepts/containers/images This field is</span><br><span class="line">     optional to allow higher level config management to default or override</span><br><span class="line">     container images <span class="keyword">in</span> workload controllers like Deployments and StatefulSets.</span><br><span class="line"> ......</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>查询所有正在运行的pod</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          21s</span><br></pre></td></tr></table></figure>
+
+<p>查询单个pod名，可以使用-w持续监听</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod myapp-pod</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          21m</span><br><span class="line"></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod -w</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          24m</span><br></pre></td></tr></table></figure>
+
+<p>查询详情，可以查看调度到哪台主机上</p>
+<p>kubectl get pod {pod 名} -o wide</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod myapp-pod -o wide</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE   IP           NODE        NOMINATED NODE   READINESS GATES</span><br><span class="line">myapp-pod   1/1     Running   0          21m   10.244.2.6   k8s-node2   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>查询pod输出的log</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl logs myapp-pod</span></span><br><span class="line">Hello Kubernetes!</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>查询更加详细的pod数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl describe pods myapp-pod</span></span><br><span class="line">Name:         myapp-pod</span><br><span class="line">Namespace:    default</span><br><span class="line">Priority:     0</span><br><span class="line">Node:         k8s-node2/172.19.153.99</span><br><span class="line">Start Time:   Fri, 23 Oct 2020 14:45:32 +0800</span><br><span class="line">Labels:       app=myapp</span><br><span class="line">Annotations:  &lt;none&gt;</span><br><span class="line">Status:       Running</span><br><span class="line">IP:           10.244.2.6</span><br><span class="line">IPs:</span><br><span class="line">  IP:  10.244.2.6</span><br><span class="line">Containers:</span><br><span class="line">  myapp-container:</span><br><span class="line">    Container ID:  docker://3075475b43e69240d392eec14f4fa67bfed524fedbb0f505c56d257ff916080f</span><br><span class="line">    Image:         busybox</span><br><span class="line">    Image ID:      docker-pullable://busybox@sha256:a9286defaba7b3a519d585ba0e37d0b2cbee74ebfe590960b0b1d6a5e97d1e1d</span><br><span class="line">    Port:          &lt;none&gt;</span><br><span class="line">    Host Port:     &lt;none&gt;</span><br><span class="line">    Command:</span><br><span class="line">      sh</span><br><span class="line">      -c</span><br><span class="line">      <span class="built_in">echo</span> Hello Kubernetes! &amp;&amp; sleep 3600</span><br><span class="line">    State:          Running</span><br><span class="line">      Started:      Fri, 23 Oct 2020 14:45:48 +0800</span><br><span class="line">    Ready:          True</span><br><span class="line">    Restart Count:  0</span><br><span class="line">    Environment:    &lt;none&gt;</span><br><span class="line">    Mounts:</span><br><span class="line">      /var/run/secrets/kubernetes.io/serviceaccount from default-token-4dfgr (ro)</span><br><span class="line">Conditions:</span><br><span class="line">  Type              Status</span><br><span class="line">  Initialized       True </span><br><span class="line">  Ready             True </span><br><span class="line">  ContainersReady   True </span><br><span class="line">  PodScheduled      True </span><br><span class="line">Volumes:</span><br><span class="line">  default-token-4dfgr:</span><br><span class="line">    Type:        Secret (a volume populated by a Secret)</span><br><span class="line">    SecretName:  default-token-4dfgr</span><br><span class="line">    Optional:    <span class="literal">false</span></span><br><span class="line">QoS Class:       BestEffort</span><br><span class="line">Node-Selectors:  &lt;none&gt;</span><br><span class="line">Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists <span class="keyword">for</span> 300s</span><br><span class="line">                 node.kubernetes.io/unreachable:NoExecute op=Exists <span class="keyword">for</span> 300s</span><br><span class="line">Events:</span><br><span class="line">  Type    Reason     Age   From               Message</span><br><span class="line">  ----    ------     ----  ----               -------</span><br><span class="line">  Normal  Scheduled  27m   default-scheduler  Successfully assigned default/myapp-pod to k8s-node2</span><br><span class="line">  Normal  Pulling    27m   kubelet            Pulling image <span class="string">"busybox"</span></span><br><span class="line">  Normal  Pulled     27m   kubelet            Successfully pulled image <span class="string">"busybox"</span> <span class="keyword">in</span> 16.092616692s</span><br><span class="line">  Normal  Created    27m   kubelet            Created container myapp-container</span><br><span class="line">  Normal  Started    27m   kubelet            Started container myapp-container</span><br></pre></td></tr></table></figure>
+
+<p>get命令支持json或者yaml的格式化输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod myapp-pod --output yaml</span></span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: <span class="string">"2020-10-23T06:45:31Z"</span></span><br><span class="line">  labels:</span><br><span class="line">    app: myapp</span><br><span class="line">  managedFields:</span><br><span class="line">  - apiVersion: v1</span><br><span class="line">    fieldsType: FieldsV1</span><br><span class="line">  ..............................</span><br><span class="line">        startedAt: <span class="string">"2020-10-23T06:45:48Z"</span></span><br><span class="line">  hostIP: 172.19.153.99</span><br><span class="line">  phase: Running</span><br><span class="line">  podIP: 10.244.2.6</span><br><span class="line">  podIPs:</span><br><span class="line">  - ip: 10.244.2.6</span><br><span class="line">  qosClass: BestEffort</span><br><span class="line">  startTime: <span class="string">"2020-10-23T06:45:32Z"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html?f=tt" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/07/yaml.html?f=tt</a></li>
+<li><a href="https://www.jianshu.com/p/457cf0835f88" target="_blank" rel="noopener">https://www.jianshu.com/p/457cf0835f88</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/22/Kubernetes-%E6%9E%B6%E6%9E%84%E5%92%8C%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E7%AE%80%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1547,131 +1725,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">zabbix 主动模式和被动模式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-23 23:01:18" itemprop="dateCreated datePublished" datetime="2020-09-23T23:01:18+08:00">2020-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-26 16:05:25" itemprop="dateModified" datetime="2020-09-26T16:05:25+08:00">2020-09-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 主动模式和被动模式" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>zabbix监控有两种数据获取模式，一种是主动模式，另一种为被动模式。这种模式的对象都是对于agent而言的，默认情况下zabbix使用的是被动模式。对于小规模业务监控下，使用被动模式具有模版多、灵活配置等优点。如果监控的服务器过多就会导致server端压力，这时候有两种办法，一种增加zabbix proxy（分摊server的压力） ，另一种就可以采用主动模式监控。并且需要手动修改监控的模版为主动模式。</p>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>两者区别在于连接方向问题</p>
-<p>被动模式：agent启动10050端口进行监听，等待server端向agent轮询请求获取监控项的监控数据，由agent返回。<br>主动模式：由agent请求server获取主动的监控项列表，主动将监控项内需要检测的数据通过10050提交给server/proxy的10051端口。</p>
-<p>参考图：<br><img src="/img/1601103020689.jpg"></p>
-<h2 id="被动模式"><a href="#被动模式" class="headerlink" title="被动模式"></a>被动模式</h2><p>被动模式的优点就是配置简单，安装后即可使用，因此也成为zabbix的默认工作模式，但是被动模式的 最大问题就是会加大zabbix server的工作量，在数百甚至数干台服务器的环境下会导致zabbix server需要轮训向每个zabbix agent发送数据采集指令，如果zabbix server负载很高还会导致不能及时获取到最新数据，但由于无需其他复杂配置，被设置为了默认的工作方式。</p>
-<p>被动模式agent上会看到有由server端来的很多连接及端口打开状态，如果压力大的话监控项过多确实抗不住。</p>
-<img src="/img/1601105713946.jpg">
-
-
-<h2 id="主动模式"><a href="#主动模式" class="headerlink" title="主动模式"></a>主动模式</h2><p>主动模式是由zabbix agent主动向zabbix server的10051端口发起tcp连接请求,因此主动模式下必须 在zabbix agent配置文件中指定zabbix server的IP或者主机名(必须可以被解析为IP地址),在连接到 zabbix server之前zabbix agent是不知道自己要采集那些数据以及间隔多久采集一次数据的，然后在连接到zabbix server以后获取到自己的监控项和数据采集间隔周期时间，然后再根据监控项采集数据并返 回给zabbix server,在主动模式下不再需要zabbix serve向zabbix agent发起连接请求，因此主动模式 在一定程度上可减轻zabbix server打开的本地随机端口和进程数,在-定程度就减轻看 zabbix server 的压力。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=47.93.184.140</span><br><span class="line">StartAgents=3                <span class="comment"># 如果为0被动模式将被禁用</span></span><br><span class="line">ServerActive=47.93.184.140   <span class="comment"># 主动模式serverip</span></span><br><span class="line">Hostname=webserver.roddypy.com</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure>
-
-
-<p>连接模版为active模式<br><img src="/img/1601106883148.jpg"></p>
-<p>查看agent连接,可以看到连接数减少了，并且通过连接10051端口</p>
-<img src="/img/1601107160560.jpg">
-
-
-<p>查看监控</p>
-<p>主动模式监控正常</p>
-<img src="/img/1601107319046.jpg">
-
-<p>查看绘图</p>
-<img src="/img/1601107243756.jpg">
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://blog.zabbix.com/zabbix-agent-active-vs-passive/9207/" target="_blank" rel="noopener">https://blog.zabbix.com/zabbix-agent-active-vs-passive/9207/</a></li>
-<li><a href="https://blog.csdn.net/qq_43753220/article/details/104747307" target="_blank" rel="noopener">https://blog.csdn.net/qq_43753220/article/details/104747307</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1741,7 +1794,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

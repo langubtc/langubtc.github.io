@@ -191,6 +191,131 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">zabbix 主动模式和被动模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-23 23:01:18" itemprop="dateCreated datePublished" datetime="2020-09-23T23:01:18+08:00">2020-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-26 16:05:25" itemprop="dateModified" datetime="2020-09-26T16:05:25+08:00">2020-09-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Zabbix/" itemprop="url" rel="index"><span itemprop="name">Zabbix</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/" class="post-meta-item leancloud_visitors" data-flag-title="zabbix 主动模式和被动模式" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/23/zabbix-%E4%B8%BB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>zabbix监控有两种数据获取模式，一种是主动模式，另一种为被动模式。这种模式的对象都是对于agent而言的，默认情况下zabbix使用的是被动模式。对于小规模业务监控下，使用被动模式具有模版多、灵活配置等优点。如果监控的服务器过多就会导致server端压力，这时候有两种办法，一种增加zabbix proxy（分摊server的压力） ，另一种就可以采用主动模式监控。并且需要手动修改监控的模版为主动模式。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>两者区别在于连接方向问题</p>
+<p>被动模式：agent启动10050端口进行监听，等待server端向agent轮询请求获取监控项的监控数据，由agent返回。<br>主动模式：由agent请求server获取主动的监控项列表，主动将监控项内需要检测的数据通过10050提交给server/proxy的10051端口。</p>
+<p>参考图：<br><img src="/img/1601103020689.jpg"></p>
+<h2 id="被动模式"><a href="#被动模式" class="headerlink" title="被动模式"></a>被动模式</h2><p>被动模式的优点就是配置简单，安装后即可使用，因此也成为zabbix的默认工作模式，但是被动模式的 最大问题就是会加大zabbix server的工作量，在数百甚至数干台服务器的环境下会导致zabbix server需要轮训向每个zabbix agent发送数据采集指令，如果zabbix server负载很高还会导致不能及时获取到最新数据，但由于无需其他复杂配置，被设置为了默认的工作方式。</p>
+<p>被动模式agent上会看到有由server端来的很多连接及端口打开状态，如果压力大的话监控项过多确实抗不住。</p>
+<img src="/img/1601105713946.jpg">
+
+
+<h2 id="主动模式"><a href="#主动模式" class="headerlink" title="主动模式"></a>主动模式</h2><p>主动模式是由zabbix agent主动向zabbix server的10051端口发起tcp连接请求,因此主动模式下必须 在zabbix agent配置文件中指定zabbix server的IP或者主机名(必须可以被解析为IP地址),在连接到 zabbix server之前zabbix agent是不知道自己要采集那些数据以及间隔多久采集一次数据的，然后在连接到zabbix server以后获取到自己的监控项和数据采集间隔周期时间，然后再根据监控项采集数据并返 回给zabbix server,在主动模式下不再需要zabbix serve向zabbix agent发起连接请求，因此主动模式 在一定程度上可减轻zabbix server打开的本地随机端口和进程数,在-定程度就减轻看 zabbix server 的压力。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/<span class="built_in">log</span>/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=47.93.184.140</span><br><span class="line">StartAgents=3                <span class="comment"># 如果为0被动模式将被禁用</span></span><br><span class="line">ServerActive=47.93.184.140   <span class="comment"># 主动模式serverip</span></span><br><span class="line">Hostname=webserver.roddypy.com</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure>
+
+
+<p>连接模版为active模式<br><img src="/img/1601106883148.jpg"></p>
+<p>查看agent连接,可以看到连接数减少了，并且通过连接10051端口</p>
+<img src="/img/1601107160560.jpg">
+
+
+<p>查看监控</p>
+<p>主动模式监控正常</p>
+<img src="/img/1601107319046.jpg">
+
+<p>查看绘图</p>
+<img src="/img/1601107243756.jpg">
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://blog.zabbix.com/zabbix-agent-active-vs-passive/9207/" target="_blank" rel="noopener">https://blog.zabbix.com/zabbix-agent-active-vs-passive/9207/</a></li>
+<li><a href="https://blog.csdn.net/qq_43753220/article/details/104747307" target="_blank" rel="noopener">https://blog.csdn.net/qq_43753220/article/details/104747307</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/23/zabbix-%E7%9B%91%E6%8E%A7%E6%8A%A5%E8%AD%A6-%E5%BE%AE%E4%BF%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1338,105 +1463,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/" class="post-title-link" itemprop="url">关闭SELINUX</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-10 14:59:26 / 修改时间：15:06:01" itemprop="dateCreated datePublished" datetime="2020-09-10T14:59:26+08:00">2020-09-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/" class="post-meta-item leancloud_visitors" data-flag-title="关闭SELINUX" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/10/%E5%85%B3%E9%97%ADSELINUX/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="查看Selinux状态"><a href="#查看Selinux状态" class="headerlink" title="查看Selinux状态"></a>查看Selinux状态</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# getenforce</span><br><span class="line">Enforcing        //enforceing代表开启，</span><br><span class="line">Permissive      // permissive代表警告</span><br><span class="line">Disabled        //disabled代表关闭</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="关闭selinux-临时关闭重启失效"><a href="#关闭selinux-临时关闭重启失效" class="headerlink" title="关闭selinux(临时关闭重启失效)"></a>关闭selinux(临时关闭重启失效)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# setenforce 0   //开始 设置数字1</span><br></pre></td></tr></table></figure>
-
-<h2 id="关闭selinux-永久"><a href="#关闭selinux-永久" class="headerlink" title="关闭selinux(永久)"></a>关闭selinux(永久)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1506,7 +1532,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -191,6 +191,154 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/11/21/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/21/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%BA%8C/" class="post-title-link" itemprop="url">Golang Windows GUI开发实战之lxn/Walk (二)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-21 09:16:35 / 修改时间：10:39:54" itemprop="dateCreated datePublished" datetime="2020-11-21T09:16:35+08:00">2020-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/11/21/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%BA%8C/" class="post-meta-item leancloud_visitors" data-flag-title="Golang Windows GUI开发实战之lxn/Walk (二)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/11/21/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%BA%8C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/21/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%BA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="主窗体"><a href="#主窗体" class="headerlink" title="主窗体"></a>主窗体</h2><p>使用MainWindow结构体定义主窗体</p>
+<h3 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h3><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MainWindow&#123;</span><br><span class="line">		Title:   <span class="string">"GUI程序"</span>,</span><br><span class="line">		MinSize: Size&#123;<span class="number">600</span>, <span class="number">400</span>&#125;,</span><br><span class="line">		Layout:  VBox&#123;&#125;,</span><br><span class="line">		Children: []Widget&#123;</span><br><span class="line">			HSplitter&#123;</span><br><span class="line">				Children: []Widget&#123;</span><br><span class="line">					TextEdit&#123;AssignTo: &amp;inTE&#125;,</span><br><span class="line">					TextEdit&#123;AssignTo: &amp;outTE, ReadOnly: <span class="literal">true</span>&#125;,</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">			PushButton&#123;</span><br><span class="line">				Text: <span class="string">"转换"</span>,</span><br><span class="line">				OnClicked: <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">					outTE.SetText(strings.ToUpper(inTE.Text()))</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;.Run()</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用属性"><a href="#常用属性" class="headerlink" title="常用属性"></a>常用属性</h3><p>以下我列出目前阶段我常用的属性设置，后面待补充，或者自己参考源码。</p>
+<ul>
+<li>Title:   程序头部标题</li>
+<li>MinSize: 定义最小窗体（默认窗体可以拖动）如设置即：默认窗体可缩小的最小比例 分别为宽度,高度像素</li>
+<li>MaxSize: 定义最大窗体（默认窗体可以拖动）如设置即：默认窗体可缩大的最大比例 分别为宽度,高度像素</li>
+<li>Layout:  全局布局类型</li>
+<li>Children: 控件集</li>
+<li>MenuItems: 程序菜单栏</li>
+<li>TooBar: 工具栏</li>
+<li>Font:   窗体文字样式，使用Font:Font{} 结构体方式声明。</li>
+<li>Icon:   设置Icon图标路径 使用Icon: “img/xx.ico”</li>
+</ul>
+<p>参考-字体样例</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">font := Font&#123;</span><br><span class="line">	Family: <span class="string">"Times New Roman"</span>, <span class="comment">//字体</span></span><br><span class="line">	PointSize: <span class="number">10</span>,  <span class="comment">//大小</span></span><br><span class="line">	Bold: <span class="literal">true</span>, <span class="comment">//是否加粗</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考-菜单定义</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义菜单</span></span><br><span class="line">MenuItems: []MenuItem&#123;</span><br><span class="line"></span><br><span class="line">	Menu&#123;</span><br><span class="line">		Text: <span class="string">"&amp;关于"</span>,</span><br><span class="line">		Items: []MenuItem&#123;</span><br><span class="line">			Action&#123;</span><br><span class="line">				Text: <span class="string">"版本"</span>,</span><br><span class="line">				OnTriggered: <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">					walk.MsgBox(mw, <span class="string">"版本"</span>, versionStr, walk.MsgBoxIconInformation)</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="comment">//...</span></span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>主窗体布局可以使用两种布局方式，分别为VBox和HBox。具体的布局根据自己程序的设计自己选择。</p>
+<ul>
+<li>VBox(垂直布局)</li>
+</ul>
+<img src="/img/1605924215030.jpg">
+
+<ul>
+<li>HBox(水平布局)</li>
+</ul>
+<img src="/img/1605924194579.jpg">
+
+
+
+<h2 id="菜单栏"><a href="#菜单栏" class="headerlink" title="菜单栏"></a>菜单栏</h2><p>菜单定义使用Menu属性</p>
+<ul>
+<li>Text: 文字定义</li>
+<li>OnTriggered: 点击事件</li>
+</ul>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义菜单</span></span><br><span class="line">MenuItems: []MenuItem&#123;</span><br><span class="line">	Menu&#123;</span><br><span class="line">		Text: <span class="string">"&amp;系统"</span>, </span><br><span class="line">		Items: []MenuItem&#123;</span><br><span class="line">			Action&#123;</span><br><span class="line">				Text:        <span class="string">"退出"</span>,</span><br><span class="line">				OnTriggered: <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; mw.Close() &#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	Menu&#123;</span><br><span class="line">		Text: <span class="string">"&amp;关于"</span>,</span><br><span class="line">		Items: []MenuItem&#123;</span><br><span class="line">			Action&#123;</span><br><span class="line">				Text: <span class="string">"版本"</span>,</span><br><span class="line">				OnTriggered: <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">					walk.MsgBox(mw, <span class="string">"版本"</span>, versionStr, walk.MsgBoxIconInformation) <span class="comment">//弹出消息框，类型为info</span></span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">			Action&#123;</span><br><span class="line">				Text: <span class="string">"联系我们"</span>,</span><br><span class="line">				OnTriggered: <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">					walk.MsgBox(mw, <span class="string">"联系我们"</span>, <span class="string">"开发者:蓝谷骑兵\nQQ:923401910"</span>, walk.MsgBoxIconInformation)</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="工具栏"><a href="#工具栏" class="headerlink" title="工具栏"></a>工具栏</h2><p>ToolBar声明，源码中定义了4中ToolBar样式，分别为以下几种</p>
+<ul>
+<li>ToolBarButtonImageOnly  //单一图片样式</li>
+<li>ToolBarButtonTextOnly //单一文字样式</li>
+<li>ToolBarButtonImageBeforeText //图片在文字之前</li>
+<li>ToolBarButtonImageAboveText //图片在文字之上</li>
+</ul>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">TooBar: TooBar&#123;</span><br><span class="line">	ButtonStyle: 样式,</span><br><span class="line">	Items:[]MenuItem&#123;</span><br><span class="line">		ActionRef&#123;Action&#125;,</span><br><span class="line">		Menu&#123;</span><br><span class="line">			<span class="comment">//工具栏一</span></span><br><span class="line">		&#125;,</span><br><span class="line">		Separator&#123;&#125;, <span class="comment">// 分割线</span></span><br><span class="line">		Menu&#123;</span><br><span class="line">			<span class="comment">//工具栏二</span></span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>参考样图</p>
+<img src="/img/WechatIMG40.png">
+
+
+
+<h2 id="源码样例"><a href="#源码样例" class="headerlink" title="源码样例"></a>源码样例</h2><ul>
+<li><a href="https://github.com/lxn/walk/tree/master/examples" target="_blank" rel="noopener">https://github.com/lxn/walk/tree/master/examples</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/11/18/golang-sqlite3-exec-gcc-executable-file-not-found/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -303,7 +451,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/11/13/Go-GUI-Walk%E7%B3%BB%E5%88%97%E5%BC%80%E5%8F%91-%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/11/13/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%B8%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -317,7 +465,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/13/Go-GUI-Walk%E7%B3%BB%E5%88%97%E5%BC%80%E5%8F%91-%E4%B8%80/" class="post-title-link" itemprop="url">Golang Windows GUI开发实战之lxn/Walk (一)</a>
+            <a href="/2020/11/13/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%B8%80/" class="post-title-link" itemprop="url">Golang Windows GUI开发实战之lxn/Walk (一)</a>
         </h2>
 
         <div class="post-meta">
@@ -334,7 +482,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-21 08:57:58" itemprop="dateModified" datetime="2020-11-21T08:57:58+08:00">2020-11-21</time>
+                <time title="修改时间：2020-11-21 09:00:04" itemprop="dateModified" datetime="2020-11-21T09:00:04+08:00">2020-11-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -347,7 +495,7 @@
             </span>
 
           
-            <span id="/2020/11/13/Go-GUI-Walk%E7%B3%BB%E5%88%97%E5%BC%80%E5%8F%91-%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="Golang Windows GUI开发实战之lxn/Walk (一)" title="阅读次数">
+            <span id="/2020/11/13/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%B8%80/" class="post-meta-item leancloud_visitors" data-flag-title="Golang Windows GUI开发实战之lxn/Walk (一)" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -362,8 +510,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/11/13/Go-GUI-Walk%E7%B3%BB%E5%88%97%E5%BC%80%E5%8F%91-%E4%B8%80/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/13/Go-GUI-Walk%E7%B3%BB%E5%88%97%E5%BC%80%E5%8F%91-%E4%B8%80/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/11/13/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%B8%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/13/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%B8%80/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -382,10 +530,7 @@
 <h2 id="walk介绍"><a href="#walk介绍" class="headerlink" title="walk介绍"></a>walk介绍</h2><p>今天因项目需要研究下GOLANG的GUI，发现了walk这个好东西，可以实现非常优美的界面程序。but只能在windows下开发</p>
 <p>开发文档为：</p>
 <ul>
-<li><a href="http://godoc.org/github.com/lxn/walk" target="_blank" rel="noopener">http://godoc.org/github.com/lxn/walk</a></li>
-</ul>
-<p>github地址：</p>
-<ul>
+<li><a href="http://godoc.org/github.com/lxn/walk" target="_blank" rel="noopener">http://godoc.org/github.com/lxn/walk</a><br>s<br>github地址：</li>
 <li><a href="https://github.com/lxn/walk" target="_blank" rel="noopener">https://github.com/lxn/walk</a></li>
 <li><a href="https://github.com/lxn/walk/tree/master/examples" target="_blank" rel="noopener">https://github.com/lxn/walk/tree/master/examples</a></li>
 </ul>
@@ -1173,184 +1318,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">Kubernetes Pod YAML模版文件格式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-10-23 11:51:17 / 修改时间：15:15:19" itemprop="dateCreated datePublished" datetime="2020-10-23T11:51:17+08:00">2020-10-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="post-meta-item leancloud_visitors" data-flag-title="Kubernetes Pod YAML模版文件格式" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/23/Kubernetes-Pod-YAML%E6%A8%A1%E7%89%88%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="YAML"><a href="#YAML" class="headerlink" title="YAML"></a>YAML</h2><p>YAML 是专门用来写配置文件的语言，非常简洁和强大，远比 JSON 格式方便。它实质上是一种通用的数据串行化格式。</p>
-<p>支持的三种数据结构：</p>
-<ul>
-<li>对象：键值对的集合，又称为映射（mapping）/ 哈希（hashes） / 字典（dictionary）</li>
-<li>数组：一组按次序排列的值，又称为序列（sequence） / 列表（list）</li>
-<li>纯量（scalars）：单个的、不可再分的值</li>
-</ul>
-<h2 id="YAML规则"><a href="#YAML规则" class="headerlink" title="YAML规则"></a>YAML规则</h2><ul>
-<li>大小写敏感</li>
-<li>使用缩进表示层级关系</li>
-<li>缩进时不允许使用Tab键，只允许使用空格。</li>
-<li>缩进的空格数目不重要，只要相同层级的元素左侧对齐即可</li>
-</ul>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><strong>对象</strong></p>
-<p>key:value的键值对，使用冒号表示</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">username:</span> roddy</span><br><span class="line"><span class="symbol">password:</span> <span class="string">"ccccccc"</span></span><br></pre></td></tr></table></figure>
-<p>转成json</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"username"</span>: <span class="string">"roddy"</span>,</span><br><span class="line">  <span class="attr">"password"</span>: <span class="string">"ccccccc"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>数组</strong></p>
-<p>以横线“-”开头的行</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Python</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Golang</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">JAVA</span></span><br></pre></td></tr></table></figure>
-
-<p>转成json</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="string">"Python"</span>,</span><br><span class="line">  <span class="string">"Golang"</span>,</span><br><span class="line">  <span class="string">"JAVA"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-
-<p>复合结构</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">username:</span> <span class="string">roddy</span></span><br><span class="line"><span class="attr">password:</span> <span class="string">"passwd"</span></span><br><span class="line"><span class="attr">server_ip:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.3</span></span><br><span class="line"><span class="attr">server_type:</span></span><br><span class="line">    <span class="attr">web:</span> <span class="string">"nginx"</span></span><br><span class="line">    <span class="attr">db:</span> <span class="string">"mysql"</span></span><br></pre></td></tr></table></figure>
-
-
-<p>转成json</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"username"</span>: <span class="string">"roddy"</span>,</span><br><span class="line">  <span class="attr">"password"</span>: <span class="string">"passwd"</span>,</span><br><span class="line">  <span class="attr">"server_ip"</span>: [</span><br><span class="line">    <span class="string">"192.168.1.1"</span>,</span><br><span class="line">    <span class="string">"192.168.2.2"</span>,</span><br><span class="line">    <span class="string">"192.168.2.3"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"server_type"</span>: &#123;</span><br><span class="line">    <span class="attr">"web"</span>: <span class="string">"nginx"</span>,</span><br><span class="line">    <span class="attr">"db"</span>: <span class="string">"mysql"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参见yaml样例"><a href="#参见yaml样例" class="headerlink" title="参见yaml样例"></a>参见yaml样例</h2><p>推荐个在线yaml转json的网站：<a href="https://www.json2yaml.com/convert-yaml-to-json" target="_blank" rel="noopener">https://www.json2yaml.com/convert-yaml-to-json</a></p>
-<p>YAML格式：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">xiaomi</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">huawei</span></span><br><span class="line"><span class="attr">yaml:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">slim</span> <span class="string">and</span> <span class="string">flexible</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">better</span> <span class="string">for</span> <span class="string">configuration</span></span><br><span class="line"><span class="attr">object:</span></span><br><span class="line">	<span class="attr">key:</span> <span class="string">value</span></span><br><span class="line">  <span class="attr">array:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">null_value:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">boolean:</span> <span class="literal">true</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">integer:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>转成JSON格式</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: [</span><br><span class="line">    <span class="string">"xiaomi"</span>,</span><br><span class="line">    <span class="string">"huawei"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"yaml"</span>: [</span><br><span class="line">    <span class="string">"slim and flexible"</span>,</span><br><span class="line">    <span class="string">"better for configuration"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"object"</span>: &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"value"</span>,</span><br><span class="line">    <span class="attr">"array"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"null_value"</span>: <span class="literal">null</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"boolean"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"integer"</span>: <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="YAML创建Pod"><a href="#YAML创建Pod" class="headerlink" title="YAML创建Pod"></a>YAML创建Pod</h2><p>Kubernetes 资源是通过声明的方式创建的，因此可以使用 YAML 文件。Kubernetes 资源（比如 Pod、服务和部署）是使用 YAML 文件创建的。后期我们会经常编写yaml文件用于部署服务。</p>
-<p>样例:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># vim pod-busybox.yaml</span></span><br><span class="line">apiVersion: v1  <span class="comment"># api版本</span></span><br><span class="line">kind: Pod       <span class="comment"># 资源类型</span></span><br><span class="line">metadata:</span><br><span class="line">  name: myapp-pod <span class="comment">#名字</span></span><br><span class="line">  labels:</span><br><span class="line">    app: myapp <span class="comment"># 标签内容</span></span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: myapp-container <span class="comment"># 容器名</span></span><br><span class="line">    image: busybox <span class="comment"># 镜像名</span></span><br><span class="line">    <span class="built_in">command</span>: [<span class="string">'sh'</span>, <span class="string">'-c'</span>, <span class="string">'echo Hello Kubernetes! &amp;&amp; sleep 3600'</span>]</span><br><span class="line"></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl create -f pod-busybox.yaml </span></span><br><span class="line">pod/myapp-pod created</span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod</span></span><br><span class="line">NAME        READY   STATUS              RESTARTS   AGE</span><br><span class="line">myapp-pod   0/1     ContainerCreating   0          11s <span class="comment"># 正在创建pod</span></span><br><span class="line"></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          21s <span class="comment"># 状态为Running</span></span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>配置文件详解</p>
-<ul>
-<li>apiVersion: api版本，v1表示稳定版本，可以参考下面命令查看可用的版本</li>
-<li>kind: 表示要创建的资源对象,关键字Pod ，可选关键字：Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling</li>
-<li>metadata: 元数据，可以包含多个元数据</li>
-<li>spec:表示资源对象的具体设置,containers表示容器的集合，可以定义多个容器</li>
-</ul>
-<p>查看当前可用的API版本</p>
-<p>Kubernetes 1.19.3</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl api-versions</span></span><br><span class="line">admissionregistration.k8s.io/v1</span><br><span class="line">admissionregistration.k8s.io/v1beta1</span><br><span class="line">apiextensions.k8s.io/v1</span><br><span class="line">apiextensions.k8s.io/v1beta1</span><br><span class="line">apiregistration.k8s.io/v1</span><br><span class="line">apiregistration.k8s.io/v1beta1</span><br><span class="line">apps/v1</span><br><span class="line">authentication.k8s.io/v1</span><br><span class="line">authentication.k8s.io/v1beta1</span><br><span class="line">authorization.k8s.io/v1</span><br><span class="line">authorization.k8s.io/v1beta1</span><br><span class="line">autoscaling/v1</span><br><span class="line">autoscaling/v2beta1</span><br><span class="line">autoscaling/v2beta2</span><br><span class="line">batch/v1</span><br><span class="line">batch/v1beta1</span><br><span class="line">certificates.k8s.io/v1</span><br><span class="line">certificates.k8s.io/v1beta1</span><br><span class="line">coordination.k8s.io/v1</span><br><span class="line">coordination.k8s.io/v1beta1</span><br><span class="line">discovery.k8s.io/v1beta1</span><br><span class="line">events.k8s.io/v1</span><br><span class="line">events.k8s.io/v1beta1</span><br><span class="line">extensions/v1beta1</span><br><span class="line">networking.k8s.io/v1</span><br><span class="line">networking.k8s.io/v1beta1</span><br><span class="line">node.k8s.io/v1beta1</span><br><span class="line">policy/v1beta1</span><br><span class="line">rbac.authorization.k8s.io/v1</span><br><span class="line">rbac.authorization.k8s.io/v1beta1</span><br><span class="line">scheduling.k8s.io/v1</span><br><span class="line">scheduling.k8s.io/v1beta1</span><br><span class="line">storage.k8s.io/v1</span><br><span class="line">storage.k8s.io/v1beta1</span><br><span class="line">v1</span><br></pre></td></tr></table></figure>
-
-
-<p>apiVersion该用哪一个，可以参考：<a href="https://www.jianshu.com/p/457cf0835f88" target="_blank" rel="noopener">https://www.jianshu.com/p/457cf0835f88</a></p>
-<p>Pod yaml格式参考</p>
-<p>使用 <code>kubectl explain pods.spec.containers</code> 命令获取参数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl explain pods.spec.containers</span></span><br><span class="line">KIND:     Pod</span><br><span class="line">VERSION:  v1</span><br><span class="line"></span><br><span class="line">RESOURCE: containers &lt;[]Object&gt;</span><br><span class="line"></span><br><span class="line">DESCRIPTION:</span><br><span class="line">     List of containers belonging to the pod. Containers cannot currently be</span><br><span class="line">     added or removed. There must be at least one container <span class="keyword">in</span> a Pod. Cannot be</span><br><span class="line">     updated.</span><br><span class="line"></span><br><span class="line">     A single application container that you want to run within a pod.</span><br><span class="line"></span><br><span class="line">FIELDS:</span><br><span class="line">   args &lt;[]string&gt;</span><br><span class="line">     Arguments to the entrypoint. The docker image<span class="string">'s CMD is used if this is not</span></span><br><span class="line"><span class="string">     provided. Variable references $(VAR_NAME) are expanded using the</span></span><br><span class="line"><span class="string">     container'</span>s environment. If a variable cannot be resolved, the reference <span class="keyword">in</span></span><br><span class="line">     the input string will be unchanged. The $(VAR_NAME) syntax can be escaped</span><br><span class="line">     with a double $$, ie: $$(VAR_NAME). Escaped references will never be</span><br><span class="line">     expanded, regardless of whether the variable exists or not. Cannot be</span><br><span class="line">     updated. More info:</span><br><span class="line">     https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/<span class="comment">#running-a-command-in-a-shell</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">command</span>      &lt;[]string&gt;</span><br><span class="line">     Entrypoint array. Not executed within a shell. The docker image<span class="string">'s</span></span><br><span class="line"><span class="string">     ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME)</span></span><br><span class="line"><span class="string">     are expanded using the container'</span>s environment. If a variable cannot be</span><br><span class="line">     resolved, the reference <span class="keyword">in</span> the input string will be unchanged. The</span><br><span class="line">     $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME).</span><br><span class="line">     Escaped references will never be expanded, regardless of whether the</span><br><span class="line">     variable exists or not. Cannot be updated. More info:</span><br><span class="line">     https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/<span class="comment">#running-a-command-in-a-shell</span></span><br><span class="line"></span><br><span class="line">   env  &lt;[]Object&gt;</span><br><span class="line">     List of environment variables to <span class="built_in">set</span> <span class="keyword">in</span> the container. Cannot be updated.</span><br><span class="line"></span><br><span class="line">   envFrom      &lt;[]Object&gt;</span><br><span class="line">     List of sources to populate environment variables <span class="keyword">in</span> the container. The</span><br><span class="line">     keys defined within a <span class="built_in">source</span> must be a C_IDENTIFIER. All invalid keys will</span><br><span class="line">     be reported as an event when the container is starting. When a key exists</span><br><span class="line">     <span class="keyword">in</span> multiple sources, the value associated with the last <span class="built_in">source</span> will take</span><br><span class="line">     precedence. Values defined by an Env with a duplicate key will take</span><br><span class="line">     precedence. Cannot be updated.</span><br><span class="line"></span><br><span class="line">   image        &lt;string&gt;</span><br><span class="line">     Docker image name. More info:</span><br><span class="line">     https://kubernetes.io/docs/concepts/containers/images This field is</span><br><span class="line">     optional to allow higher level config management to default or override</span><br><span class="line">     container images <span class="keyword">in</span> workload controllers like Deployments and StatefulSets.</span><br><span class="line"> ......</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>查询所有正在运行的pod</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          21s</span><br></pre></td></tr></table></figure>
-
-<p>查询单个pod名，可以使用-w持续监听</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod myapp-pod</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          21m</span><br><span class="line"></span><br><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod -w</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE</span><br><span class="line">myapp-pod   1/1     Running   0          24m</span><br></pre></td></tr></table></figure>
-
-<p>查询详情，可以查看调度到哪台主机上</p>
-<p>kubectl get pod {pod 名} -o wide</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod myapp-pod -o wide</span></span><br><span class="line">NAME        READY   STATUS    RESTARTS   AGE   IP           NODE        NOMINATED NODE   READINESS GATES</span><br><span class="line">myapp-pod   1/1     Running   0          21m   10.244.2.6   k8s-node2   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>查询pod输出的log</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl logs myapp-pod</span></span><br><span class="line">Hello Kubernetes!</span><br><span class="line">[root@k8s-master ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<p>查询更加详细的pod数据</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl describe pods myapp-pod</span></span><br><span class="line">Name:         myapp-pod</span><br><span class="line">Namespace:    default</span><br><span class="line">Priority:     0</span><br><span class="line">Node:         k8s-node2/172.19.153.99</span><br><span class="line">Start Time:   Fri, 23 Oct 2020 14:45:32 +0800</span><br><span class="line">Labels:       app=myapp</span><br><span class="line">Annotations:  &lt;none&gt;</span><br><span class="line">Status:       Running</span><br><span class="line">IP:           10.244.2.6</span><br><span class="line">IPs:</span><br><span class="line">  IP:  10.244.2.6</span><br><span class="line">Containers:</span><br><span class="line">  myapp-container:</span><br><span class="line">    Container ID:  docker://3075475b43e69240d392eec14f4fa67bfed524fedbb0f505c56d257ff916080f</span><br><span class="line">    Image:         busybox</span><br><span class="line">    Image ID:      docker-pullable://busybox@sha256:a9286defaba7b3a519d585ba0e37d0b2cbee74ebfe590960b0b1d6a5e97d1e1d</span><br><span class="line">    Port:          &lt;none&gt;</span><br><span class="line">    Host Port:     &lt;none&gt;</span><br><span class="line">    Command:</span><br><span class="line">      sh</span><br><span class="line">      -c</span><br><span class="line">      <span class="built_in">echo</span> Hello Kubernetes! &amp;&amp; sleep 3600</span><br><span class="line">    State:          Running</span><br><span class="line">      Started:      Fri, 23 Oct 2020 14:45:48 +0800</span><br><span class="line">    Ready:          True</span><br><span class="line">    Restart Count:  0</span><br><span class="line">    Environment:    &lt;none&gt;</span><br><span class="line">    Mounts:</span><br><span class="line">      /var/run/secrets/kubernetes.io/serviceaccount from default-token-4dfgr (ro)</span><br><span class="line">Conditions:</span><br><span class="line">  Type              Status</span><br><span class="line">  Initialized       True </span><br><span class="line">  Ready             True </span><br><span class="line">  ContainersReady   True </span><br><span class="line">  PodScheduled      True </span><br><span class="line">Volumes:</span><br><span class="line">  default-token-4dfgr:</span><br><span class="line">    Type:        Secret (a volume populated by a Secret)</span><br><span class="line">    SecretName:  default-token-4dfgr</span><br><span class="line">    Optional:    <span class="literal">false</span></span><br><span class="line">QoS Class:       BestEffort</span><br><span class="line">Node-Selectors:  &lt;none&gt;</span><br><span class="line">Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists <span class="keyword">for</span> 300s</span><br><span class="line">                 node.kubernetes.io/unreachable:NoExecute op=Exists <span class="keyword">for</span> 300s</span><br><span class="line">Events:</span><br><span class="line">  Type    Reason     Age   From               Message</span><br><span class="line">  ----    ------     ----  ----               -------</span><br><span class="line">  Normal  Scheduled  27m   default-scheduler  Successfully assigned default/myapp-pod to k8s-node2</span><br><span class="line">  Normal  Pulling    27m   kubelet            Pulling image <span class="string">"busybox"</span></span><br><span class="line">  Normal  Pulled     27m   kubelet            Successfully pulled image <span class="string">"busybox"</span> <span class="keyword">in</span> 16.092616692s</span><br><span class="line">  Normal  Created    27m   kubelet            Created container myapp-container</span><br><span class="line">  Normal  Started    27m   kubelet            Started container myapp-container</span><br></pre></td></tr></table></figure>
-
-<p>get命令支持json或者yaml的格式化输出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]<span class="comment"># kubectl get pod myapp-pod --output yaml</span></span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: <span class="string">"2020-10-23T06:45:31Z"</span></span><br><span class="line">  labels:</span><br><span class="line">    app: myapp</span><br><span class="line">  managedFields:</span><br><span class="line">  - apiVersion: v1</span><br><span class="line">    fieldsType: FieldsV1</span><br><span class="line">  ..............................</span><br><span class="line">        startedAt: <span class="string">"2020-10-23T06:45:48Z"</span></span><br><span class="line">  hostIP: 172.19.153.99</span><br><span class="line">  phase: Running</span><br><span class="line">  podIP: 10.244.2.6</span><br><span class="line">  podIPs:</span><br><span class="line">  - ip: 10.244.2.6</span><br><span class="line">  qosClass: BestEffort</span><br><span class="line">  startTime: <span class="string">"2020-10-23T06:45:32Z"</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html?f=tt" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2016/07/yaml.html?f=tt</a></li>
-<li><a href="https://www.jianshu.com/p/457cf0835f88" target="_blank" rel="noopener">https://www.jianshu.com/p/457cf0835f88</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1420,7 +1387,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
