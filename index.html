@@ -191,6 +191,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/" class="post-title-link" itemprop="url">Mysql 5.7 设置默认字符集</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-01 16:28:05 / 修改时间：16:39:57" itemprop="dateCreated datePublished" datetime="2020-12-01T16:28:05+08:00">2020-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index"><span itemprop="name">Mysql</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/" class="post-meta-item leancloud_visitors" data-flag-title="Mysql 5.7 设置默认字符集" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>设置mysql字符集 for Ubuntu 18.04 </p>
+<h3 id="设置方法"><a href="#设置方法" class="headerlink" title="设置方法"></a>设置方法</h3><p>修改 /etc/mysql/mysql.conf.d/mysqld.cnf</p>
+<p>添加：character-set-server=utf8</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Basic Settings</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">user            = mysql</span><br><span class="line">pid-file        = /var/run/mysqld/mysqld.pid</span><br><span class="line">socket          = /var/run/mysqld/mysqld.sock</span><br><span class="line">port            = 3306</span><br><span class="line">basedir         = /usr</span><br><span class="line">datadir         = /var/lib/mysql</span><br><span class="line">tmpdir          = /tmp</span><br><span class="line">lc-messages-dir = /usr/share/mysql</span><br><span class="line">character-set-server=utf8  //添加</span><br><span class="line">skip-external-locking</span><br></pre></td></tr></table></figure>
+
+<p>修改 /etc/mysql/conf.d/mysql.cnf</p>
+<p>添加：default-character-set=utf8</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+
+<h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">systemctl</span>  <span class="selector-tag">restart</span> <span class="selector-tag">mysql</span><span class="selector-class">.service</span></span><br></pre></td></tr></table></figure>
+
+<p>检查发现以下字符集已经修改成功</p>
+<p>Server characterset:    utf8<br>Db     characterset:    utf8<br>Client characterset:    utf8<br>Conn.  characterset:    utf8</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:<span class="comment"># mysql -u root -p</span></span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.7.32-0ubuntu0.18.04.1 (Ubuntu)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; \s</span><br><span class="line">--------------</span><br><span class="line">mysql  Ver 14.14 Distrib 5.7.32, <span class="keyword">for</span> Linux (x86_64) using  EditLine wrapper</span><br><span class="line"></span><br><span class="line">Connection id:          2</span><br><span class="line">Current database:</span><br><span class="line">Current user:           root@localhost</span><br><span class="line">SSL:                    Not <span class="keyword">in</span> use</span><br><span class="line">Current pager:          stdout</span><br><span class="line">Using outfile:          <span class="string">''</span></span><br><span class="line">Using delimiter:        ;</span><br><span class="line">Server version:         5.7.32-0ubuntu0.18.04.1 (Ubuntu)</span><br><span class="line">Protocol version:       10</span><br><span class="line">Connection:             Localhost via UNIX socket</span><br><span class="line">Server characterset:    utf8      </span><br><span class="line">Db     characterset:    utf8</span><br><span class="line">Client characterset:    utf8</span><br><span class="line">Conn.  characterset:    utf8</span><br><span class="line">UNIX socket:            /var/run/mysqld/mysqld.sock</span><br><span class="line">Uptime:                 21 sec</span><br><span class="line"></span><br><span class="line">Threads: 1  Questions: 5  Slow queries: 0  Opens: 105  Flush tables: 1  Open tables: 98  Queries per second avg: 0.238</span><br><span class="line">--------------</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/11/21/Golang-Windows-GUI%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E4%B9%8Blxn-Walk-%E4%BA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1210,114 +1311,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/10/26/django-psycopg2-Reason-image-not-found/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/26/django-psycopg2-Reason-image-not-found/" class="post-title-link" itemprop="url">django psycopg2 Reason: image not found for mac</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-10-26 13:42:43 / 修改时间：14:14:35" itemprop="dateCreated datePublished" datetime="2020-10-26T13:42:43+08:00">2020-10-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/django/" itemprop="url" rel="index"><span itemprop="name">django</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/10/26/django-psycopg2-Reason-image-not-found/" class="post-meta-item leancloud_visitors" data-flag-title="django psycopg2 Reason: image not found for mac" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/26/django-psycopg2-Reason-image-not-found/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/26/django-psycopg2-Reason-image-not-found/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="问题一-Image-not-found-提示报错"><a href="#问题一-Image-not-found-提示报错" class="headerlink" title="问题一 Image not found 提示报错"></a>问题一 Image not found 提示报错</h2><p>找了半天google,此问题真的非常少，估计使用postgresql的人不多吧。终于在以下参考链接找到了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/backends/postgresql/base.py"</span>, line 20, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    import psycopg2 as Database</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/__init__.py"</span>, line 51, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from psycopg2._psycopg import (                     <span class="comment"># noqa</span></span><br><span class="line">ImportError: dlopen(/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so, 2): Library not loaded: libssl.1.1.dylib</span><br><span class="line">  Referenced from: /Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so</span><br><span class="line">  Reason: image not found</span><br><span class="line"></span><br><span class="line">During handling of the above exception, another exception occurred:</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/Applications/PyCharm.app/Contents/helpers/pycharm/django_manage.py"</span>, line 43, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    run_module(manage_file, None, <span class="string">'__main__'</span>, True)</span><br><span class="line">  File <span class="string">"/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py"</span>, line 205, <span class="keyword">in</span> run_module</span><br><span class="line">    <span class="built_in">return</span> _run_module_code(code, init_globals, run_name, mod_spec)</span><br><span class="line">  File <span class="string">"/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py"</span>, line 96, <span class="keyword">in</span> _run_module_code</span><br><span class="line">    mod_name, mod_spec, pkg_name, script_name)</span><br><span class="line">  File <span class="string">"/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py"</span>, line 85, <span class="keyword">in</span> _run_code</span><br><span class="line">    <span class="built_in">exec</span>(code, run_globals)</span><br><span class="line">  File <span class="string">"/Users/luodi/PycharmProjects/Twebpool/manage.py"</span>, line 21, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    main()</span><br><span class="line">  File <span class="string">"/Users/luodi/PycharmProjects/Twebpool/manage.py"</span>, line 17, <span class="keyword">in</span> main</span><br><span class="line">    execute_from_command_line(sys.argv)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/__init__.py"</span>, line 381, <span class="keyword">in</span> execute_from_command_line</span><br><span class="line">    utility.execute()</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/__init__.py"</span>, line 375, <span class="keyword">in</span> execute</span><br><span class="line">    self.fetch_command(subcommand).run_from_argv(self.argv)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/base.py"</span>, line 323, <span class="keyword">in</span> run_from_argv</span><br><span class="line">    self.execute(*args, **cmd_options)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/base.py"</span>, line 364, <span class="keyword">in</span> execute</span><br><span class="line">    output = self.handle(*args, **options)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/commands/inspectdb.py"</span>, line 34, <span class="keyword">in</span> handle</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> self.handle_inspection(options):</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/core/management/commands/inspectdb.py"</span>, line 40, <span class="keyword">in</span> handle_inspection</span><br><span class="line">    connection = connections[options[<span class="string">'database'</span>]]</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/utils.py"</span>, line 201, <span class="keyword">in</span> __getitem__</span><br><span class="line">    backend = load_backend(db[<span class="string">'ENGINE'</span>])</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/utils.py"</span>, line 110, <span class="keyword">in</span> load_backend</span><br><span class="line">    <span class="built_in">return</span> import_module(<span class="string">'%s.base'</span> % backend_name)</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/importlib/__init__.py"</span>, line 126, <span class="keyword">in</span> import_module</span><br><span class="line">    <span class="built_in">return</span> _bootstrap._gcd_import(name[level:], package, level)</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 986, <span class="keyword">in</span> _gcd_import</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 969, <span class="keyword">in</span> _find_and_load</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 958, <span class="keyword">in</span> _find_and_load_unlocked</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 673, <span class="keyword">in</span> _load_unlocked</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap_external&gt;"</span>, line 673, <span class="keyword">in</span> exec_module</span><br><span class="line">  File <span class="string">"&lt;frozen importlib._bootstrap&gt;"</span>, line 222, <span class="keyword">in</span> _call_with_frames_removed</span><br><span class="line">  File <span class="string">"/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/django/db/backends/postgresql/base.py"</span>, line 24, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    raise ImproperlyConfigured(<span class="string">"Error loading psycopg2 module: %s"</span> % e)</span><br><span class="line">django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: dlopen(/Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so, 2): Library not loaded: libssl.1.1.dylib</span><br><span class="line">  Referenced from: /Users/luodi/project_vir/july_3.5/lib/python3.5/site-packages/psycopg2/_psycopg.cpython-35m-darwin.so</span><br><span class="line">  Reason: image not found</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>1.关闭Mac sip保护</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1、重启mac，按住Command+R，等到系统进入安全模式。</span><br><span class="line"></span><br><span class="line">2、选择一个账户，然后点击屏幕上方的工具栏找到命令行工具。</span><br><span class="line"></span><br><span class="line">3、执行，命令 csrutil <span class="built_in">disable</span></span><br><span class="line"></span><br><span class="line">4、重启电脑后，不要进入安全模式，执行命令sudo mount -uw /</span><br></pre></td></tr></table></figure>
-
-<p>2.复制库文件到/usr/lib/</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ sudo cp /Library/PostgreSQL/10/lib/libcrypto.1.1.dylib /usr/lib/libcrypto.1.1.dylib</span><br><span class="line"></span><br><span class="line">luodi@roddydeMacBook-Pro:~$ sudo cp /Library/PostgreSQL/10/lib/libssl.1.1.dylib /usr/lib/libssl.1.1.dylib</span><br></pre></td></tr></table></figure>
-
-<h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><p>导入 psycopg2报错</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expected <span class="symbol">in:</span> /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">libpq</span>.5.<span class="title">dylib</span></span></span><br></pre></td></tr></table></figure>
-
-<h2 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">luodi@roddydeMacBook-Pro:~$ sudo mv /usr/lib/libpq.5.dylib /usr/lib/libpq.5.dylib.old  </span><br><span class="line">Password:</span><br><span class="line">luodi@roddydeMacBook-Pro:~$ sudo cp /Library/PostgreSQL/10/lib/libpq.5.dylib  /usr/lib/libpq.5.dylib</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://stackoverflow.com/questions/28515972/problems-using-psycopg2-on-mac-os-yosemite?rq=1" target="_blank" rel="noopener">https://stackoverflow.com/questions/28515972/problems-using-psycopg2-on-mac-os-yosemite?rq=1</a></li>
-<li><a href="https://www.codenong.com/16407995/" target="_blank" rel="noopener">https://www.codenong.com/16407995/</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1390,20 +1383,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
