@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Ubuntu 18.04 安装 golang 1.14</title>
+      <link href="2020/12/02/Ubuntu-18-04-%E5%AE%89%E8%A3%85-golang-1-14/"/>
+      <url>2020/12/02/Ubuntu-18-04-%E5%AE%89%E8%A3%85-golang-1-14/</url>
+      
+        <content type="html"><![CDATA[<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>使用apt-get 默认仓库安装的版本是1.10，要不就添加仓库安装，要不就下载源码安装。我采用源码安装。</p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@monitor:~<span class="comment"># wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local #下载并解压到/usr/local/目录下</span></span><br><span class="line">--2020-12-02 10:38:36--  https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz</span><br><span class="line">Resolving dl.google.com (dl.google.com)... 203.208.43.65</span><br><span class="line">Connecting to dl.google.com (dl.google.com)|203.208.43.65|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 123658438 (118M) [application/octet-stream]</span><br><span class="line">Saving to: ‘STDOUT’</span><br><span class="line"></span><br><span class="line">-                                         100%[==================================================================================&gt;] 117.93M  11.4MB/s    <span class="keyword">in</span> 9.3s    </span><br><span class="line"></span><br><span class="line">2020-12-02 10:38:46 (12.6 MB/s) - written to stdout [123658438/123658438]</span><br></pre></td></tr></table></figure><p>添加环境PATH</p><figure class="highlight plain"><figcaption><span>PATH</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;bash</span><br><span class="line">root@monitor:~# </span><br><span class="line">root@monitor:~# vim &#x2F;etc&#x2F;profile</span><br><span class="line">root@monitor:~# source  &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure><p>检查golang版本</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@monitor:~<span class="comment"># go version</span></span><br><span class="line">go version go1.14.2 linux/amd64</span><br><span class="line">root@monitor:~<span class="comment">#</span></span><br></pre></td></tr></table></figure><h3 id="编写测试程序"><a href="#编写测试程序" class="headerlink" title="编写测试程序"></a>编写测试程序</h3><p>test.go</p><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">     fmt.Println(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>编译并执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@monitor:~<span class="comment"># go build test.go </span></span><br><span class="line">root@monitor:~<span class="comment"># ./test </span></span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Golang </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Mysql 5.7 设置默认字符集</title>
       <link href="2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/"/>
       <url>2020/12/01/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86/</url>

@@ -191,6 +191,105 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/20/golang-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Roddy">
+      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="普拉多VX">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/20/golang-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" class="post-title-link" itemprop="url">golang 端口扫描</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-20 15:27:39 / 修改时间：15:37:38" itemprop="dateCreated datePublished" datetime="2020-05-20T15:27:39+08:00">2020-05-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/05/20/golang-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" class="post-meta-item leancloud_visitors" data-flag-title="golang 端口扫描" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/20/golang-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/20/golang-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>简要端口扫描程序代码,可通过用户输入及端口扫描并获得状态。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span>  main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"flag"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"net"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">	<span class="string">"sync"</span></span><br><span class="line">	<span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义flag</span></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	serverIp   = flag.String(<span class="string">"ip"</span>, <span class="string">""</span>, <span class="string">"Server Ip address"</span>)</span><br><span class="line">	startPort = flag.Int(<span class="string">"s"</span>, <span class="number">0</span>, <span class="string">"Start Port"</span>)</span><br><span class="line">	endPort = flag.Int(<span class="string">"n"</span>, <span class="number">0</span>, <span class="string">"End Port"</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// checkPort 检查端口状态</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">checkPort</span><span class="params">(ip <span class="keyword">string</span>,port <span class="keyword">int</span>,wg *sync.WaitGroup)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">defer</span>  wg.Done()</span><br><span class="line">	conn, err := net.DialTimeout(<span class="string">"tcp"</span>, fmt.Sprintf(<span class="string">"%s:%d"</span>, ip, port), time.Second * <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span>&#123;</span><br><span class="line">		fmt.Printf(<span class="string">"端口打开-------------:%v\n"</span>,port)</span><br><span class="line">		conn.Close()  <span class="comment">//关闭连接</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//解析flag输入</span></span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> flag.NFlag() &lt;= <span class="number">1</span> &#123; <span class="comment">//Flag返回解析时进行了设置的flag的数量。</span></span><br><span class="line">		flag.Usage() <span class="comment">//当参数小于1个打印flag的默认提示</span></span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i:=*startPort;i&lt;*endPort;i++&#123;</span><br><span class="line">		wg.Add(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">go</span> checkPort(*serverIp,i,&amp;wg)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	wg.Wait()</span><br><span class="line">	fmt.Printf(<span class="string">"扫描完毕\n"</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h3><p>编译</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> build GoPortScan.<span class="keyword">go</span></span><br></pre></td></tr></table></figure>
+
+<p>使用方法</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage of GoPortScan.exe:</span><br><span class="line">  -ip string</span><br><span class="line">       <span class="built_in"> Server Ip </span>address</span><br><span class="line">  -n int</span><br><span class="line">        End Port</span><br><span class="line">  -s int</span><br><span class="line">        Start Port</span><br></pre></td></tr></table></figure>
+
+<p>执行结果</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GoPortScan.exe -ip <span class="number">36.110</span><span class="number">.236</span><span class="number">.68</span> -s <span class="number">1</span> -n <span class="number">9090</span></span><br><span class="line">端口打开-------------:<span class="number">80</span></span><br><span class="line">端口打开-------------:<span class="number">443</span></span><br><span class="line">扫描完毕</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/19/golang-goroutine%E4%B8%8Echannel/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1248,99 +1347,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.roddypy.com/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Roddy">
-      <meta itemprop="description" content="认认真真做事，踏踏实实做人">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="普拉多VX">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/" class="post-title-link" itemprop="url">golang 函数学习(三)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-07 15:20:29 / 修改时间：15:44:18" itemprop="dateCreated datePublished" datetime="2020-05-07T15:20:29+08:00">2020-05-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/" class="post-meta-item leancloud_visitors" data-flag-title="golang 函数学习(三)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/07/golang-%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0-%E4%B8%89/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="panic"><a href="#panic" class="headerlink" title="panic"></a>panic</h3><p>panic主要用于作异常处理，是一个内建的停止控制流函数。相当于其它编程语言的抛异常。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getname</span><span class="params">()</span> <span class="title">string</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"name"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"starting......!"</span>)</span><br><span class="line"></span><br><span class="line">	a :=<span class="number">23</span></span><br><span class="line">	<span class="keyword">if</span> a == <span class="number">23</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">"crash"</span>) <span class="comment">//手动触发宕机</span></span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(getname())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="recover"><a href="#recover" class="headerlink" title="recover"></a>recover</h3><p>recover是内建函数，可以让进入宕机流程恢复回来，同时recover仅在defer中有效。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getname</span><span class="params">()</span> <span class="title">string</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"name"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">		err:=<span class="built_in">recover</span>()</span><br><span class="line">		<span class="keyword">if</span> err !=<span class="literal">nil</span>&#123;</span><br><span class="line">			fmt.Println(<span class="string">"触发宕机捕获异常:"</span>,err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()  <span class="comment">//recover只能在defer中</span></span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"starting......!"</span>)</span><br><span class="line"></span><br><span class="line">	a :=<span class="number">23</span></span><br><span class="line">	<span class="keyword">if</span> a == <span class="number">23</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">"crash"</span>) <span class="comment">//手动触发宕机,后面的代码不会执行</span></span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(getname())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1413,7 +1419,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">90</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
