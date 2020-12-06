@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>django DRF根据方法调用不同的serializer</title>
+      <link href="2020/12/06/django-DRF%E6%A0%B9%E6%8D%AE%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84serializer/"/>
+      <url>2020/12/06/django-DRF%E6%A0%B9%E6%8D%AE%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84serializer/</url>
+      
+        <content type="html"><![CDATA[<h2 id="根据不同参数调用不同"><a href="#根据不同参数调用不同" class="headerlink" title="根据不同参数调用不同"></a>根据不同参数调用不同</h2><p>自定义get_serializer_class方法</p><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QueryItemsView</span><span class="params">(ListAPIView)</span>:</span></span><br><span class="line">    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)</span><br><span class="line">    permission_classes = (IsAuthenticated,)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_serializer_class</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.post_type == <span class="string">'port'</span>:</span><br><span class="line">            <span class="keyword">return</span>  serializers.ServerPortItemsSerializer</span><br><span class="line">        <span class="keyword">elif</span> self.post_type == <span class="string">'web'</span>:</span><br><span class="line">            <span class="keyword">return</span>  serializers.WebItemsSerializer</span><br><span class="line">        <span class="keyword">elif</span> self.post_type == <span class="string">'ssl'</span>:</span><br><span class="line">            <span class="keyword">return</span>  serializers.SslCertSerializer</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> serializers.WebItemsSerializer</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_queryset</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">        self.post_type = self.request.GET.get(<span class="string">'item_type'</span>, <span class="string">'port'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.post_type == <span class="string">"port"</span>:</span><br><span class="line">            queryset = ServerPortItems.objects.filter(uid=self.request.user.id).order_by(<span class="string">'-create_at'</span>)</span><br><span class="line">        <span class="keyword">elif</span> self.post_type == <span class="string">'web'</span>:</span><br><span class="line">            queryset = ServerWebItems.objects.filter(uid=self.request.user.id).order_by(<span class="string">'-create_at'</span>)</span><br><span class="line">        <span class="keyword">elif</span> self.post_type == <span class="string">'ssl'</span>:</span><br><span class="line">            queryset = ServerSslcertItems.objects.filter(uid=self.request.user.id).order_by(<span class="string">'-create_at'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            queryset = ServerPortItems.objects.filter(uid=self.request.user.id).order_by(<span class="string">'-create_at'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> queryset</span><br></pre></td></tr></table></figure><p>当然也可以根据不同的逻辑实现调用不同的放，比如请求类型GET/POST</p><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_serializer_class</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""重写获取序列化器类的方法"""</span></span><br><span class="line">    <span class="keyword">if</span> self.request.method == <span class="string">"GET"</span>:</span><br><span class="line">        <span class="keyword">return</span> Model2Serializer</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> ModelSerializer</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> django </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> django </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Ubuntu 18.04 安装 golang 1.14</title>
       <link href="2020/12/02/Ubuntu-18-04-%E5%AE%89%E8%A3%85-golang-1-14/"/>
       <url>2020/12/02/Ubuntu-18-04-%E5%AE%89%E8%A3%85-golang-1-14/</url>
