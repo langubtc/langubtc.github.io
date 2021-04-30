@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mysql 5.7 设置密码无效</title>
+      <link href="2021/04/30/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E6%97%A0%E6%95%88/"/>
+      <url>2021/04/30/Mysql-5-7-%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E6%97%A0%E6%95%88/</url>
+      
+        <content type="html"><![CDATA[<h3 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h3><p>按以前设置的mysql方法均无效，查询了半天居然是改了字段。现将方法记录下。</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update mysql.user <span class="builtin-name">SET</span> <span class="attribute">authentication_string</span>=PASSWORD('xxxxxxxx'), <span class="attribute">plugin</span>=<span class="string">'mysql_native_password'</span> WHERE <span class="attribute">user</span>=<span class="string">'root'</span>;        </span><br><span class="line">Query OK, 1 row affected, 1 <span class="builtin-name">warning</span> (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 1</span><br><span class="line"></span><br><span class="line">mysql&gt; \q</span><br><span class="line">Bye</span><br><span class="line">root@monitor:/etc/mysql# </span><br><span class="line">root@monitor:/etc/mysql# mysql -u root -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome <span class="keyword">to</span> the MySQL monitor.  Commands end with ; <span class="keyword">or</span> \g.</span><br><span class="line">Your MySQL<span class="built_in"> connection </span>id is 4</span><br><span class="line">Server version: 5.7.33-0ubuntu0.18.04.1 (Ubuntu)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle <span class="keyword">and</span>/<span class="keyword">or</span> its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation <span class="keyword">and</span>/<span class="keyword">or</span> its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> <span class="keyword">or</span> <span class="string">'\h'</span> <span class="keyword">for</span> help.<span class="built_in"> Type </span><span class="string">'\c'</span> <span class="keyword">to</span> clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; \q</span><br><span class="line">Bye</span><br><span class="line">root@monitor:/etc/mysql# </span><br><span class="line">root@monitor:/etc/mysql# </span><br><span class="line">root@monitor:/etc/mysql# /etc/init.d/mysql  restart</span><br><span class="line">[ ok ] Restarting mysql (via systemctl): mysql.service.</span><br><span class="line">root@monitor:/etc/mysql# mysql -u root -p          </span><br><span class="line">Enter password: </span><br><span class="line"><span class="builtin-name">ERROR</span> 1045 (28000): Access denied <span class="keyword">for</span><span class="built_in"> user </span><span class="string">'root'</span>@<span class="string">'localhost'</span> (using password: <span class="literal">NO</span>)</span><br></pre></td></tr></table></figure><p>记得设置完需要重启下mysql</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Django ORM 根据小时 天聚合查询数据</title>
       <link href="2021/02/27/Django-ORM-%E6%A0%B9%E6%8D%AE%E5%B0%8F%E6%97%B6-%E5%A4%A9%E8%81%9A%E5%90%88%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/"/>
       <url>2021/02/27/Django-ORM-%E6%A0%B9%E6%8D%AE%E5%B0%8F%E6%97%B6-%E5%A4%A9%E8%81%9A%E5%90%88%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/</url>
